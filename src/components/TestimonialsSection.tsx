@@ -27,51 +27,59 @@ const TestimonialsSection = () => {
   const t = testimonials[current];
 
   return (
-    <section className="py-24 bg-background">
-      <div className="container mx-auto px-4">
+    <section className="py-28 bg-background relative overflow-hidden">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/[0.02] rounded-full -translate-y-1/2" />
+
+      <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <p className="text-secondary font-semibold text-sm uppercase tracking-wider mb-3">Témoignages</p>
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground">Ce que disent nos clients</h2>
+          <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">Ce que disent nos clients</h2>
         </div>
 
-        <div className="max-w-3xl mx-auto text-center">
-          <Quote className="w-12 h-12 text-primary/20 mx-auto mb-6" />
-          <p className="text-lg md:text-xl text-foreground leading-relaxed mb-8 italic">
-            "{t.text}"
-          </p>
-          <img
-            src={t.img}
-            alt={t.name}
-            className="w-16 h-16 rounded-full object-cover mx-auto mb-4"
-            loading="lazy"
-            width={512}
-            height={512}
-          />
-          <p className="font-heading font-semibold text-foreground">{t.name}</p>
-          <p className="text-muted-foreground text-sm">{t.role}</p>
+        <div className="max-w-3xl mx-auto">
+          <div className="bg-surface rounded-3xl p-10 md:p-14 relative">
+            <Quote className="w-16 h-16 text-primary/10 absolute top-6 left-6" />
+
+            <div className="text-center relative z-10">
+              <p className="text-lg md:text-xl text-foreground leading-relaxed mb-10 italic">
+                "{t.text}"
+              </p>
+              <img
+                src={t.img}
+                alt={t.name}
+                className="w-16 h-16 rounded-full object-cover mx-auto mb-4 border-4 border-background shadow-lg"
+                loading="lazy"
+                width={512}
+                height={512}
+              />
+              <p className="font-heading font-semibold text-foreground">{t.name}</p>
+              <p className="text-muted-foreground text-sm">{t.role}</p>
+            </div>
+          </div>
 
           <div className="flex items-center justify-center gap-4 mt-8">
             <button
               onClick={prev}
-              className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-muted transition-colors"
+              className="w-11 h-11 rounded-full border border-border flex items-center justify-center hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300"
             >
-              <ChevronLeft className="w-5 h-5 text-foreground" />
+              <ChevronLeft className="w-5 h-5" />
             </button>
             <div className="flex gap-2">
               {testimonials.map((_, i) => (
-                <div
+                <button
                   key={i}
-                  className={`w-2.5 h-2.5 rounded-full transition-colors ${
-                    i === current ? "bg-primary" : "bg-border"
+                  onClick={() => setCurrent(i)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    i === current ? "bg-primary w-8" : "bg-border hover:bg-muted-foreground"
                   }`}
                 />
               ))}
             </div>
             <button
               onClick={next}
-              className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-muted transition-colors"
+              className="w-11 h-11 rounded-full border border-border flex items-center justify-center hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300"
             >
-              <ChevronRight className="w-5 h-5 text-foreground" />
+              <ChevronRight className="w-5 h-5" />
             </button>
           </div>
         </div>

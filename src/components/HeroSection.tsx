@@ -1,45 +1,64 @@
-import heroImg from "@/assets/hero-meeting.jpg";
+import heroVideo from "@/assets/hero-video.mp4.asset.json";
 import logo from "@/assets/logo-cayribe-partners.png";
 
 const HeroSection = () => {
   return (
     <section id="accueil" className="relative min-h-screen flex items-center overflow-hidden">
-      <img
-        src={heroImg}
-        alt="Réunion stratégique d'équipe dirigeante"
+      {/* Background video */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
         className="absolute inset-0 w-full h-full object-cover"
-        width={1920}
-        height={1080}
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--hero-overlay)/0.9)] to-[hsl(var(--hero-overlay)/0.5)]" />
+      >
+        <source src={heroVideo.url} type="video/mp4" />
+      </video>
+
+      {/* Overlay gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[hsl(var(--hero-overlay)/0.92)] via-[hsl(var(--hero-overlay)/0.75)] to-[hsl(var(--hero-overlay)/0.5)]" />
+
+      {/* Decorative geometric accent */}
+      <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-[hsl(var(--secondary)/0.08)] to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
 
       {/* Watermark logo */}
       <img
         src={logo}
         alt=""
-        className="absolute right-10 bottom-10 w-64 opacity-10 pointer-events-none hidden md:block"
+        className="absolute right-10 bottom-20 w-72 opacity-[0.06] pointer-events-none hidden lg:block"
       />
 
       <div className="container mx-auto px-4 relative z-10 py-32">
-        <div className="max-w-2xl animate-fade-up">
-          <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6">
-            Construire des stratégies durables pour accélérer la performance des entreprises
+        <div className="max-w-3xl">
+          {/* Badge */}
+          <div className="animate-fade-up inline-flex items-center gap-2 bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/20 rounded-full px-4 py-2 mb-8">
+            <div className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
+            <span className="text-primary-foreground/90 text-sm font-medium">Cabinet de conseil en stratégie</span>
+          </div>
+
+          <h1 className="animate-fade-up animation-delay-200 font-heading text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-primary-foreground leading-[1.1] mb-8">
+            Accélérateur de
+            <span className="block text-secondary">performance</span>
           </h1>
-          <p className="text-primary-foreground/80 text-lg md:text-xl leading-relaxed mb-10">
+
+          <p className="animate-fade-up animation-delay-400 text-primary-foreground/70 text-lg md:text-xl leading-relaxed mb-12 max-w-2xl">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            Ut enim ad minim veniam quis nostrud exercitation ullamco laboris.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4">
+
+          <div className="animate-fade-up animation-delay-600 flex flex-col sm:flex-row gap-4">
             <a
               href="#expertises"
-              className="bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold text-center hover:opacity-90 transition-opacity"
+              className="group bg-secondary text-secondary-foreground px-8 py-4 rounded-xl font-semibold text-center hover:shadow-lg hover:shadow-secondary/25 transition-all duration-300 flex items-center justify-center gap-2"
             >
               Découvrir nos expertises
+              <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
             </a>
             <a
               href="#contact"
-              className="bg-secondary text-secondary-foreground px-8 py-4 rounded-lg font-semibold text-center hover:opacity-90 transition-opacity"
+              className="border-2 border-primary-foreground/30 text-primary-foreground px-8 py-4 rounded-xl font-semibold text-center hover:bg-primary-foreground/10 transition-all duration-300"
             >
               Prendre rendez-vous
             </a>
