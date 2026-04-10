@@ -23,13 +23,13 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-background/95 backdrop-blur-md shadow-md" : "bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled ? "bg-background/95 backdrop-blur-md shadow-lg py-2" : "bg-transparent py-4"
       }`}
     >
-      <div className="container mx-auto flex items-center justify-between py-4 px-4">
-        <a href="#accueil">
-          <img src={logo} alt="CAYRIBE Partners" className="h-10 md:h-12" />
+      <div className="container mx-auto flex items-center justify-between px-4">
+        <a href="#accueil" className="relative z-10">
+          <img src={logo} alt="CAYRIBE Partners" className={`transition-all duration-300 ${scrolled ? "h-9" : "h-11 md:h-12"}`} />
         </a>
 
         {/* Desktop */}
@@ -38,7 +38,7 @@ const Navbar = () => {
             <a
               key={item.href}
               href={item.href}
-              className={`text-sm font-medium transition-colors hover:text-primary ${
+              className={`text-sm font-medium transition-all duration-300 hover:text-secondary relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-secondary after:transition-all after:duration-300 hover:after:w-full ${
                 scrolled ? "text-foreground" : "text-primary-foreground"
               }`}
             >
@@ -47,7 +47,7 @@ const Navbar = () => {
           ))}
           <a
             href="#contact"
-            className="bg-secondary text-secondary-foreground px-5 py-2.5 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity"
+            className="bg-secondary text-secondary-foreground px-6 py-2.5 rounded-xl text-sm font-semibold hover:shadow-lg hover:shadow-secondary/25 transition-all duration-300"
           >
             Prendre rendez-vous
           </a>
@@ -55,7 +55,7 @@ const Navbar = () => {
 
         {/* Mobile toggle */}
         <button
-          className="lg:hidden text-foreground"
+          className={`lg:hidden relative z-10 ${scrolled ? "text-foreground" : "text-primary-foreground"}`}
           onClick={() => setMobileOpen(!mobileOpen)}
         >
           {mobileOpen ? <X size={24} /> : <Menu size={24} />}
@@ -64,13 +64,13 @@ const Navbar = () => {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="lg:hidden bg-background/95 backdrop-blur-md border-t border-border">
-          <div className="container mx-auto py-4 px-4 flex flex-col gap-4">
+        <div className="lg:hidden bg-background/98 backdrop-blur-md border-t border-border animate-fade-in">
+          <div className="container mx-auto py-6 px-4 flex flex-col gap-4">
             {navItems.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
-                className="text-foreground text-sm font-medium py-2"
+                className="text-foreground text-base font-medium py-2 hover:text-primary transition-colors"
                 onClick={() => setMobileOpen(false)}
               >
                 {item.label}
@@ -78,7 +78,7 @@ const Navbar = () => {
             ))}
             <a
               href="#contact"
-              className="bg-secondary text-secondary-foreground px-5 py-2.5 rounded-lg text-sm font-semibold text-center"
+              className="bg-secondary text-secondary-foreground px-5 py-3 rounded-xl text-sm font-semibold text-center mt-2"
               onClick={() => setMobileOpen(false)}
             >
               Prendre rendez-vous
