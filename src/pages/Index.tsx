@@ -1,4 +1,5 @@
-import Navbar from "@/components/Navbar";
+import SiteLayout from "@/components/SiteLayout";
+import PageMeta from "@/components/PageMeta";
 import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
 import ExpertisesSection from "@/components/ExpertisesSection";
@@ -8,12 +9,14 @@ import PartnersSection from "@/components/PartnersSection";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import ContactSection from "@/components/ContactSection";
-import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
-      <Navbar />
+    <SiteLayout isHome>
+      <PageMeta
+        title="Accueil"
+        description="CAYRIBE Partners : conseil en stratégie et performance. Cabinet en Martinique et Caraïbe — diagnostic, feuille de route et accompagnement des dirigeants."
+      />
       <HeroSection />
       <AboutSection />
       <ExpertisesSection />
@@ -23,8 +26,7 @@ const Index = () => {
       <CaseStudiesSection />
       <TestimonialsSection />
       <ContactSection />
-      <Footer />
-    </div>
+    </SiteLayout>
   );
 };
 

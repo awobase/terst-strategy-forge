@@ -1,62 +1,123 @@
 import aboutImg from "@/assets/about-dashboard.jpg";
 import { useInView } from "@/hooks/useInView";
 import { CheckCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const highlights = [
-  "Expertise sectorielle approfondie",
-  "Approche sur-mesure",
-  "Résultats mesurables",
+  "Vision locale et standards internationaux",
+  "Méthodes éprouvées, livrables actionnables",
+  "Indicateurs de suivi et gouvernance de projet",
 ];
 
-const AboutSection = () => {
+type AboutSectionProps = {
+  /** Page Présentation : mise en page plus éditoriale, sans eyebrow « À propos » */
+  variant?: "default" | "presentation";
+};
+
+const AboutSection = ({ variant = "default" }: AboutSectionProps) => {
   const { ref, inView } = useInView();
+  const isPresentation = variant === "presentation";
 
   return (
-    <section id="apropos" className="py-28 bg-background relative overflow-hidden">
-      {/* Decorative background */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/[0.03] rounded-full -translate-y-1/2 translate-x-1/2" />
+    <section
+      id={isPresentation ? "cabinet-contenu" : "apropos"}
+      className={cn(
+        "relative overflow-hidden",
+        isPresentation ? "border-y border-border/40 bg-background py-16 md:py-24" : "bg-background py-24 md:py-32",
+      )}
+    >
+      {!isPresentation ? (
+        <div className="absolute right-0 top-0 h-96 w-96 translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/[0.03]" />
+      ) : (
+        <div className="absolute bottom-0 left-0 top-0 w-px bg-gradient-to-b from-transparent via-primary/10 to-transparent md:left-[min(8vw,4rem)]" aria-hidden />
+      )}
 
       <div
         ref={ref}
-        className={`container mx-auto px-4 grid md:grid-cols-2 gap-16 items-center transition-all duration-700 ${
-          inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        }`}
+        className={cn(
+          "container mx-auto grid items-center px-4 transition-all duration-700 md:grid-cols-2",
+          isPresentation ? "gap-12 lg:gap-20" : "gap-16",
+          inView ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
+        )}
       >
-        <div className="relative">
-          <div className="rounded-2xl overflow-hidden shadow-2xl">
+        <div className={cn("relative", isPresentation && "md:order-2")}>
+          <div
+            className={cn(
+              "group overflow-hidden rounded-2xl ring-1 ring-border/50",
+              isPresentation ? "shadow-md md:rounded-3xl md:shadow-lg" : "shadow-xl ring-border/40",
+            )}
+          >
             <img
               src={aboutImg}
               alt="Consultant analysant un dashboard stratégique"
-              className="w-full h-full object-cover"
+              className={cn(
+                "h-full w-full object-cover transition-[transform,filter] duration-700 ease-out will-change-transform group-hover:scale-[1.045] group-hover:brightness-[1.03]",
+                isPresentation && "aspect-[4/3] md:aspect-auto md:min-h-[320px]",
+              )}
               loading="lazy"
               width={1280}
               height={854}
             />
           </div>
-          {/* Floating accent card */}
-          <div className="absolute -bottom-6 -right-6 bg-secondary text-secondary-foreground rounded-2xl p-5 shadow-xl hidden md:block">
-            <p className="font-heading text-3xl font-bold">15+</p>
-            <p className="text-sm opacity-90">ans d'expertise</p>
+          <div
+            className={cn(
+              "absolute hidden border md:block",
+              isPresentation
+                ? "-bottom-5 -left-5 rounded-2xl border-border/60 bg-card p-5 shadow-md"
+                : "-bottom-6 -right-6 rounded-xl border-secondary/20 bg-secondary p-5 text-secondary-foreground shadow-lg",
+            )}
+          >
+            <p className="font-heading text-3xl font-bold tracking-tight text-foreground">15+</p>
+            <p className={cn("text-sm font-medium", isPresentation ? "text-muted-foreground" : "opacity-95")}>
+              années d&apos;expérience
+            </p>
           </div>
         </div>
-        <div>
-          <p className="text-secondary font-semibold text-sm uppercase tracking-wider mb-3">À propos</p>
-          <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-tight">
-            Un partenaire stratégique pour accompagner votre <span className="text-gradient-primary">croissance</span>
+
+        <div className={cn(isPresentation && "md:order-1 md:max-w-xl md:pr-4")}>
+          {!isPresentation ? <p className="eyebrow">À propos</p> : null}
+          <h2
+            className={cn(
+              "mb-6 font-heading font-bold tracking-tight text-foreground",
+              isPresentation ? "text-2xl leading-snug md:text-3xl lg:text-[2rem]" : "section-title",
+            )}
+          >
+            {isPresentation ? (
+              <>
+                Une approche <span className="text-gradient-primary">terrain</span>, exigeante sur les résultats
+              </>
+            ) : (
+              <>
+                Un partenaire stratégique pour votre <span className="text-gradient-primary">croissance durable</span>
+              </>
+            )}
           </h2>
-          <div className="space-y-4 text-muted-foreground leading-relaxed mb-8">
+          <div
+            className={cn(
+              "mb-8 space-y-4 leading-relaxed text-muted-foreground",
+              isPresentation ? "text-[1.02rem] md:text-[1.05rem]" : "text-[0.98rem]",
+            )}
+          >
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              CAYRIBE Partners est un cabinet indépendant : nous travaillons aux côtés des équipes dirigeantes pour
+              structurer les choix stratégiques, aligner les organisations et accélérer la mise en œuvre.
             </p>
             <p>
-              Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              Chaque mission est conçue sur mesure : cadrage précis, analyses solides, recommandations réalistes et
+              plan d&apos;actions priorisé — avec un suivi transparent jusqu&apos;aux premiers résultats.
             </p>
           </div>
-          <ul className="space-y-3">
+          <ul className={cn("space-y-3", isPresentation && "space-y-0 divide-y divide-border/60 rounded-xl border border-border/50 bg-card/40 p-1")}>
             {highlights.map((h) => (
-              <li key={h} className="flex items-center gap-3">
-                <CheckCircle className="w-5 h-5 text-secondary flex-shrink-0" />
-                <span className="text-foreground font-medium text-sm">{h}</span>
+              <li
+                key={h}
+                className={cn(
+                  "flex items-center gap-3",
+                  isPresentation && "px-4 py-3.5 first:rounded-t-lg last:rounded-b-lg",
+                )}
+              >
+                <CheckCircle className={cn("h-5 w-5 shrink-0", isPresentation ? "text-primary" : "text-secondary")} />
+                <span className="text-sm font-medium text-foreground md:text-[0.95rem]">{h}</span>
               </li>
             ))}
           </ul>

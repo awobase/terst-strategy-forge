@@ -1,88 +1,223 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, type ReactNode } from "react";
+import { Link, useLocation } from "react-router-dom";
 import logo from "@/assets/logo-cayribe-partners.png";
 import { Menu, X } from "lucide-react";
+import { ROUTES } from "@/config/navigation";
+import { WHATSAPP_RENDEZ_VOUS_URL } from "@/config/whatsapp";
+import NavHoverDropdown from "@/components/NavHoverDropdown";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 
-const navItems = [
-  { label: "Accueil", href: "#accueil" },
-  { label: "À propos", href: "#apropos" },
-  { label: "Expertises", href: "#expertises" },
-  { label: "Méthodologie", href: "#methodologie" },
-  { label: "Études de cas", href: "#etudes" },
-  { label: "Contact", href: "#contact" },
-];
+const offresItems = [
+  { label: "Start", to: ROUTES.offres.start },
+  { label: "Rise", to: ROUTES.offres.rise },
+  { label: "Offres jeunes", to: ROUTES.offres.jeunes },
+  { label: "Offre personnalisée", to: ROUTES.offres.personnalise },
+] as const;
+
+const quiSommesNousItems = [
+  { label: "Présentation du cabinet", to: ROUTES.quiSommesNous.presentation },
+  { label: "Équipe", to: ROUTES.quiSommesNous.equipe },
+  { label: "Partenaires", to: ROUTES.quiSommesNous.partenaires },
+] as const;
+
+const mobileLink =
+  "block rounded-lg px-3 py-2.5 text-[15px] font-medium text-foreground/95 transition-colors hover:bg-muted/80 active:bg-muted";
+
+const MobileSectionLabel = ({ children }: { children: ReactNode }) => (
+  <p className="px-3 pb-0.5 pt-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{children}</p>
+);
 
 const Navbar = () => {
-  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+  const [scrolled, setScrolled] = useState(!isHome);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
+    if (!isHome) {
+      setScrolled(true);
+      return;
+    }
     const onScroll = () => setScrolled(window.scrollY > 50);
+    onScroll();
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [isHome]);
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [mobileOpen]);
+
+  const closeMobile = useCallback(() => setMobileOpen(false), []);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [mobileOpen]);
+
+  const linkClass = (active?: boolean) =>
+    cn(
+      "text-sm font-medium tracking-wide transition-all duration-300",
+      scrolled ? "text-foreground/90 hover:text-secondary" : "text-primary-foreground/95 hover:text-secondary",
+      active && scrolled && "text-secondary",
+    );
+
+  const pathContact = location.pathname.startsWith("/contact");
+
+  const triggerClass = cn(
+    "inline-flex items-center gap-0.5 text-sm font-medium tracking-wide transition-colors rounded-md px-1 py-1 -mx-1",
+    "outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2",
+    scrolled ? "text-foreground/90 hover:text-secondary data-[state=open]:text-secondary" : "text-primary-foreground/95 hover:text-secondary data-[state=open]:text-secondary",
+  );
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? "bg-background/95 backdrop-blur-md shadow-lg py-2" : "bg-transparent py-4"
-      }`}
+      aria-label="Navigation principale"
+      className={cn(
+        "fixed left-0 right-0 top-0 z-50 transition-[background-color,box-shadow,padding,border-color] duration-300",
+        // Mobile : colonne = barre + (si ouvert) panneau qui remplit le reste de l’écran — un seul scroll naturel
+        "max-lg:flex max-lg:max-h-[100dvh] max-lg:min-h-0 max-lg:flex-col",
+        // Mobile / tablette : barre toujours lisible sur le hero
+        "max-lg:border-b max-lg:border-border/50 max-lg:bg-background/95 max-lg:backdrop-blur-md max-lg:py-2.5 max-lg:shadow-sm",
+        // Bureau : transparence sur l’accueil en haut de page
+        isHome && !scrolled && "lg:border-transparent lg:bg-transparent lg:shadow-none lg:backdrop-blur-none lg:py-4 xl:py-5",
+        (!isHome || scrolled) && "lg:border-b lg:border-border/60 lg:bg-background/90 lg:py-2 lg:shadow-sm lg:backdrop-blur-xl",
+      )}
     >
-      <div className="container mx-auto flex items-center justify-between px-4">
-        <a href="#accueil" className="relative z-10">
-          <img src={logo} alt="CAYRIBE Partners" className={`transition-all duration-300 ${scrolled ? "h-9" : "h-11 md:h-12"}`} />
-        </a>
+      <div className="container mx-auto flex shrink-0 items-center justify-between gap-3 px-4 sm:px-6">
+        <Link
+          to="/"
+          onClick={closeMobile}
+          className="relative z-10 shrink-0 rounded-md transition-transform duration-300 ease-out hover:scale-[1.04] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2"
+        >
+          <img
+            src={logo}
+            alt="CAYRIBE Partners"
+            className={cn(
+              "h-8 w-auto transition-all duration-300 sm:h-9",
+              "max-lg:opacity-100",
+              scrolled ? "lg:h-9" : "lg:h-11 xl:h-12",
+            )}
+          />
+        </Link>
 
-        {/* Desktop */}
-        <div className="hidden lg:flex items-center gap-8">
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className={`text-sm font-medium transition-all duration-300 hover:text-secondary relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-secondary after:transition-all after:duration-300 hover:after:w-full ${
-                scrolled ? "text-foreground" : "text-primary-foreground"
-              }`}
-            >
-              {item.label}
-            </a>
-          ))}
+        <div className="hidden items-center gap-5 xl:gap-8 lg:flex">
+          <Link to="/" className={linkClass(location.pathname === "/")}>
+            Accueil
+          </Link>
+
+          <NavHoverDropdown
+            label="Qui sommes-nous"
+            triggerClassName={triggerClass}
+            items={quiSommesNousItems}
+            contentClassName="min-w-[15rem]"
+          />
+
+          <NavHoverDropdown label="Offres" triggerClassName={triggerClass} items={offresItems} contentClassName="min-w-[14rem]" />
+
+          <Link to={ROUTES.contact} className={linkClass(pathContact)}>
+            Contact
+          </Link>
+
           <a
-            href="#contact"
-            className="bg-secondary text-secondary-foreground px-6 py-2.5 rounded-xl text-sm font-semibold hover:shadow-lg hover:shadow-secondary/25 transition-all duration-300"
+            href={WHATSAPP_RENDEZ_VOUS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-lg bg-secondary px-4 py-2.5 text-sm font-semibold text-secondary-foreground shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md hover:shadow-secondary/30 hover:brightness-[1.03] active:translate-y-0 active:brightness-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 xl:px-5"
           >
             Prendre rendez-vous
           </a>
         </div>
 
-        {/* Mobile toggle */}
         <button
-          className={`lg:hidden relative z-10 ${scrolled ? "text-foreground" : "text-primary-foreground"}`}
-          onClick={() => setMobileOpen(!mobileOpen)}
+          type="button"
+          aria-expanded={mobileOpen}
+          aria-controls="nav-mobile-menu"
+          aria-label={mobileOpen ? "Fermer le menu" : "Ouvrir le menu"}
+          className={cn(
+            "lg:hidden flex h-11 min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-lg border border-border/60 bg-background text-foreground shadow-sm transition-colors",
+            "hover:bg-muted/70 active:bg-muted",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+          )}
+          onClick={() => setMobileOpen((o) => !o)}
         >
-          {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+          {mobileOpen ? <X className="h-5 w-5" strokeWidth={2} /> : <Menu className="h-5 w-5" strokeWidth={2} />}
         </button>
       </div>
 
-      {/* Mobile menu */}
       {mobileOpen && (
-        <div className="lg:hidden bg-background/98 backdrop-blur-md border-t border-border animate-fade-in">
-          <div className="container mx-auto py-6 px-4 flex flex-col gap-4">
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="text-foreground text-base font-medium py-2 hover:text-primary transition-colors"
-                onClick={() => setMobileOpen(false)}
-              >
-                {item.label}
-              </a>
-            ))}
-            <a
-              href="#contact"
-              className="bg-secondary text-secondary-foreground px-5 py-3 rounded-xl text-sm font-semibold text-center mt-2"
-              onClick={() => setMobileOpen(false)}
-            >
-              Prendre rendez-vous
-            </a>
+        <div
+          id="nav-mobile-menu"
+          className="flex min-h-0 flex-1 flex-col overflow-hidden border-t border-border/60 bg-background lg:hidden"
+        >
+          <div className="min-h-0 flex-1 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch]">
+            <div className="container mx-auto px-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-2 sm:px-6">
+              <ul className="flex flex-col gap-0.5">
+                <li>
+                  <Link to="/" className={mobileLink} onClick={closeMobile}>
+                    Accueil
+                  </Link>
+                </li>
+              </ul>
+
+              <Separator className="my-1.5 bg-border/70" />
+
+              <MobileSectionLabel>Qui sommes-nous</MobileSectionLabel>
+              <ul className="flex flex-col gap-0.5">
+                {quiSommesNousItems.map((item) => (
+                  <li key={item.to}>
+                    <Link to={item.to} className={mobileLink} onClick={closeMobile}>
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+
+              <Separator className="my-1.5 bg-border/70" />
+
+              <MobileSectionLabel>Offres</MobileSectionLabel>
+              <ul className="flex flex-col gap-0.5">
+                {offresItems.map((item) => (
+                  <li key={item.to}>
+                    <Link to={item.to} className={mobileLink} onClick={closeMobile}>
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+
+              <Separator className="my-1.5 bg-border/70" />
+
+              <Link to={ROUTES.contact} className={mobileLink} onClick={closeMobile}>
+                Contact
+              </Link>
+
+              <div className="pb-1 pt-3">
+                <a
+                  href={WHATSAPP_RENDEZ_VOUS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={closeMobile}
+                  className="flex w-full items-center justify-center rounded-lg bg-secondary px-4 py-3 text-sm font-semibold text-secondary-foreground shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md hover:shadow-secondary/25 active:translate-y-0"
+                >
+                  Prendre rendez-vous
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       )}
