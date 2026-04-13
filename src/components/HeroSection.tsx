@@ -1,19 +1,35 @@
+import { useState } from "react";
 import heroVideo from "@/assets/hero-video.mp4.asset.json";
+import heroPoster from "@/assets/hero-meeting.jpg";
 import logo from "@/assets/logo-cayribe-partners.png";
 
+function resolveHeroVideoUrl(url: string): string {
+  if (/^https?:\/\//i.test(url)) return url;
+  return `${import.meta.env.BASE_URL}${url.replace(/^\//, "")}`;
+}
+
 const HeroSection = () => {
+  const [videoFailed, setVideoFailed] = useState(false);
+  const videoSrc = resolveHeroVideoUrl(heroVideo.url);
+
   return (
     <section id="accueil" className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background video */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover"
-      >
-        <source src={heroVideo.url} type="video/mp4" />
-      </video>
+      {/* Background video (fallback image if file missing or error) */}
+      {!videoFailed ? (
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={heroPoster}
+          className="absolute inset-0 w-full h-full object-cover"
+          onError={() => setVideoFailed(true)}
+        >
+          <source src={videoSrc} type="video/mp4" />
+        </video>
+      ) : (
+        <img src={heroPoster} alt="" className="absolute inset-0 w-full h-full object-cover" />
+      )}
 
       {/* Overlay gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-[hsl(var(--hero-overlay)/0.92)] via-[hsl(var(--hero-overlay)/0.75)] to-[hsl(var(--hero-overlay)/0.5)]" />
