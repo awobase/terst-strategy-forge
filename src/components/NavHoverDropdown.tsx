@@ -17,6 +17,7 @@ type NavHoverDropdownProps = {
   label: string;
   triggerClassName: string;
   items: readonly Item[];
+  triggerTo?: string;
   align?: "start" | "end";
   contentClassName?: string;
 };
@@ -28,6 +29,7 @@ const NavHoverDropdown = ({
   label,
   triggerClassName,
   items,
+  triggerTo,
   align = "start",
   contentClassName,
 }: NavHoverDropdownProps) => {
@@ -57,13 +59,23 @@ const NavHoverDropdown = ({
     <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
       <div className="relative flex" onMouseEnter={openMenu} onMouseLeave={scheduleClose}>
         <DropdownMenuTrigger
+          asChild={Boolean(triggerTo)}
           className={cn(
             triggerClassName,
             "cursor-pointer border-0 bg-transparent shadow-none outline-none hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent",
           )}
         >
-          {label}
-          <ChevronDown className="h-3.5 w-3.5 opacity-70" aria-hidden />
+          {triggerTo ? (
+            <Link to={triggerTo} className="inline-flex items-center gap-0.5">
+              {label}
+              <ChevronDown className="h-3.5 w-3.5 opacity-70" aria-hidden />
+            </Link>
+          ) : (
+            <>
+              {label}
+              <ChevronDown className="h-3.5 w-3.5 opacity-70" aria-hidden />
+            </>
+          )}
         </DropdownMenuTrigger>
       </div>
       <DropdownMenuContent

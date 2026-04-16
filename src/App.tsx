@@ -5,14 +5,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
-import PresentationPage from "./pages/PresentationPage.tsx";
-import OfferStartPage from "./pages/offres/OfferStartPage.tsx";
-import OfferRisePage from "./pages/offres/OfferRisePage.tsx";
-import OfferJeunesPage from "./pages/offres/OfferJeunesPage.tsx";
-import OfferPersonnalisePage from "./pages/offres/OfferPersonnalisePage.tsx";
-import EquipePage from "./pages/qui-sommes-nous/EquipePage.tsx";
-import PartenairesPage from "./pages/qui-sommes-nous/PartenairesPage.tsx";
 import ContactPage from "./pages/contact/ContactPage.tsx";
+import QuiSommesNousPage from "./pages/QuiSommesNousPage.tsx";
+import OffresPage from "./pages/OffresPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -24,14 +19,16 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/qui-sommes-nous/presentation" element={<PresentationPage />} />
-          <Route path="/presentation" element={<Navigate to="/qui-sommes-nous/presentation" replace />} />
-          <Route path="/offres/start" element={<OfferStartPage />} />
-          <Route path="/offres/rise" element={<OfferRisePage />} />
-          <Route path="/offres/jeunes" element={<OfferJeunesPage />} />
-          <Route path="/offres/personnalise" element={<OfferPersonnalisePage />} />
-          <Route path="/qui-sommes-nous/equipe" element={<EquipePage />} />
-          <Route path="/qui-sommes-nous/partenaires" element={<PartenairesPage />} />
+          <Route path="/qui-sommes-nous" element={<QuiSommesNousPage />} />
+          <Route path="/offres" element={<OffresPage />} />
+          <Route path="/presentation" element={<Navigate to="/qui-sommes-nous#presentation" replace />} />
+          <Route path="/qui-sommes-nous/presentation" element={<Navigate to="/qui-sommes-nous#presentation" replace />} />
+          <Route path="/qui-sommes-nous/equipe" element={<Navigate to="/qui-sommes-nous#equipe" replace />} />
+          <Route path="/qui-sommes-nous/partenaires" element={<Navigate to="/qui-sommes-nous#partenaires" replace />} />
+          <Route path="/offres/start" element={<Navigate to="/offres#start" replace />} />
+          <Route path="/offres/rise" element={<Navigate to="/offres#rise" replace />} />
+          <Route path="/offres/jeunes" element={<Navigate to="/offres#offres-jeunes" replace />} />
+          <Route path="/offres/personnalise" element={<Navigate to="/offres#offre-personnalisee" replace />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/contact/prise-de-contact" element={<Navigate to="/contact" replace />} />
           <Route path="/contact/recrutement" element={<Navigate to="/contact?objet=candidature" replace />} />

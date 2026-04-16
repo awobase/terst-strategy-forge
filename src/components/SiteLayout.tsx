@@ -1,4 +1,6 @@
 import { cn } from "@/lib/utils";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ChatbotWidget from "@/components/ChatbotWidget";
@@ -10,6 +12,23 @@ type SiteLayoutProps = {
 };
 
 const SiteLayout = ({ children, isHome = false }: SiteLayoutProps) => {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!location.hash) {
+      window.scrollTo({ top: 0, behavior: "auto" });
+      return;
+    }
+
+    const id = location.hash.slice(1);
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    requestAnimationFrame(() => {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }, [location.pathname, location.hash]);
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
