@@ -4,26 +4,33 @@ import { CheckCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const highlights = [
-  "Vision locale et standards internationaux",
-  "Méthodes éprouvées, livrables actionnables",
-  "Indicateurs de suivi et gouvernance de projet",
+  "Vision claire et aide à la décision",
+  "Solutions concrètes adaptées à la réalité terrain",
+  "Accompagnement opérationnel jusqu'aux premières avancées",
 ];
 
 type AboutSectionProps = {
   /** Page Présentation : mise en page plus éditoriale, sans eyebrow « À propos » */
   variant?: "default" | "presentation";
+  /** Dans une page longue : fond aligné sur le chapitre, sans bande blanche */
+  seamless?: boolean;
 };
 
-const AboutSection = ({ variant = "default" }: AboutSectionProps) => {
+const AboutSection = ({ variant = "default", seamless = false }: AboutSectionProps) => {
   const { ref, inView } = useInView();
   const isPresentation = variant === "presentation";
+  const isSeamless = isPresentation && seamless;
 
   return (
     <section
       id={isPresentation ? "cabinet-contenu" : "apropos"}
       className={cn(
         "relative overflow-hidden",
-        isPresentation ? "border-y border-border/40 bg-background py-16 md:py-24" : "bg-background py-24 md:py-32",
+        isSeamless
+          ? "bg-transparent py-14 md:py-20"
+          : isPresentation
+            ? "border-y border-border/40 bg-background py-16 md:py-24"
+            : "bg-background py-24 md:py-32",
       )}
     >
       {!isPresentation ? (
@@ -79,32 +86,39 @@ const AboutSection = ({ variant = "default" }: AboutSectionProps) => {
           <h2
             className={cn(
               "mb-6 font-heading font-bold tracking-tight text-foreground",
-              isPresentation ? "text-2xl leading-snug md:text-3xl lg:text-[2rem]" : "section-title",
+              isPresentation ? "text-2xl leading-snug md:text-3xl lg:text-[2.125rem]" : "section-title",
             )}
           >
             {isPresentation ? (
               <>
-                Une approche <span className="text-gradient-primary">terrain</span>, exigeante sur les résultats
+                Une approche <span className="text-gradient-primary">terrain</span>, sans compromis sur la clarté et
+                l&apos;impact
               </>
             ) : (
               <>
-                Un partenaire stratégique pour votre <span className="text-gradient-primary">croissance durable</span>
+                Un partenaire stratégique pour{" "}
+                <span className="text-gradient-primary">une croissance durable</span>
               </>
             )}
           </h2>
           <div
             className={cn(
               "mb-8 space-y-4 leading-relaxed text-muted-foreground",
-              isPresentation ? "text-[1.02rem] md:text-[1.05rem]" : "text-[0.98rem]",
+              isPresentation ? "text-[1.05rem] md:text-[1.1rem] md:leading-relaxed" : "text-[0.98rem]",
             )}
           >
-            <p>
-              CAYRIBE Partners est un cabinet indépendant : nous travaillons aux côtés des équipes dirigeantes pour
-              structurer les choix stratégiques, aligner les organisations et accélérer la mise en œuvre.
+            <p className={cn(isSeamless && "text-foreground/95")}>
+              CAYRIBE PARTNERS est un cabinet indépendant basé en Guadeloupe, qui accompagne les porteurs de projets,
+              dirigeants de TPE, PME et associations dans leurs décisions stratégiques, la structuration de leur
+              activité et le développement de leurs projets.
             </p>
             <p>
-              Chaque mission est conçue sur mesure : cadrage précis, analyses solides, recommandations réalistes et
-              plan d&apos;actions priorisé — avec un suivi transparent jusqu&apos;aux premiers résultats.
+              Nous intervenons comme un partenaire de confiance aux côtés des dirigeants : clarifier les priorités,
+              sécuriser les choix et transformer les ambitions en actions concrètes et réalisables.
+            </p>
+            <p>
+              Chaque mission est conçue sur mesure : diagnostic précis, analyses pragmatiques et feuille de route
+              opérationnelle, avec un accompagnement jusqu&apos;à la mise en œuvre.
             </p>
           </div>
           <ul className={cn("space-y-3", isPresentation && "space-y-0 divide-y divide-border/60 rounded-xl border border-border/50 bg-card/40 p-1")}>

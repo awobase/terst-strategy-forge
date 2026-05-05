@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import type { FormEvent } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useInView } from "@/hooks/useInView";
-import { Send, MapPin, Phone, Mail } from "lucide-react";
+import { Send, Phone, Mail } from "lucide-react";
 import { toast } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import { CONTACT_OBJET_OPTIONS, isContactObjetParam, type ContactObjetValue } from "@/config/contactForm";
@@ -104,7 +104,6 @@ const ContactSection = ({
             {[
               { icon: Mail, label: "Email", value: "contact@cayribepartners.com" },
               { icon: Phone, label: "Téléphone", value: "+596 696 00 00 00" },
-              { icon: MapPin, label: "Adresse", value: "Fort-de-France, Martinique" },
             ].map((item) => (
               <div key={item.label} className="flex items-start gap-4">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-primary/10 bg-primary/10">

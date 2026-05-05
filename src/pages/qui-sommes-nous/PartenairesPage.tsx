@@ -21,7 +21,7 @@ const PartenairesPage = () => {
         description="Des organisations publiques et privées nous confient des sujets sensibles : nous remercions chaque client pour la qualité des échanges et la confiance accordée."
         highlights={[
           { k: "Clients", v: "Public & privé" },
-          { k: "Zone", v: "Martinique & Caraïbe" },
+          { k: "Expertise", v: "Stratégie & performance" },
           { k: "Engagement", v: "Confiance durable" },
         ]}
       />

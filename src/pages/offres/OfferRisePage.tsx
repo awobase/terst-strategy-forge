@@ -33,7 +33,7 @@ const OfferRisePage = () => {
         <ul>
           <li>La direction est fixée, mais l’exécution patine ou se dispersent les efforts.</li>
           <li>Vous devez industrialiser une offre, un canal ou une organisation après un proof of concept.</li>
-          <li>Vous préparez une intégration post-fusion ou une montée en charge internationale.</li>
+          <li>Vous préparez une intégration post-fusion ou une montée en charge sur de nouveaux marchés.</li>
         </ul>
         <h2>Livrables types</h2>
         <ul>

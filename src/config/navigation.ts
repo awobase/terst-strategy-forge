@@ -6,8 +6,8 @@ export const ROUTES = {
   offres: {
     start: "/offres#start",
     rise: "/offres#rise",
-    jeunes: "/offres#offres-jeunes",
-    personnalise: "/offres#offre-personnalisee",
+    etudesPersonnalisees: "/offres#etudes-personnalisees",
+    rechercheFinancements: "/offres#recherche-financements",
   },
   quiSommesNousRoot: "/qui-sommes-nous",
   quiSommesNous: {

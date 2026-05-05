@@ -39,21 +39,22 @@ const HeroSection = () => {
           <div className="animate-fade-up inline-flex items-center gap-2.5 bg-primary-foreground/[0.07] backdrop-blur-md border border-primary-foreground/15 rounded-full px-4 py-2 mb-8 shadow-sm">
             <div className="w-1.5 h-1.5 rounded-full bg-secondary shadow-[0_0_12px_hsl(var(--secondary)/0.7)]" aria-hidden />
             <span className="text-primary-foreground/90 text-xs sm:text-sm font-semibold tracking-wide">
-              Conseil en stratégie &amp; performance
+              Conseil en stratégie marketing &amp; financière
             </span>
           </div>
 
-          <h1 className="animate-fade-up animation-delay-200 font-heading text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-primary-foreground leading-[1.05] mb-8 tracking-tight">
-            Accélérateur de
-            <span className="block text-secondary mt-1">performance</span>
+          <h1 className="animate-fade-up animation-delay-200 font-heading text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-primary-foreground leading-[1.05] mb-5 tracking-tight">
+            Partenaire de structuration et de
+            <span className="block text-secondary mt-1">développement</span>
           </h1>
 
-          <p className="animate-fade-up animation-delay-400 text-primary-foreground/75 text-lg md:text-xl leading-relaxed mb-6 max-w-2xl font-light md:font-normal">
-            Nous aidons les dirigeants et leurs équipes à clarifier leur trajectoire, prioriser les leviers à fort impact
-            et sécuriser l&apos;exécution — en Martinique, dans la Caraïbe et au-delà.
+          <p className="animate-fade-up animation-delay-300 text-primary-foreground/85 text-base md:text-lg font-medium tracking-wide mb-6 max-w-2xl">
+            Décider mieux. Structurer. Accélérer.
           </p>
-          <p className="animate-fade-up animation-delay-400 text-primary-foreground/55 text-sm md:text-base max-w-xl mb-12 font-medium tracking-wide uppercase">
-            Clarté décisionnelle · Cadre rigoureux · Suivi des résultats
+
+          <p className="animate-fade-up animation-delay-400 text-primary-foreground/75 text-lg md:text-xl leading-relaxed mb-12 max-w-2xl font-light md:font-normal">
+            De l&apos;idée au changement d&apos;échelle, nous accompagnons les porteurs de projets et dirigeants
+            d&apos;entreprises et d&apos;associations en Guadeloupe et en Martinique.
           </p>
 
           <div className="animate-fade-up animation-delay-600 flex flex-col sm:flex-row gap-3 sm:gap-4">

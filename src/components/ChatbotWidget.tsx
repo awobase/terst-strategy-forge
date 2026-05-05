@@ -4,7 +4,10 @@ import { cn } from "@/lib/utils";
 import { whatsappUrlWithText } from "@/config/whatsapp";
 import { CONTACT_OBJET_OPTIONS, type ContactObjetValue } from "@/config/contactForm";
 
-const botGreeting = "Bonjour ! Je suis l’assistant virtuel CAYRIBE Partners. En quoi puis-je vous aider aujourd’hui ?";
+const CHAT_WIDGET_TITLE = "Cayribe Partners Chat";
+
+const botGreeting =
+	"Bonjour ! Vous échangez avec Cayribe Partners Chat. En quoi pouvons-nous vous aider aujourd’hui ?";
 
 const INITIAL_TYPING_MS = 1400;
 const BETWEEN_MESSAGE_TYPING_MS = 380;
@@ -280,7 +283,7 @@ const ChatbotWidget = () => {
 			{teaser && !open ? (
 				<div
 					role="dialog"
-					aria-label="Message de l’assistant"
+					aria-label="Message du tchat Cayribe Partners"
 					className="relative max-w-[min(100vw-5rem,17rem)] animate-in fade-in slide-in-from-bottom-2 duration-300"
 				>
 					<button
@@ -296,7 +299,7 @@ const ChatbotWidget = () => {
 						onClick={openPanel}
 						className="rounded-2xl rounded-br-md border border-border/80 bg-card px-4 py-3 text-left text-sm leading-snug text-foreground shadow-lg transition-shadow hover:shadow-xl"
 					>
-						<span className="font-medium text-primary">Assistant CAYRIBE</span>
+						<span className="font-medium text-primary">{CHAT_WIDGET_TITLE}</span>
 						<span className="mt-1 block text-muted-foreground">En quoi puis-je vous aider ?</span>
 					</button>
 				</div>
@@ -328,7 +331,7 @@ const ChatbotWidget = () => {
 								id="chatbot-widget-title"
 								className="truncate text-sm font-semibold tracking-tight"
 							>
-								Assistant CAYRIBE
+								{CHAT_WIDGET_TITLE}
 							</p>
 							<p className="text-[11px] font-medium text-primary-foreground/80">En ligne</p>
 						</div>
@@ -440,7 +443,7 @@ const ChatbotWidget = () => {
 				)}
 				aria-expanded={open}
 				aria-controls={open ? "chatbot-panel" : undefined}
-				aria-label={open ? "Fermer l’assistant" : "Ouvrir l’assistant de chat"}
+				aria-label={open ? "Fermer le tchat" : "Ouvrir Cayribe Partners Chat"}
 			>
 				{open ? (
 					<X className="h-6 w-6" />

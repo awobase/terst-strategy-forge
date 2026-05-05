@@ -12,7 +12,7 @@ const PresentationPage = () => {
     <SiteLayout>
       <PageMeta
         title="Présentation du cabinet"
-        description="CAYRIBE Partners : cabinet de conseil en stratégie et performance. Méthodes, valeurs et accompagnement des dirigeants en Martinique et dans la Caraïbe."
+        description="CAYRIBE Partners : cabinet de conseil en stratégie et performance. Méthodes, valeurs et accompagnement des dirigeants."
       />
       <PageHero
         variant="editorial"
@@ -21,7 +21,7 @@ const PresentationPage = () => {
         description="Clarifier les enjeux, cadrer les décisions utiles et donner aux équipes les moyens d’exécuter — avec la proximité d’un cabinet indépendant et l’exigence d’un conseil de direction."
         highlights={[
           { k: "Indépendant", v: "Cabinet à taille humaine" },
-          { k: "Zone", v: "Martinique & Caraïbe" },
+          { k: "Méthode", v: "Cadrage & livrables" },
           { k: "Focus", v: "Stratégie & exécution" },
         ]}
       />

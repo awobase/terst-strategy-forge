@@ -13,7 +13,7 @@ const EquipePage = () => {
     <SiteLayout>
       <PageMeta
         title="Équipe"
-        description="L’équipe CAYRIBE Partners : consultants en stratégie et performance, engagés aux côtés des dirigeants en Martinique et dans la Caraïbe."
+        description="L’équipe CAYRIBE Partners : consultants en stratégie et performance, engagés aux côtés des dirigeants."
       />
       <PageHero
         variant="editorial"
@@ -34,7 +34,7 @@ const EquipePage = () => {
         <h2>Profils</h2>
         <ul>
           <li>Associés et consultants seniors : stratégie, organisation, performance financière.</li>
-          <li>Experts associés : international, digital, conduite du changement, secteurs réglementés.</li>
+          <li>Experts associés : digital, conduite du changement, secteurs réglementés, enjeux multi-sites.</li>
         </ul>
         <h2>Façon de travailler</h2>
         <p>

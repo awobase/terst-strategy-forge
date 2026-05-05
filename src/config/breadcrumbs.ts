@@ -18,20 +18,20 @@ export const crumbsContact: BreadcrumbItem[] = [{ label: "Accueil", to: "/" }, {
 export const relatedOffres = {
   start: [
     { label: "Rise — accélération & mise à l’échelle", to: ROUTES.offres.rise },
-    { label: "Offre personnalisée", to: ROUTES.offres.personnalise },
-    { label: "Offres jeunes", to: ROUTES.offres.jeunes },
+    { label: "Recherche de financements", to: ROUTES.offres.rechercheFinancements },
+    { label: "Études personnalisées", to: ROUTES.offres.etudesPersonnalisees },
   ],
   rise: [
     { label: "Start — cadrage & diagnostic", to: ROUTES.offres.start },
-    { label: "Offre personnalisée", to: ROUTES.offres.personnalise },
+    { label: "Recherche de financements", to: ROUTES.offres.rechercheFinancements },
     { label: "Présentation du cabinet", to: ROUTES.quiSommesNous.presentation },
   ],
-  jeunes: [
+  etudesPersonnalisees: [
     { label: "Start", to: ROUTES.offres.start },
     { label: "Rise", to: ROUTES.offres.rise },
     { label: "Nous écrire", to: ROUTES.contact },
   ],
-  personnalise: [
+  rechercheFinancements: [
     { label: "Start", to: ROUTES.offres.start },
     { label: "Rise", to: ROUTES.offres.rise },
     { label: "Contact", to: ROUTES.contact },

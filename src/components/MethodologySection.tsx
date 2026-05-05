@@ -4,23 +4,23 @@ import { useInView } from "@/hooks/useInView";
 const steps = [
   {
     num: "01",
-    title: "Diagnostic stratégique",
-    desc: "Immersion, entretiens et données : nous cadrons la problématique, cartographions les forces / fragilités et isolons les causes racines.",
+    title: "Diagnostic 360",
+    desc: "Analyse globale de votre projet ou de votre organisation à un instant T : marché, modèle économique, positionnement, ressources et enjeux de développement afin d'identifier clairement les priorités.",
   },
   {
     num: "02",
-    title: "Construction de la stratégie",
-    desc: "Scénarios, arbitrages et design d'options : recommandations chiffrées quand c'est pertinent, avec risques, conditions de succès et planning.",
+    title: "Construction de la feuille de route",
+    desc: "Définition d'un plan d'actions structuré en fonction des objectifs, réaliste et priorisé pour sécuriser vos décisions et orienter votre développement.",
   },
   {
     num: "03",
-    title: "Mise en œuvre opérationnelle",
-    desc: "Roadmap priorisée, rôles RACI, rituels de pilotage et accompagnement des équipes pour transformer la feuille de route en actions.",
+    title: "Réalisation de la mission",
+    desc: "Mise en œuvre opérationnelle des actions définies : études, ingénierie financière, structuration de projet et accompagnement stratégique selon vos besoins.",
   },
   {
     num: "04",
-    title: "Suivi de performance",
-    desc: "Tableaux de bord, revues de gestion et ajustements : nous sécurisons l'adhésion et mesurons l'impact dans le temps.",
+    title: "Suivi et assistance",
+    desc: "Accompagnement dans la durée pour ajuster la stratégie, sécuriser les étapes clés et faciliter la concrétisation des résultats.",
   },
 ];
 
@@ -36,7 +36,7 @@ const MethodologySection = () => {
           <p className="eyebrow">Méthodologie</p>
           <h2 className="section-title mb-4">Une approche structurante et pragmatique</h2>
           <p className="section-lead mx-auto">
-            Une progression claire du diagnostic au suivi : transparence sur les livrables, décisions documentées et transfert de méthode vers vos équipes.
+            Étapes clés afin de garantir un accompagnement à la hauteur de vos attentes
           </p>
         </div>
 

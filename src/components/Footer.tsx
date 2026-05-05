@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import logo from "@/assets/logo-cayribe-partners.png";
-import { Linkedin, Instagram, ArrowUp } from "lucide-react";
+import awobaseLogo from "@/assets/logo-awobase.png";
+import europeSengageLogo from "@/assets/logo-europe-sengage-france.png";
+import { Linkedin, Instagram } from "lucide-react";
 import { ROUTES } from "@/config/navigation";
 
 const Footer = () => {
@@ -88,18 +90,18 @@ const Footer = () => {
 							</li>
 							<li>
 								<Link
-									to={ROUTES.offres.jeunes}
+									to={ROUTES.offres.etudesPersonnalisees}
 									className="text-[hsl(220,20%,65%)] hover:text-secondary transition-colors pl-2"
 								>
-									Offres jeunes
+									Études personnalisées
 								</Link>
 							</li>
 							<li>
 								<Link
-									to={ROUTES.offres.personnalise}
+									to={ROUTES.offres.rechercheFinancements}
 									className="text-[hsl(220,20%,65%)] hover:text-secondary transition-colors pl-2"
 								>
-									Offre personnalisée
+									Recherche de financements
 								</Link>
 							</li>
 							<li className="text-[hsl(220,24%,55%)] text-xs font-semibold uppercase tracking-wider pt-2">
@@ -137,7 +139,6 @@ const Footer = () => {
 									+596 696 00 00 00
 								</a>
 							</li>
-							<li>Fort-de-France, Martinique</li>
 						</ul>
 					</div>
 
@@ -168,15 +169,35 @@ const Footer = () => {
 					</div>
 				</div>
 
-				<div className="border-t border-[hsl(220,20%,20%)] pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-					<p className="text-[hsl(220,16%,48%)] text-sm">© 2026 CAYRIBE Partners. Tous droits réservés.</p>
-					<Link
-						to="/"
-						className="flex h-10 w-10 items-center justify-center rounded-full border border-[hsl(220,18%,26%)] transition-all duration-300 hover:-translate-y-0.5 hover:border-secondary hover:text-secondary hover:shadow-md active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary"
-						aria-label="Retour à l’accueil"
-					>
-						<ArrowUp className="w-4 h-4 text-[hsl(220,18%,58%)]" />
-					</Link>
+				<div className="border-t border-[hsl(220,20%,20%)] pt-8 flex flex-col items-stretch gap-6 sm:flex-row sm:items-center sm:justify-between">
+					<p className="text-[hsl(220,16%,48%)] text-sm text-center sm:text-left">
+						© 2026 CAYRIBE Partners. Tous droits réservés.
+					</p>
+					<div className="flex flex-wrap items-center justify-center gap-5 sm:justify-end">
+						<img
+							src={europeSengageLogo}
+							alt="Logo l'Europe s'engage en France"
+							className="h-7 w-auto max-w-[140px] object-contain object-left opacity-95 sm:h-8 sm:max-w-[160px]"
+							width={160}
+							height={48}
+							loading="lazy"
+						/>
+						<a
+							href="https://awobase.fr"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="group inline-flex shrink-0 origin-center rounded-md p-0.5 outline-none transition-[transform,filter,opacity] duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 hover:opacity-100 hover:drop-shadow-[0_0_12px_hsl(32_88%_52%_/_0.35)] active:translate-y-0 active:scale-[0.94] active:duration-150 focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(222,32%,11%)] opacity-90"
+							aria-label="Awobase — visiter awobase.fr"
+						>
+							<img
+								src={awobaseLogo}
+								alt="Awobase"
+								className="h-5 w-auto max-h-6 object-contain sm:h-6"
+								width={96}
+								height={24}
+							/>
+						</a>
+					</div>
 				</div>
 			</div>
 		</footer>

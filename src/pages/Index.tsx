@@ -6,15 +6,13 @@ import ExpertisesSection from "@/components/ExpertisesSection";
 import MethodologySection from "@/components/MethodologySection";
 import StatsSection from "@/components/StatsSection";
 import PartnersSection from "@/components/PartnersSection";
-import CaseStudiesSection from "@/components/CaseStudiesSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
 
 const Index = () => {
   return (
     <SiteLayout isHome>
       <PageMeta
         title="Accueil"
-        description="CAYRIBE Partners : conseil en stratégie et performance. Cabinet en Martinique et Caraïbe — diagnostic, feuille de route et accompagnement des dirigeants."
+        description="CAYRIBE Partners : conseil en stratégie et performance — diagnostic, feuille de route et accompagnement des dirigeants."
       />
       <HeroSection />
       <AboutSection />
@@ -22,8 +20,6 @@ const Index = () => {
       <MethodologySection />
       <StatsSection />
       <PartnersSection />
-      <CaseStudiesSection />
-      <TestimonialsSection />
     </SiteLayout>
   );
 };

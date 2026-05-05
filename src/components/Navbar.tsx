@@ -10,8 +10,8 @@ import { cn } from "@/lib/utils";
 const offresItems = [
 	{ label: "Start", to: ROUTES.offres.start },
 	{ label: "Rise", to: ROUTES.offres.rise },
-	{ label: "Offres jeunes", to: ROUTES.offres.jeunes },
-	{ label: "Offre personnalisée", to: ROUTES.offres.personnalise },
+	{ label: "Études personnalisées", to: ROUTES.offres.etudesPersonnalisees },
+	{ label: "Recherche de financements", to: ROUTES.offres.rechercheFinancements },
 ] as const;
 
 const quiSommesNousItems = [

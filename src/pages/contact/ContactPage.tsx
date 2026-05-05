@@ -4,20 +4,18 @@ import PageMeta from "@/components/PageMeta";
 import RelatedPages from "@/components/RelatedPages";
 import { ROUTES } from "@/config/navigation";
 import { crumbsContact } from "@/config/breadcrumbs";
-import { Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { Instagram, Linkedin, Mail, Phone } from "lucide-react";
 
 const SOCIAL_LINKS = [
 	{
 		label: "LinkedIn",
 		href: "https://www.linkedin.com",
 		icon: Linkedin,
-		description: "Actualités et prises de parole du cabinet",
 	},
 	{
 		label: "Instagram",
 		href: "https://www.instagram.com",
 		icon: Instagram,
-		description: "Coulisses et événements",
 	},
 ] as const;
 
@@ -26,7 +24,7 @@ const ContactPage = () => {
 		<SiteLayout>
 			<PageMeta
 				title="Contactez-nous"
-				description="Coordonnées et réseaux sociaux CAYRIBE Partners — cabinet de conseil en Martinique et Caraïbe."
+				description="Coordonnées et réseaux sociaux CAYRIBE Partners — cabinet de conseil en stratégie et performance."
 			/>
 			<PageHero
 				variant="editorial"
@@ -58,8 +56,7 @@ const ContactPage = () => {
 								Écrivez-nous ou appelez-nous
 							</h3>
 							<p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-								Notre équipe est basée à Fort-de-France. Précisez votre contexte par e-mail ou par
-								téléphone pour un premier échange ciblé.
+								Précisez votre contexte par e-mail ou par téléphone pour un premier échange ciblé.
 							</p>
 							<ul className="mt-8 flex flex-col gap-6">
 								<li className="flex gap-4">
@@ -100,22 +97,6 @@ const ContactPage = () => {
 										</a>
 									</div>
 								</li>
-								<li className="flex gap-4">
-									<div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-primary/15 bg-primary/10">
-										<MapPin
-											className="h-5 w-5 text-primary"
-											aria-hidden
-										/>
-									</div>
-									<div>
-										<p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-											Adresse
-										</p>
-										<p className="mt-1 text-sm font-medium text-foreground">
-											Fort-de-France, Martinique
-										</p>
-									</div>
-								</li>
 							</ul>
 						</div>
 
@@ -126,16 +107,16 @@ const ContactPage = () => {
 							</h3>
 							<p className="mt-2 text-sm leading-relaxed text-muted-foreground">
 								Retrouvez-nous sur les plateformes où nous partageons nos interventions, nos lectures et
-								l’écosystème entrepreneurial local.
+								l’écosystème entrepreneurial.
 							</p>
 							<ul className="mt-8 flex flex-col gap-4">
-								{SOCIAL_LINKS.map(({ label, href, icon: Icon, description }) => (
+								{SOCIAL_LINKS.map(({ label, href, icon: Icon }) => (
 									<li key={label}>
 										<a
 											href={href}
 											target="_blank"
 											rel="noopener noreferrer"
-											className="group flex items-start gap-4 rounded-xl border border-border/80 bg-muted/30 p-4 transition-all hover:border-primary/30 hover:bg-primary/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+											className="group flex items-center gap-4 rounded-xl border border-border/80 bg-muted/30 p-4 transition-all hover:border-primary/30 hover:bg-primary/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
 										>
 											<span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-border bg-background text-primary shadow-sm transition-colors group-hover:border-primary/25 group-hover:bg-primary/5">
 												<Icon
@@ -143,24 +124,13 @@ const ContactPage = () => {
 													aria-hidden
 												/>
 											</span>
-											<span className="min-w-0">
-												<span className="block text-sm font-semibold text-foreground">
-													{label}
-												</span>
-												<span className="mt-0.5 block text-xs text-muted-foreground">
-													{description}
-												</span>
-											</span>
+											<span className="text-sm font-semibold text-foreground">{label}</span>
 										</a>
 									</li>
 								))}
 							</ul>
 						</div>
 					</div>
-
-					<p className="mx-auto mt-10 max-w-xl text-center text-sm leading-relaxed text-muted-foreground">
-						Besoin d’aide ? L’assistant CAYRIBE en bas à droite est là pour vous guider.
-					</p>
 				</div>
 			</section>
 		</SiteLayout>

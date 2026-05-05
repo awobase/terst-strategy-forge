@@ -1,48 +1,105 @@
 import { useInView } from "@/hooks/useInView";
-import { Building2, Clock, MapPin, ThumbsUp } from "lucide-react";
+import { useCountUp } from "@/hooks/useCountUp";
+import { Briefcase, Clock, MapPin, Sparkles } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
-const stats = [
-  { value: "120+", label: "entreprises accompagnées", icon: Building2 },
-  { value: "15", label: "ans d'expérience cumulée", icon: Clock },
-  { value: "8", label: "pays d'intervention", icon: MapPin },
-  { value: "95%", label: "de satisfaction client", icon: ThumbsUp },
+type StatConfig = {
+  /** Compteur animé ; ignoré si `displayText` ou `displayLines` est défini */
+  target: number;
+  prefix?: string;
+  suffix?: string;
+  label: string;
+  icon: LucideIcon;
+  /** Affichage fixe à la place du nombre (ex. territoires) */
+  displayText?: string;
+  /** Plusieurs lignes (meilleure lisibilité sur mobile) */
+  displayLines?: string[];
+};
+
+const stats: StatConfig[] = [
+  { target: 200, prefix: "+ de ", suffix: "", label: "projets accompagnés", icon: Briefcase },
+  { target: 15, suffix: "", label: "ans d'expérience", icon: Clock },
+  {
+    target: 0,
+    suffix: "",
+    label: "",
+    icon: MapPin,
+    displayLines: ["Intervention en", "Guadeloupe et Martinique"],
+  },
+  { target: 20, prefix: "+ ", suffix: "", label: "entreprises innovantes accompagnées", icon: Sparkles },
 ];
+
+function StatCard({ stat, index, active }: { stat: StatConfig; index: number; active: boolean }) {
+  const count = useCountUp(
+    stat.displayText || (stat.displayLines && stat.displayLines.length > 0) ? 0 : stat.target,
+    active,
+    {
+      durationMs: 1800,
+      delayMs: index * 140,
+    },
+  );
+
+  const main = stat.displayText ?? `${stat.prefix ?? ""}${count}${stat.suffix}`;
+
+  return (
+    <div
+      className={`group text-center rounded-xl border border-primary-foreground/10 bg-primary-foreground/[0.06] p-6 backdrop-blur-sm transition-all duration-700 hover:-translate-y-1 hover:border-primary-foreground/25 hover:bg-primary-foreground/[0.1] hover:shadow-lg sm:p-8 ${
+        active ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+      }`}
+      style={{ transitionDelay: `${index * 150}ms` }}
+    >
+      <stat.icon className="mx-auto mb-3 h-8 w-8 text-secondary transition-transform duration-300 ease-out group-hover:scale-110 sm:mb-4" />
+      {stat.displayLines ? (
+        <p className="mb-2 font-heading font-bold text-primary-foreground text-[1.05rem] leading-snug tracking-tight text-balance sm:text-lg md:text-xl lg:text-2xl">
+          {stat.displayLines.map((line, i) => (
+            <span key={`${i}-${line}`} className={i > 0 ? "mt-1.5 block text-primary-foreground/95" : "block"}>
+              {line}
+            </span>
+          ))}
+        </p>
+      ) : (
+        <p
+          className={`font-heading font-bold text-primary-foreground ${
+            stat.displayText
+              ? "text-[1.05rem] leading-snug tracking-tight text-balance sm:text-lg md:text-xl lg:text-2xl"
+              : "mb-2 text-4xl tabular-nums md:text-5xl"
+          }`}
+        >
+          {main}
+        </p>
+      )}
+      {stat.label ? <p className="text-primary-foreground/60 text-sm">{stat.label}</p> : null}
+    </div>
+  );
+}
 
 const StatsSection = () => {
   const { ref, inView } = useInView();
 
   return (
-    <section className="py-24 md:py-32 bg-gradient-to-br from-primary via-primary to-[hsl(222,58%,26%)] relative overflow-hidden">
+    <section className="relative overflow-hidden bg-gradient-to-br from-primary via-primary to-[hsl(222,58%,26%)] py-24 md:py-32">
       {/* Decorative */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-secondary/10 rounded-full -translate-y-1/2 translate-x-1/2" />
-      <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary-foreground/5 rounded-full translate-y-1/2 -translate-x-1/2" />
+      <div className="absolute top-0 right-0 h-96 w-96 -translate-y-1/2 translate-x-1/2 rounded-full bg-secondary/10" />
+      <div className="absolute bottom-0 left-0 h-64 w-64 -translate-x-1/2 translate-y-1/2 rounded-full bg-primary-foreground/5" />
 
-      <div ref={ref} className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-14 md:mb-16 max-w-2xl mx-auto">
-          <p className="text-secondary font-semibold text-[0.7rem] sm:text-xs uppercase tracking-[0.2em] mb-3">Chiffres clés</p>
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-primary-foreground tracking-tight">
+      <div ref={ref} className="container relative z-10 mx-auto px-4">
+        <div className="mx-auto mb-14 max-w-2xl text-center md:mb-16">
+          <p className="mb-3 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-secondary sm:text-xs">Chiffres clés</p>
+          <h2 className="font-heading text-3xl font-bold tracking-tight text-primary-foreground md:text-4xl">
             Notre impact en chiffres
           </h2>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((stat, i) => (
-            <div
-              key={stat.label}
-              className={`group text-center rounded-xl border border-primary-foreground/10 bg-primary-foreground/[0.06] p-8 backdrop-blur-sm transition-all duration-700 hover:-translate-y-1 hover:border-primary-foreground/25 hover:bg-primary-foreground/[0.1] hover:shadow-lg ${
-                inView ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
-              }`}
-              style={{ transitionDelay: `${i * 150}ms` }}
-            >
-              <stat.icon className="mx-auto mb-4 h-8 w-8 text-secondary transition-transform duration-300 ease-out group-hover:scale-110" />
-              <p className="font-heading text-4xl md:text-5xl font-bold text-primary-foreground mb-2">{stat.value}</p>
-              <p className="text-primary-foreground/60 text-sm">{stat.label}</p>
-            </div>
+            <StatCard
+              key={stat.displayLines?.join("|") ?? stat.displayText ?? `${i}-${stat.label}`}
+              stat={stat}
+              index={i}
+              active={inView}
+            />
           ))}
         </div>
-        <p className="text-primary-foreground/55 text-center max-w-2xl mx-auto text-sm leading-relaxed">
-          Des équipes engagées, des missions cadrées et des résultats suivis dans la durée — la confiance se construit sur la qualité d&apos;exécution.
-        </p>
       </div>
     </section>
   );

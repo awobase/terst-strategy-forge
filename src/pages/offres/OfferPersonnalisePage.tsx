@@ -6,46 +6,47 @@ import NextStepCTA from "@/components/NextStepCTA";
 import RelatedPages from "@/components/RelatedPages";
 import { crumbsOffres, relatedOffres } from "@/config/breadcrumbs";
 
+/** Ancienne route /offres/personnalise — redirigée vers /offres#recherche-financements ; page conservée pour cohérence du code. */
 const OfferPersonnalisePage = () => {
   return (
     <SiteLayout>
       <PageMeta
-        title="Offre personnalisée"
-        description="Mission sur-mesure : conseil en stratégie et performance à la carte. Cadrage, équipe projet et calendrier adaptés à votre contexte avec CAYRIBE Partners."
+        title="Recherche de financements"
+        description="Recherche et montage de financements : cartographie des leviers, structuration de dossier et préparation des échanges avec CAYRIBE Partners."
       />
       <PageHero
         variant="editorial"
-        breadcrumbs={crumbsOffres("Offre personnalisée")}
-        title="Offre personnalisée"
-        description="Lorsque votre enjeu ne rentre pas dans un standard — alliance, crise, sujet transverse ou haute confidentialité — nous assemblons une équipe et une méthode sur mesure."
+        breadcrumbs={crumbsOffres("Recherche de financements")}
+        title="Recherche de financements"
+        description="Identification des leviers adaptés à votre projet, structuration du dossier et préparation des échanges avec les financeurs."
         highlights={[
-          { k: "Périmètre", v: "Mission à la carte" },
-          { k: "Cadre", v: "Confidentialité renforcée" },
-          { k: "Suite", v: "Proposition après cadrage" },
+          { k: "Objectif", v: "Financement aligné" },
+          { k: "Couverture", v: "Cartographie & priorisation" },
+          { k: "Livrable", v: "Dossier & pitch" },
         ]}
       />
       <InteriorArticle tone="editorial">
         <p>
-          Après un <strong>entretien de cadrage</strong> (offert ou forfaitaire selon le contexte), nous vous remettons une
-          proposition détaillée : périmètre, livrables, profils, planning et budget transparent.
+          Après cadrage du besoin et du modèle économique, nous vous aidons à prioriser les pistes crédibles et à
+          assembler les éléments attendus pour présenter un récit cohérent aux décideurs financiers.
         </p>
-        <h2>Exemples de missions</h2>
+        <h2>Publics concernés</h2>
         <ul>
-          <li>Conseil au comité de direction sur une décision majeure (M&amp;A, arbitrage, sortie de crise).</li>
-          <li>Accompagnement d’un sponsor interne sur un programme multi-années.</li>
-          <li>Due diligence stratégique ou organisationnelle ciblée.</li>
+          <li>Dirigeants et directions financières préparant une levée, un refinancement ou un investissement lourd.</li>
+          <li>Structures porteuses de projets d&apos;investissement ou d&apos;intérêt général.</li>
+          <li>Projets cumulant plusieurs sources (subvention, prêt, fonds propres, garanties).</li>
         </ul>
-        <h2>Engagements</h2>
+        <h2>Ce que vous obtenez</h2>
         <ul>
-          <li>Confidentialité renforcée et clauses adaptées à votre juridique.</li>
-          <li>Facturation au temps passé, au forfait ou hybride — validée en amont.</li>
-          <li>Revue à mi-parcours avec ajustement documenté des priorités.</li>
+          <li>Cartographie des financements possibles avec conditions et maturité requise.</li>
+          <li>Plan de dossier et indicateurs selon le canal visé.</li>
+          <li>Préparation aux rendez-vous : argumentaire et alignement sponsor / COMEX.</li>
         </ul>
       </InteriorArticle>
       <section className="border-t border-border/50 bg-surface/40 py-12 md:py-16">
         <div className="container mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <NextStepCTA />
-          <RelatedPages links={[...relatedOffres.personnalise]} />
+          <RelatedPages links={[...relatedOffres.rechercheFinancements]} />
         </div>
       </section>
     </SiteLayout>
