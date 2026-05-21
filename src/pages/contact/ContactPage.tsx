@@ -1,9 +1,9 @@
 import SiteLayout from "@/components/SiteLayout";
 import PageHero from "@/components/PageHero";
 import PageMeta from "@/components/PageMeta";
-import RelatedPages from "@/components/RelatedPages";
-import { ROUTES } from "@/config/navigation";
+import ContactSection from "@/components/ContactSection";
 import { crumbsContact } from "@/config/breadcrumbs";
+import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_HREF } from "@/config/contact";
 import { Instagram, Linkedin, Mail, Phone } from "lucide-react";
 
 const SOCIAL_LINKS = [
@@ -71,10 +71,10 @@ const ContactPage = () => {
 											E-mail
 										</p>
 										<a
-											href="mailto:contact@cayribepartners.com"
+											href={`mailto:${CONTACT_EMAIL}`}
 											className="mt-1 inline-block text-sm font-medium text-foreground underline-offset-4 transition-colors hover:text-primary hover:underline"
 										>
-											contact@cayribepartners.com
+											{CONTACT_EMAIL}
 										</a>
 									</div>
 								</li>
@@ -90,10 +90,10 @@ const ContactPage = () => {
 											Téléphone
 										</p>
 										<a
-											href="tel:+596696000000"
+											href={CONTACT_PHONE_HREF}
 											className="mt-1 inline-block text-sm font-medium text-foreground underline-offset-4 transition-colors hover:text-primary hover:underline"
 										>
-											+596 696 00 00 00
+											{CONTACT_PHONE_DISPLAY}
 										</a>
 									</div>
 								</li>
@@ -133,6 +133,13 @@ const ContactPage = () => {
 					</div>
 				</div>
 			</section>
+
+			<ContactSection
+				hideIntro
+				hideContactInfo
+				sectionId="contact-formulaire"
+				className="border-t border-border/40"
+			/>
 		</SiteLayout>
 	);
 };

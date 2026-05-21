@@ -24,14 +24,14 @@ const App = () => (
           <Route path="/presentation" element={<Navigate to="/qui-sommes-nous#presentation" replace />} />
           <Route path="/qui-sommes-nous/presentation" element={<Navigate to="/qui-sommes-nous#presentation" replace />} />
           <Route path="/qui-sommes-nous/equipe" element={<Navigate to="/qui-sommes-nous#equipe" replace />} />
-          <Route path="/qui-sommes-nous/partenaires" element={<Navigate to="/qui-sommes-nous#partenaires" replace />} />
+          <Route path="/qui-sommes-nous/partenaires" element={<Navigate to="/qui-sommes-nous" replace />} />
           <Route path="/offres/start" element={<Navigate to="/offres#start" replace />} />
           <Route path="/offres/rise" element={<Navigate to="/offres#rise" replace />} />
           <Route path="/offres/jeunes" element={<Navigate to="/offres#etudes-personnalisees" replace />} />
           <Route path="/offres/personnalise" element={<Navigate to="/offres#recherche-financements" replace />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/contact/prise-de-contact" element={<Navigate to="/contact" replace />} />
-          <Route path="/contact/recrutement" element={<Navigate to="/contact?objet=candidature" replace />} />
+          <Route path="/contact/recrutement" element={<Navigate to="/contact?objet=stage-cv" replace />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

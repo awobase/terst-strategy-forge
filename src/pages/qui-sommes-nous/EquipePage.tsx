@@ -44,9 +44,8 @@ const EquipePage = () => {
         <h2>Rejoindre le cabinet</h2>
         <p>
           Les candidatures spontanées sont les bienvenues : consultez la page{" "}
-          Consultez la page{" "}
-          <Link to={`${ROUTES.contact}?objet=candidature`}>Contact</Link> et sélectionnez l’objet « Candidature ou stage » pour
-          les modalités.
+          <Link to={`${ROUTES.contact}?objet=stage-cv`}>Contact</Link> et sélectionnez « Je souhaite déposer un CV pour un stage »
+          pour les modalités.
         </p>
       </InteriorArticle>
       <section className="border-t border-border/50 bg-surface/40 py-12 md:py-16">
@@ -54,7 +53,7 @@ const EquipePage = () => {
           <NextStepCTA />
           <RelatedPages
             links={[
-              { label: "Partenaires & références", to: ROUTES.quiSommesNous.partenaires },
+              { label: "Qui sommes-nous", to: ROUTES.quiSommesNousRoot },
               { label: "Présentation du cabinet", to: ROUTES.quiSommesNous.presentation },
               { label: "Nous écrire", to: ROUTES.contact },
             ]}

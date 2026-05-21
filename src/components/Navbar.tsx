@@ -17,7 +17,6 @@ const offresItems = [
 const quiSommesNousItems = [
 	{ label: "Présentation du cabinet", to: ROUTES.quiSommesNous.presentation },
 	{ label: "Équipe", to: ROUTES.quiSommesNous.equipe },
-	{ label: "Partenaires", to: ROUTES.quiSommesNous.partenaires },
 ] as const;
 
 const mobileLink =
@@ -149,7 +148,7 @@ const Navbar = () => {
 						to={ROUTES.contact}
 						className={linkClass(pathContact)}
 					>
-						Contacts
+						Contact
 					</Link>
 				</div>
 
@@ -239,7 +238,7 @@ const Navbar = () => {
 								className={mobileLink}
 								onClick={closeMobile}
 							>
-								Contacts
+								Contact
 							</Link>
 						</div>
 					</div>

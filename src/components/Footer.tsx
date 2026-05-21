@@ -3,7 +3,7 @@ import logo from "@/assets/logo-cayribe-partners.png";
 import awobaseLogo from "@/assets/logo-awobase.png";
 import europeSengageLogo from "@/assets/logo-europe-sengage-france.png";
 import { Linkedin, Instagram } from "lucide-react";
-import { ROUTES } from "@/config/navigation";
+import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_HREF } from "@/config/contact";
 
 const Footer = () => {
 	return (
@@ -11,8 +11,8 @@ const Footer = () => {
 			<div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-secondary to-primary" />
 
 			<div className="container mx-auto px-4">
-				<div className="grid md:grid-cols-4 gap-12 mb-16">
-					<div className="md:col-span-1">
+				<div className="grid gap-12 mb-16 md:grid-cols-3">
+					<div>
 						<Link
 							to="/"
 							className="inline-block"
@@ -31,112 +31,23 @@ const Footer = () => {
 
 					<div>
 						<h4 className="text-[hsl(0,0%,95%)] font-heading font-semibold mb-5 text-sm uppercase tracking-wider">
-							Plan du site
-						</h4>
-						<ul className="space-y-3 text-sm">
-							<li>
-								<Link
-									to="/"
-									className="text-[hsl(220,20%,65%)] hover:text-secondary transition-colors"
-								>
-									Accueil
-								</Link>
-							</li>
-							<li className="text-[hsl(220,24%,55%)] text-xs font-semibold uppercase tracking-wider pt-2">
-								Qui sommes-nous
-							</li>
-							<li>
-								<Link
-									to={ROUTES.quiSommesNous.presentation}
-									className="text-[hsl(220,20%,65%)] hover:text-secondary transition-colors pl-2"
-								>
-									Présentation du cabinet
-								</Link>
-							</li>
-							<li>
-								<Link
-									to={ROUTES.quiSommesNous.equipe}
-									className="text-[hsl(220,20%,65%)] hover:text-secondary transition-colors pl-2"
-								>
-									Équipe
-								</Link>
-							</li>
-							<li>
-								<Link
-									to={ROUTES.quiSommesNous.partenaires}
-									className="text-[hsl(220,20%,65%)] hover:text-secondary transition-colors pl-2"
-								>
-									Partenaires
-								</Link>
-							</li>
-							<li className="text-[hsl(220,24%,55%)] text-xs font-semibold uppercase tracking-wider pt-2">
-								Offres
-							</li>
-							<li>
-								<Link
-									to={ROUTES.offres.start}
-									className="text-[hsl(220,20%,65%)] hover:text-secondary transition-colors pl-2"
-								>
-									Start
-								</Link>
-							</li>
-							<li>
-								<Link
-									to={ROUTES.offres.rise}
-									className="text-[hsl(220,20%,65%)] hover:text-secondary transition-colors pl-2"
-								>
-									Rise
-								</Link>
-							</li>
-							<li>
-								<Link
-									to={ROUTES.offres.etudesPersonnalisees}
-									className="text-[hsl(220,20%,65%)] hover:text-secondary transition-colors pl-2"
-								>
-									Études personnalisées
-								</Link>
-							</li>
-							<li>
-								<Link
-									to={ROUTES.offres.rechercheFinancements}
-									className="text-[hsl(220,20%,65%)] hover:text-secondary transition-colors pl-2"
-								>
-									Recherche de financements
-								</Link>
-							</li>
-							<li className="text-[hsl(220,24%,55%)] text-xs font-semibold uppercase tracking-wider pt-2">
-								Contact
-							</li>
-							<li>
-								<Link
-									to={ROUTES.contact}
-									className="text-[hsl(220,20%,65%)] hover:text-secondary transition-colors pl-2"
-								>
-									Contact
-								</Link>
-							</li>
-						</ul>
-					</div>
-
-					<div>
-						<h4 className="text-[hsl(0,0%,95%)] font-heading font-semibold mb-5 text-sm uppercase tracking-wider">
 							Coordonnées
 						</h4>
 						<ul className="space-y-3 text-[hsl(220,18%,65%)] text-sm">
 							<li>
 								<a
-									href="mailto:contact@cayribepartners.com"
+									href={`mailto:${CONTACT_EMAIL}`}
 									className="hover:text-secondary transition-colors"
 								>
-									contact@cayribepartners.com
+									{CONTACT_EMAIL}
 								</a>
 							</li>
 							<li>
 								<a
-									href="tel:+596696000000"
+									href={CONTACT_PHONE_HREF}
 									className="hover:text-secondary transition-colors"
 								>
-									+596 696 00 00 00
+									{CONTACT_PHONE_DISPLAY}
 								</a>
 							</li>
 						</ul>

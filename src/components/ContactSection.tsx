@@ -5,27 +5,31 @@ import { useInView } from "@/hooks/useInView";
 import { Send, Phone, Mail } from "lucide-react";
 import { toast } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
-import { CONTACT_OBJET_OPTIONS, isContactObjetParam, type ContactObjetValue } from "@/config/contactForm";
+import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_HREF } from "@/config/contact";
+import { CONTACT_OBJET_OPTIONS, resolveContactObjetParam, type ContactObjetValue } from "@/config/contactForm";
 
 type ContactSectionProps = {
   /** Sur les pages contact dédiées : masque le bloc titre / accroche (déjà dans le PageHero) */
   hideIntro?: boolean;
+  /** Masque la colonne e-mail / téléphone (déjà affichée ailleurs sur la page) */
+  hideContactInfo?: boolean;
   sectionId?: string;
   className?: string;
-  /** Préremplit l’objet depuis l’URL (?objet=candidature, etc.) */
+  /** Préremplit la demande depuis l’URL (?objet=stage-cv, etc.) */
   syncObjetFromSearchParams?: boolean;
 };
 
 const emptyForm = {
   nom: "",
   email: "",
-  entreprise: "",
+  telephone: "",
   objet: "" as "" | ContactObjetValue,
   message: "",
 };
 
 const ContactSection = ({
   hideIntro = false,
+  hideContactInfo = false,
   sectionId = "contact",
   className,
   syncObjetFromSearchParams = true,
@@ -36,9 +40,9 @@ const ContactSection = ({
 
   useEffect(() => {
     if (!syncObjetFromSearchParams) return;
-    const raw = searchParams.get("objet");
-    if (isContactObjetParam(raw)) {
-      setForm((prev) => ({ ...prev, objet: raw }));
+    const resolved = resolveContactObjetParam(searchParams.get("objet"));
+    if (resolved) {
+      setForm((prev) => ({ ...prev, objet: resolved }));
     }
   }, [searchParams, syncObjetFromSearchParams]);
 
@@ -50,7 +54,7 @@ const ContactSection = ({
     const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
     if (nom.length < 2) {
-      toast.error("Merci d’indiquer votre nom (au moins 2 caractères).");
+      toast.error("Merci d’indiquer votre nom et prénom (au moins 2 caractères).");
       return;
     }
     if (!emailOk) {
@@ -58,7 +62,7 @@ const ContactSection = ({
       return;
     }
     if (!form.objet) {
-      toast.error("Merci de sélectionner un objet pour votre message.");
+      toast.error("Merci de sélectionner votre demande dans la liste.");
       return;
     }
     if (message.length < 15) {
@@ -67,12 +71,14 @@ const ContactSection = ({
     }
 
     toast.success("Message bien reçu. Nous vous recontactons sous 2 jours ouvrés.");
-    const fromUrl = searchParams.get("objet");
+    const fromUrl = resolveContactObjetParam(searchParams.get("objet"));
     setForm({
       ...emptyForm,
-      ...(isContactObjetParam(fromUrl) ? { objet: fromUrl } : {}),
+      ...(fromUrl ? { objet: fromUrl } : {}),
     });
   };
+
+  const formColSpan = hideContactInfo ? "lg:col-span-3" : "lg:col-span-2";
 
   return (
     <section
@@ -100,80 +106,83 @@ const ContactSection = ({
         ) : null}
 
         <div className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-3 lg:gap-12">
-          <div className="space-y-5 lg:space-y-6">
-            {[
-              { icon: Mail, label: "Email", value: "contact@cayribepartners.com" },
-              { icon: Phone, label: "Téléphone", value: "+596 696 00 00 00" },
-            ].map((item) => (
-              <div key={item.label} className="flex items-start gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-primary/10 bg-primary/10">
-                  <item.icon className="h-5 w-5 text-primary" aria-hidden />
-                </div>
-                <div>
-                  <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{item.label}</p>
-                  {item.label === "Email" ? (
+          {!hideContactInfo ? (
+            <div className="space-y-5 lg:space-y-6">
+              {[
+                { icon: Mail, label: "E-mail", value: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}` },
+                { icon: Phone, label: "Téléphone", value: CONTACT_PHONE_DISPLAY, href: CONTACT_PHONE_HREF },
+              ].map((item) => (
+                <div key={item.label} className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-primary/10 bg-primary/10">
+                    <item.icon className="h-5 w-5 text-primary" aria-hidden />
+                  </div>
+                  <div>
+                    <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{item.label}</p>
                     <a
-                      href="mailto:contact@cayribepartners.com"
+                      href={item.href}
                       className="text-sm font-medium text-foreground transition-colors hover:text-primary"
                     >
                       {item.value}
                     </a>
-                  ) : item.label === "Téléphone" ? (
-                    <a href="tel:+596696000000" className="text-sm font-medium text-foreground transition-colors hover:text-primary">
-                      {item.value}
-                    </a>
-                  ) : (
-                    <p className="text-sm font-medium text-foreground">{item.value}</p>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-4 lg:col-span-2 lg:space-y-5">
-            <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
-              {(
-                [
-                  { name: "nom" as const, label: "Nom", type: "text" as const },
-                  { name: "email" as const, label: "Email", type: "email" as const },
-                ] as const
-              ).map((field) => (
-                <div key={field.name}>
-                  <label htmlFor={`contact-${field.name}`} className="mb-1.5 block text-sm font-medium text-foreground">
-                    {field.label}
-                  </label>
-                  <input
-                    id={`contact-${field.name}`}
-                    type={field.type}
-                    name={field.name}
-                    autoComplete={field.name === "email" ? "email" : "name"}
-                    placeholder={field.name === "nom" ? "Nom et prénom" : "vous@entreprise.com"}
-                    value={form[field.name]}
-                    onChange={(e) => setForm({ ...form, [field.name]: e.target.value })}
-                    className="w-full rounded-lg border border-border bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 transition-all focus:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/25"
-                    required
-                  />
+                  </div>
                 </div>
               ))}
             </div>
+          ) : null}
+
+          <form onSubmit={handleSubmit} className={cn("space-y-4 lg:space-y-5", formColSpan)}>
+            <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
+              <div>
+                <label htmlFor="contact-nom" className="mb-1.5 block text-sm font-medium text-foreground">
+                  Nom &amp; prénom <span className="text-primary">*</span>
+                </label>
+                <input
+                  id="contact-nom"
+                  type="text"
+                  name="nom"
+                  autoComplete="name"
+                  placeholder="Nom et prénom"
+                  value={form.nom}
+                  onChange={(e) => setForm({ ...form, nom: e.target.value })}
+                  className="w-full rounded-lg border border-border bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 transition-all focus:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/25"
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="contact-email" className="mb-1.5 block text-sm font-medium text-foreground">
+                  Email
+                </label>
+                <input
+                  id="contact-email"
+                  type="email"
+                  name="email"
+                  autoComplete="email"
+                  placeholder="vous@entreprise.com"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  className="w-full rounded-lg border border-border bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 transition-all focus:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/25"
+                  required
+                />
+              </div>
+            </div>
             <div>
-              <label htmlFor="contact-entreprise" className="mb-1.5 block text-sm font-medium text-foreground">
-                Entreprise
+              <label htmlFor="contact-telephone" className="mb-1.5 block text-sm font-medium text-foreground">
+                N° de téléphone
               </label>
               <input
-                id="contact-entreprise"
-                type="text"
-                name="entreprise"
-                autoComplete="organization"
-                placeholder="Raison sociale (facultatif)"
-                value={form.entreprise}
-                onChange={(e) => setForm({ ...form, entreprise: e.target.value })}
+                id="contact-telephone"
+                type="tel"
+                name="telephone"
+                autoComplete="tel"
+                placeholder="0690 00 00 00"
+                value={form.telephone}
+                onChange={(e) => setForm({ ...form, telephone: e.target.value })}
                 className="w-full rounded-lg border border-border bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 transition-all focus:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/25"
               />
             </div>
             <div>
               <label htmlFor="contact-objet" className="mb-1.5 block text-sm font-medium text-foreground">
-                Objet du message
+                Votre demande
               </label>
               <select
                 id="contact-objet"
