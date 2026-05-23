@@ -18,6 +18,7 @@ const offresItems = [
 const quiSommesNousItems = [
 	{ label: "Présentation du cabinet", to: ROUTES.quiSommesNous.presentation },
 	{ label: "Équipe", to: ROUTES.quiSommesNous.equipe },
+	{ label: "Témoignages", to: ROUTES.temoignagesQuiSommesNous },
 ] as const;
 
 const mobileLink =
@@ -79,12 +80,6 @@ const Navbar = () => {
 
 	const pathContact = location.pathname.startsWith("/contact");
 	const pathQuiSommesNous = location.pathname.startsWith(ROUTES.quiSommesNousRoot);
-	const testimonialsTo = pathQuiSommesNous
-		? ROUTES.temoignagesQuiSommesNous
-		: ROUTES.temoignagesOffres;
-	const pathTemoignages =
-		location.hash === "#temoignages" &&
-		(location.pathname.startsWith(ROUTES.offresRoot) || pathQuiSommesNous);
 
 	const triggerClass = cn(
 		"inline-flex items-center gap-0.5 text-sm font-medium tracking-wide transition-colors rounded-md px-1 py-1 -mx-1",
@@ -139,7 +134,7 @@ const Navbar = () => {
 					<NavHoverDropdown
 						label="Qui sommes-nous"
 						triggerTo={ROUTES.quiSommesNousRoot}
-						triggerClassName={triggerClass}
+						triggerClassName={cn(triggerClass, pathQuiSommesNous && scrolled && "text-secondary")}
 						items={quiSommesNousItems}
 						contentClassName="min-w-[15rem]"
 					/>
@@ -151,13 +146,6 @@ const Navbar = () => {
 						items={offresItems}
 						contentClassName="min-w-[14rem]"
 					/>
-
-					<Link
-						to={testimonialsTo}
-						className={linkClass(pathTemoignages)}
-					>
-						Témoignages
-					</Link>
 
 					<Link
 						to={ROUTES.contact}
@@ -247,14 +235,6 @@ const Navbar = () => {
 							</ul>
 
 							<Separator className="my-1.5 bg-border/70" />
-
-							<Link
-								to={testimonialsTo}
-								className={mobileLink}
-								onClick={closeMobile}
-							>
-								Témoignages
-							</Link>
 
 							<Link
 								to={ROUTES.contact}
