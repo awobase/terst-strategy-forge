@@ -13,7 +13,7 @@ const EquipePage = () => {
     <SiteLayout>
       <PageMeta
         title="Équipe"
-        description="L’équipe CAYRIBE Partners : consultants en stratégie et performance, engagés aux côtés des dirigeants."
+        description="L’équipe CAYRIBE PARTNERS : consultants en stratégie et performance, engagés aux côtés des dirigeants."
       />
       <PageHero
         variant="editorial"
@@ -43,9 +43,9 @@ const EquipePage = () => {
         </p>
         <h2>Rejoindre le cabinet</h2>
         <p>
-          Les candidatures spontanées sont les bienvenues : consultez la page{" "}
-          <Link to={`${ROUTES.contact}?objet=stage-cv`}>Contact</Link> et sélectionnez « Je souhaite déposer un CV pour un stage »
-          pour les modalités.
+          Candidatures spontanées, embauches et consultants indépendants sont les bienvenues. Pour nous présenter
+          votre profil ou échanger sur une collaboration, consultez la page{" "}
+          <Link to={ROUTES.contact}>Contact</Link>.
         </p>
       </InteriorArticle>
       <section className="border-t border-border/50 bg-surface/40 py-12 md:py-16">

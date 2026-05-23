@@ -15,6 +15,8 @@ export const ROUTES = {
     equipe: "/qui-sommes-nous#equipe",
     partenaires: "/qui-sommes-nous#partenaires",
   },
+  temoignagesOffres: "/offres#temoignages",
+  temoignagesQuiSommesNous: "/qui-sommes-nous#temoignages",
   /** Formulaire unique (objet au choix dans le formulaire) */
   contact: "/contact",
 } as const;

@@ -24,7 +24,7 @@ const ContactPage = () => {
 		<SiteLayout>
 			<PageMeta
 				title="Contactez-nous"
-				description="Coordonnées et réseaux sociaux CAYRIBE Partners — cabinet de conseil en stratégie et performance."
+				description="Coordonnées et réseaux sociaux CAYRIBE PARTNERS — cabinet de conseil en stratégie et performance."
 			/>
 			<PageHero
 				variant="editorial"

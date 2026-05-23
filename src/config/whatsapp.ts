@@ -1,3 +1,5 @@
+import { BRAND_NAME } from "@/config/brand";
+
 /** Numéro WhatsApp sans + ni espaces — +590 690 41-5159 */
 export const WHATSAPP_PHONE_DIGITS = "590690415159";
 
@@ -9,5 +11,5 @@ export function whatsappUrlWithText(message: string): string {
 
 /** Prise de rendez-vous depuis la navigation */
 export const WHATSAPP_RENDEZ_VOUS_URL = whatsappUrlWithText(
-  "Bonjour, je souhaite prendre rendez-vous avec CAYRIBE Partners.",
+  `Bonjour, je souhaite prendre rendez-vous avec ${BRAND_NAME}.`,
 );

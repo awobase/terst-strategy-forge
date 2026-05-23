@@ -11,7 +11,7 @@ const OfferStartPage = () => {
     <SiteLayout>
       <PageMeta
         title="Offre Start"
-        description="Start : diagnostic stratégique et cadrage pour PME et directions projet. Livrables, durée indicative et premier plan d’actions avec CAYRIBE Partners."
+        description="Start : diagnostic stratégique et cadrage pour PME et directions projet. Livrables, durée indicative et premier plan d’actions avec CAYRIBE PARTNERS."
       />
       <PageHero
         variant="editorial"

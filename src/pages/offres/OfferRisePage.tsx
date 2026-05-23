@@ -11,7 +11,7 @@ const OfferRisePage = () => {
     <SiteLayout>
       <PageMeta
         title="Offre Rise"
-        description="Rise : accélération stratégique, mise à l’échelle et pilotage de la performance. CAYRIBE Partners accompagne l’exécution et les équipes dirigeantes."
+        description="Rise : accélération stratégique, mise à l’échelle et pilotage de la performance. CAYRIBE PARTNERS accompagne l’exécution et les équipes dirigeantes."
       />
       <PageHero
         variant="editorial"

@@ -1,11 +1,12 @@
 import aboutImg from "@/assets/about-dashboard.jpg";
 import SiteLayout from "@/components/SiteLayout";
 import PageMeta from "@/components/PageMeta";
-import InterventionTimeline from "@/components/InterventionTimeline";
+import { BRAND_NAME } from "@/config/brand";
 import TeamSection from "@/components/TeamSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
 import { useInView } from "@/hooks/useInView";
 import { cn } from "@/lib/utils";
-import { ArrowRight, CheckCircle2, Handshake, Target } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 const storyHighlights = [
   "Vision locale et standards internationaux",
@@ -16,12 +17,11 @@ const storyHighlights = [
 const metrics = [
   { label: "Indépendant", value: "Cabinet à taille humaine" },
   { label: "Zone", value: "Guadeloupe & Martinique" },
-  { label: "Focus", value: "Stratégie & exécution" },
+  { label: "Focus", value: "Stratégie & accompagnement" },
 ];
 
 const QuiSommesNousPage = () => {
   const story = useInView();
-  const scope = useInView();
 
   return (
     <SiteLayout>
@@ -116,7 +116,7 @@ const QuiSommesNousPage = () => {
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[hsl(222,42%,12%)/0.35] to-transparent" />
               </div>
               <div className="absolute -bottom-5 -left-2 rounded-2xl border border-border/60 bg-card p-5 shadow-lg md:-left-5">
-                <p className="font-heading text-3xl font-bold text-foreground">15+</p>
+                <p className="font-heading text-3xl font-bold text-foreground">+15</p>
                 <p className="mt-1 text-sm text-muted-foreground">années d&apos;expérience</p>
               </div>
             </div>
@@ -129,7 +129,7 @@ const QuiSommesNousPage = () => {
                 </h2>
               </div>
               <p className="text-lg leading-relaxed text-muted-foreground">
-                CAYRIBE Partners est un cabinet indépendant : nous travaillons aux côtés des équipes dirigeantes pour
+                {BRAND_NAME} est un cabinet indépendant : nous travaillons aux côtés des équipes dirigeantes pour
                 structurer les choix stratégiques, aligner les organisations et accélérer la mise en œuvre.
               </p>
               <div className="grid gap-3 sm:grid-cols-1">
@@ -150,7 +150,7 @@ const QuiSommesNousPage = () => {
             <article className="rounded-2xl border border-border/55 bg-[hsl(220,22%,97%)] p-6 md:p-8">
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">Notre histoire</p>
               <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                Le cabinet <strong className="font-semibold text-foreground">CAYRIBE PARTNERS</strong> est le fruit
+                Le cabinet <strong className="font-semibold text-foreground">{BRAND_NAME}</strong> est le fruit
                 d&apos;une réflexion menée depuis plus de 15 ans par des consultants indépendants, associés ou salariés,
                 issus de divers domaines en lien avec le développement d&apos;entreprises aux Antilles — une marque de
                 conseil caribéenne, totalement indépendante.
@@ -168,49 +168,9 @@ const QuiSommesNousPage = () => {
         </div>
       </section>
 
-      <section className="border-b border-border/40 bg-[hsl(220,22%,97%)] py-16 md:py-24">
-        <div
-          ref={scope.ref}
-          className={cn(
-            "container mx-auto max-w-5xl px-4 transition-all duration-700 sm:px-6 lg:px-8",
-            scope.inView ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
-          )}
-        >
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="eyebrow text-primary">Périmètre d&apos;intervention</p>
-            <h2 className="mt-2 font-heading text-2xl font-bold tracking-tight text-foreground md:text-3xl">
-              Du projet à sa mise en œuvre
-            </h2>
-          </div>
-
-          <div className="mt-10 rounded-2xl border border-border/40 bg-card/50 p-4 shadow-sm sm:p-6 md:mt-12 md:p-8">
-            <InterventionTimeline />
-          </div>
-
-          <div className="mx-auto mt-12 grid max-w-4xl gap-6 md:mt-14 md:grid-cols-2">
-            <div className="flex gap-4 rounded-2xl border border-border/50 bg-card p-6 shadow-sm">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                <Target className="h-5 w-5" aria-hidden />
-              </div>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                Le cabinet intervient sur <strong className="text-foreground">toutes les étapes</strong> du montage de
-                projet et s&apos;adresse aux dirigeants comme aux porteurs de projet.
-              </p>
-            </div>
-            <div className="flex gap-4 rounded-2xl border border-border/50 bg-card p-6 shadow-sm">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                <Handshake className="h-5 w-5" aria-hidden />
-              </div>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                En pratique, nous mobilisons si nécessaire un réseau de partenaires spécialisés (avocats, consultants,
-                experts techniques) pour faciliter et accélérer la mise en œuvre.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <TeamSection />
+
+      <TestimonialsSection />
     </SiteLayout>
   );
 };

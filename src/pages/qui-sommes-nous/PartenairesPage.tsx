@@ -12,7 +12,7 @@ const PartenairesPage = () => {
     <SiteLayout>
       <PageMeta
         title="Partenaires"
-        description="Ils nous font confiance : références CAYRIBE Partners. Logos et témoignages actualisés au fil des missions, dans le respect de la confidentialité."
+        description="Ils nous font confiance : références CAYRIBE PARTNERS. Logos et témoignages actualisés au fil des missions, dans le respect de la confidentialité."
       />
       <PageHero
         variant="editorial"

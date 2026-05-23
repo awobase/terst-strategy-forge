@@ -3,14 +3,18 @@
 import melodyPhoto from "@/assets/team/melody-guerande.png";
 import youriPhoto from "@/assets/team/youri.png";
 
+export type TeamMemberTheme = "blue" | "orange";
+
 export type TeamMember = {
   id: string;
-  name: string;
-  role: string;
+  firstName: string;
+  lastName: string;
+  title: string;
+  expertise: string;
   bio: string;
+  theme: TeamMemberTheme;
   email?: string;
   linkedin?: string;
-  /** Import statique, ex. import photo from "@/assets/team/youri.jpg" */
   photo?: string;
   initials: string;
 };
@@ -21,9 +25,12 @@ export const TEAM_INTRO =
 export const TEAM_MEMBERS: TeamMember[] = [
   {
     id: "youri",
-    name: "Youri",
-    role: "Associé — stratégie & développement de projets",
-    bio: "Youri accompagne les porteurs de projets et les dirigeants sur la structuration, l'étude de faisabilité et le montage financier, avec une connaissance fine des réalités entrepreneuriales aux Antilles.",
+    firstName: "Youri",
+    lastName: "AUGIAC",
+    title: "Consultant senior",
+    expertise: "Stratégie & pilotage de projet",
+    bio: "Stratégie & pilotage de projet : accompagnement des porteurs de projets et des dirigeants sur la structuration, l’étude de faisabilité et le montage financier, avec une connaissance fine des réalités entrepreneuriales aux Antilles.",
+    theme: "blue",
     email: "contact@cayribepartners.com",
     linkedin: "https://www.linkedin.com",
     photo: youriPhoto,
@@ -31,9 +38,12 @@ export const TEAM_MEMBERS: TeamMember[] = [
   },
   {
     id: "melody",
-    name: "Mélody Guérande",
-    role: "Associée — conseil & pilotage de missions",
-    bio: "Mélody intervient sur l'organisation des missions, l'analyse marketing et le suivi opérationnel, pour garantir des livrables actionnables et un accompagnement exigeant jusqu'aux premiers résultats.",
+    firstName: "Mélody",
+    lastName: "GUERANDE",
+    title: "Consultante confirmée",
+    expertise: "Analyses et Dev de Projet",
+    bio: "Analyses et développement de projet : organisation des missions, analyse marketing et suivi opérationnel pour des livrables actionnables et un accompagnement exigeant jusqu’aux premiers résultats.",
+    theme: "orange",
     email: "contact@cayribepartners.com",
     linkedin: "https://www.linkedin.com",
     photo: melodyPhoto,

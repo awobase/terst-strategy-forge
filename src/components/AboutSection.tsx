@@ -1,6 +1,7 @@
 import aboutImg from "@/assets/about-dashboard.jpg";
 import { useInView } from "@/hooks/useInView";
 import { CheckCircle } from "lucide-react";
+import { BRAND_NAME } from "@/config/brand";
 import { cn } from "@/lib/utils";
 
 const highlights = [
@@ -74,7 +75,7 @@ const AboutSection = ({ variant = "default", seamless = false }: AboutSectionPro
                 : "-bottom-6 -right-6 rounded-xl border-secondary/20 bg-secondary p-5 text-secondary-foreground shadow-lg",
             )}
           >
-            <p className="font-heading text-3xl font-bold tracking-tight text-foreground">15+</p>
+            <p className="font-heading text-3xl font-bold tracking-tight text-foreground">+15</p>
             <p className={cn("text-sm font-medium", isPresentation ? "text-muted-foreground" : "opacity-95")}>
               années d&apos;expérience
             </p>
@@ -108,12 +109,12 @@ const AboutSection = ({ variant = "default", seamless = false }: AboutSectionPro
             )}
           >
             <p className={cn(isSeamless && "text-foreground/95")}>
-              CAYRIBE PARTNERS est un cabinet indépendant basé en Guadeloupe, qui accompagne les porteurs de projets,
+              {BRAND_NAME} est un cabinet indépendant basé en Guadeloupe, qui accompagne les porteurs de projets,
               dirigeants de TPE, PME et associations dans leurs décisions stratégiques, la structuration de leur
               activité et le développement de leurs projets.
             </p>
             <p>
-              Nous intervenons comme un partenaire de confiance aux côtés des dirigeants : clarifier les priorités,
+              Nous intervenons comme un partenaire de confiance des dirigeants : clarifier les priorités,
               sécuriser les choix et transformer les ambitions en actions concrètes et réalisables.
             </p>
             <p>

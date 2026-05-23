@@ -18,7 +18,7 @@ const NotFound = () => {
       />
       <PageMeta
         title="Page introuvable"
-        description="La page demandée n’existe pas sur le site CAYRIBE Partners. Retournez à l’accueil ou utilisez le menu."
+        description="La page demandée n’existe pas sur le site CAYRIBE PARTNERS. Retournez à l’accueil ou utilisez le menu."
       />
       <div className="relative max-w-md rounded-2xl border border-border/60 bg-background/90 px-8 py-10 text-center shadow-sm backdrop-blur-sm md:px-10 md:py-12">
         <p className="eyebrow mb-2 text-primary/90">Erreur</p>

@@ -53,7 +53,7 @@ const HeroSection = () => {
           </p>
 
           <p className="animate-fade-up animation-delay-400 text-primary-foreground/75 text-lg md:text-xl leading-relaxed mb-12 max-w-2xl font-light md:font-normal">
-            De l&apos;idée au changement d&apos;échelle, nous accompagnons les porteurs de projets et dirigeants
+            De l&apos;idée au changement d&apos;échelle, nous accompagnons les porteurs de projets, dirigeants
             d&apos;entreprises et d&apos;associations en Guadeloupe et en Martinique.
           </p>
 

@@ -27,7 +27,10 @@ const TestimonialsSection = () => {
   const t = testimonials[current];
 
   return (
-    <section className="py-24 md:py-32 bg-background relative overflow-hidden">
+    <section
+      id="temoignages"
+      className="scroll-mt-28 border-t border-border/40 py-24 md:py-32 bg-background relative overflow-hidden"
+    >
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/[0.02] rounded-full -translate-y-1/2" />
 
       <div className="container mx-auto px-4 relative z-10">

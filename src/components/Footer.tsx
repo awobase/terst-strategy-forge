@@ -3,6 +3,7 @@ import logo from "@/assets/logo-cayribe-partners.png";
 import awobaseLogo from "@/assets/logo-awobase.png";
 import europeSengageLogo from "@/assets/logo-europe-sengage-france.png";
 import { Linkedin, Instagram } from "lucide-react";
+import { BRAND_NAME } from "@/config/brand";
 import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_HREF } from "@/config/contact";
 
 const Footer = () => {
@@ -19,7 +20,7 @@ const Footer = () => {
 						>
 							<img
 								src={logo}
-								alt="CAYRIBE Partners"
+								alt={BRAND_NAME}
 								className="h-16 mb-5 brightness-0 invert"
 							/>
 						</Link>
@@ -82,7 +83,7 @@ const Footer = () => {
 
 				<div className="border-t border-[hsl(220,20%,20%)] pt-8 flex flex-col items-stretch gap-6 sm:flex-row sm:items-center sm:justify-between">
 					<p className="text-[hsl(220,16%,48%)] text-sm text-center sm:text-left">
-						© 2026 CAYRIBE Partners. Tous droits réservés.
+						© 2026 {BRAND_NAME}. Tous droits réservés.
 					</p>
 					<div className="flex flex-wrap items-center justify-center gap-5 sm:justify-end">
 						<img

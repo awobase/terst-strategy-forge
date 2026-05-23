@@ -12,7 +12,7 @@ const PresentationPage = () => {
     <SiteLayout>
       <PageMeta
         title="Présentation du cabinet"
-        description="CAYRIBE Partners : cabinet de conseil en stratégie et performance. Méthodes, valeurs et accompagnement des dirigeants."
+        description="CAYRIBE PARTNERS : cabinet de conseil en stratégie et performance. Méthodes, valeurs et accompagnement des dirigeants."
       />
       <PageHero
         variant="editorial"

@@ -34,7 +34,7 @@ const MethodologySection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 md:mb-20 max-w-2xl mx-auto">
           <p className="eyebrow">Méthodologie</p>
-          <h2 className="section-title mb-4">Une approche structurante et pragmatique</h2>
+          <h2 className="section-title mb-4">Notre méthodologie en 4 étapes</h2>
           <p className="section-lead mx-auto">
             Étapes clés afin de garantir un accompagnement à la hauteur de vos attentes
           </p>

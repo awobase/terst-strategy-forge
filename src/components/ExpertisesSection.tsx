@@ -11,7 +11,7 @@ const expertises = [
   {
     icon: CircleDollarSign,
     title: "Ingénierie financière et recherche de financements",
-    desc: "Prévisionnels financiers, prêts bancaires, subventions, appels à projets, levée de fonds… Structurer votre modèle économique et mobiliser les financements publics et privés nécessaires à la réussite de votre projet.",
+    desc: "Prévisionnels financiers, prêts bancaires, subventions, crédit d'impôt, aides régionales et européennes, appels à projets publics, levées de fonds… Structurer votre modèle économique et mobiliser les financements publics et privés nécessaires à la réussite de votre projet.",
     color: "from-secondary to-secondary/80",
   },
   {
@@ -36,16 +36,12 @@ const ExpertisesSection = () => {
       <div className="absolute bottom-0 left-0 w-72 h-72 bg-secondary/[0.04] rounded-full translate-y-1/2 -translate-x-1/2" />
 
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16 md:mb-20 max-w-3xl mx-auto space-y-5">
+        <div className="mb-16 md:mb-20 mx-auto max-w-3xl text-center">
           <p className="eyebrow">Nos expertises</p>
-          <h2 className="section-title">
-            Quatre <span className="text-gradient-accent">domaines d&apos;intervention</span>
-          </h2>
-          <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
-            Afin de répondre aux enjeux rencontrés par les entreprises et projets aux Antilles : stratégie de
+          <p className="mt-5 text-lg font-medium leading-relaxed text-foreground md:text-xl md:leading-relaxed">
+            Afin de répondre aux enjeux rencontrés par les entreprises et projets aux Antilles&nbsp;: stratégie de
             développement, ingénierie financière, structuration de projets innovants, structuration de filières.
           </p>
-          <p className="text-foreground font-medium text-sm md:text-base">Voici les quatre domaines d&apos;intervention :</p>
         </div>
         <div ref={ref} className="grid sm:grid-cols-2 gap-6 lg:gap-8 max-w-6xl mx-auto">
           {expertises.map((item, i) => (

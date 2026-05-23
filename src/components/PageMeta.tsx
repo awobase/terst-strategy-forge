@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 
-const SITE_NAME = "CAYRIBE Partners";
+import { BRAND_NAME } from "@/config/brand";
+
+const SITE_NAME = BRAND_NAME;
 
 const SITE_ORIGIN = "https://www.cayribepartners.com";
 

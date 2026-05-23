@@ -22,6 +22,7 @@ type ContactSectionProps = {
 const emptyForm = {
   nom: "",
   email: "",
+  entreprise: "",
   telephone: "",
   objet: "" as "" | ContactObjetValue,
   message: "",
@@ -150,7 +151,7 @@ const ContactSection = ({
               </div>
               <div>
                 <label htmlFor="contact-email" className="mb-1.5 block text-sm font-medium text-foreground">
-                  Email
+                  E-mail <span className="text-primary">*</span>
                 </label>
                 <input
                   id="contact-email"
@@ -166,8 +167,23 @@ const ContactSection = ({
               </div>
             </div>
             <div>
+              <label htmlFor="contact-entreprise" className="mb-1.5 block text-sm font-medium text-foreground">
+                Société <span className="font-normal text-muted-foreground">(facultatif)</span>
+              </label>
+              <input
+                id="contact-entreprise"
+                type="text"
+                name="entreprise"
+                autoComplete="organization"
+                placeholder="Raison sociale"
+                value={form.entreprise}
+                onChange={(e) => setForm({ ...form, entreprise: e.target.value })}
+                className="w-full rounded-lg border border-border bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 transition-all focus:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/25"
+              />
+            </div>
+            <div>
               <label htmlFor="contact-telephone" className="mb-1.5 block text-sm font-medium text-foreground">
-                N° de téléphone
+                N° de téléphone <span className="font-normal text-muted-foreground">(facultatif)</span>
               </label>
               <input
                 id="contact-telephone"
@@ -182,7 +198,7 @@ const ContactSection = ({
             </div>
             <div>
               <label htmlFor="contact-objet" className="mb-1.5 block text-sm font-medium text-foreground">
-                Votre demande
+                Votre demande <span className="text-primary">*</span>
               </label>
               <select
                 id="contact-objet"
@@ -206,7 +222,7 @@ const ContactSection = ({
             </div>
             <div>
               <label htmlFor="contact-message" className="mb-1.5 block text-sm font-medium text-foreground">
-                Message
+                Message <span className="text-primary">*</span>
               </label>
               <textarea
                 id="contact-message"
@@ -221,8 +237,8 @@ const ContactSection = ({
               />
             </div>
             <p className="text-xs text-muted-foreground">
-              En envoyant ce formulaire, vous acceptez d&apos;être recontacté dans le cadre de votre demande. Données traitées
-              de manière confidentielle.
+              <span className="text-primary">*</span> Champs obligatoires. En envoyant ce formulaire, vous acceptez d&apos;être
+              recontacté dans le cadre de votre demande. Données traitées de manière confidentielle.
             </p>
             <button
               type="submit"

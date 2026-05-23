@@ -1,9 +1,10 @@
 import { useInView } from "@/hooks/useInView";
 import logoCayribe from "@/assets/logo-cayribe-partners.png";
+import { BRAND_NAME } from "@/config/brand";
 
 /** Logos « Ils nous font confiance » — ajouter des `{ src, alt }` ici */
 const partnerLogos: { src: string; alt: string }[] = [
-  { src: logoCayribe, alt: "CAYRIBE Partners" },
+  { src: logoCayribe, alt: BRAND_NAME },
 ];
 
 /** Répète la liste jusqu’à au moins `min` cartes (pour un défilement lisible avec peu de marques) */

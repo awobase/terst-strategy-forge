@@ -12,7 +12,7 @@ const OfferPersonnalisePage = () => {
     <SiteLayout>
       <PageMeta
         title="Recherche de financements"
-        description="Recherche et montage de financements : cartographie des leviers, structuration de dossier et préparation des échanges avec CAYRIBE Partners."
+        description="Recherche et montage de financements : cartographie des leviers, structuration de dossier et préparation des échanges avec CAYRIBE PARTNERS."
       />
       <PageHero
         variant="editorial"
@@ -34,7 +34,10 @@ const OfferPersonnalisePage = () => {
         <ul>
           <li>Dirigeants et directions financières préparant une levée, un refinancement ou un investissement lourd.</li>
           <li>Structures porteuses de projets d&apos;investissement ou d&apos;intérêt général.</li>
-          <li>Projets cumulant plusieurs sources (subvention, prêt, fonds propres, garanties).</li>
+          <li>
+            Projets cumulant plusieurs sources (subventions, crédit d&apos;impôt, aides régionales et européennes,
+            appels à projets publics, levées de fonds, prêts, fonds propres, garanties).
+          </li>
         </ul>
         <h2>Ce que vous obtenez</h2>
         <ul>

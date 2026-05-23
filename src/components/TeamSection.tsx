@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Users } from "lucide-react";
 import TeamFlipCard from "@/components/TeamFlipCard";
+import { BRAND_NAME } from "@/config/brand";
 import { ROUTES } from "@/config/navigation";
 import { TEAM_INTRO, TEAM_MEMBERS } from "@/config/team";
 import { useInView } from "@/hooks/useInView";
@@ -41,13 +42,13 @@ const TeamSection = () => {
                 <Users className="h-5 w-5" aria-hidden />
               </div>
               <p className="text-base leading-relaxed text-muted-foreground">
-                Notre équipe salariée dispose, lorsque la mission le nécessite, d&apos;un réseau caribéen de consultants
-                indépendants ainsi que de multiples expertises.
+                Lorsque la mission le nécessite, nous mobilisons un réseau caribéen de consultants indépendants et
+                d&apos;expertises complémentaires&nbsp;: avocats, agences de communication, experts-comptables, etc.
               </p>
             </div>
             <div className="rounded-2xl border border-primary/15 bg-gradient-to-br from-primary/[0.06] to-transparent p-6 md:p-8">
               <p className="text-base leading-relaxed text-foreground">
-                La signature <strong className="font-semibold">CAYRIBE PARTNERS</strong> est la garantie d&apos;un
+                La signature <strong className="font-semibold">{BRAND_NAME}</strong> est la garantie d&apos;un
                 travail de qualité, conduit avec objectivité et professionnalisme. C&apos;est aussi la garantie d&apos;un
                 engagement sans faille — l&apos;aboutissement d&apos;une mission conduite par des consultants et experts
                 reconnus dans leur domaine.
@@ -58,11 +59,12 @@ const TeamSection = () => {
           <div className="mx-auto mt-10 max-w-2xl rounded-2xl border border-border/60 bg-[hsl(220,22%,97%)] px-6 py-8 text-center md:mt-12 md:px-10 md:py-10">
             <h3 className="font-heading text-xl font-bold text-foreground">Rejoindre le cabinet</h3>
             <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-              Les candidatures spontanées sont les bienvenues : consultez la page{" "}
-              <Link to={`${ROUTES.contact}?objet=stage-cv`} className="font-semibold text-primary hover:underline">
+              Candidatures spontanées, embauches et consultants indépendants sont les bienvenues. Pour nous présenter
+              votre profil ou échanger sur une collaboration, rendez-vous sur la page{" "}
+              <Link to={ROUTES.contact} className="font-semibold text-primary hover:underline">
                 Contact
-              </Link>{" "}
-              et sélectionnez « Je souhaite déposer un CV pour un stage » pour les modalités.
+              </Link>
+              .
             </p>
           </div>
         </div>

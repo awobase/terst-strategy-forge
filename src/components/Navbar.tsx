@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, type ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "@/assets/logo-cayribe-partners.png";
 import { Menu, X } from "lucide-react";
+import { BRAND_NAME } from "@/config/brand";
 import { ROUTES } from "@/config/navigation";
 import NavHoverDropdown from "@/components/NavHoverDropdown";
 import { Separator } from "@/components/ui/separator";
@@ -77,6 +78,13 @@ const Navbar = () => {
 		);
 
 	const pathContact = location.pathname.startsWith("/contact");
+	const pathQuiSommesNous = location.pathname.startsWith(ROUTES.quiSommesNousRoot);
+	const testimonialsTo = pathQuiSommesNous
+		? ROUTES.temoignagesQuiSommesNous
+		: ROUTES.temoignagesOffres;
+	const pathTemoignages =
+		location.hash === "#temoignages" &&
+		(location.pathname.startsWith(ROUTES.offresRoot) || pathQuiSommesNous);
 
 	const triggerClass = cn(
 		"inline-flex items-center gap-0.5 text-sm font-medium tracking-wide transition-colors rounded-md px-1 py-1 -mx-1",
@@ -111,7 +119,7 @@ const Navbar = () => {
 				>
 					<img
 						src={logo}
-						alt="CAYRIBE Partners"
+						alt={BRAND_NAME}
 						className={cn(
 							"h-11 w-auto transition-all duration-300 sm:h-14",
 							"max-lg:opacity-100",
@@ -143,6 +151,13 @@ const Navbar = () => {
 						items={offresItems}
 						contentClassName="min-w-[14rem]"
 					/>
+
+					<Link
+						to={testimonialsTo}
+						className={linkClass(pathTemoignages)}
+					>
+						Témoignages
+					</Link>
 
 					<Link
 						to={ROUTES.contact}
@@ -232,6 +247,14 @@ const Navbar = () => {
 							</ul>
 
 							<Separator className="my-1.5 bg-border/70" />
+
+							<Link
+								to={testimonialsTo}
+								className={mobileLink}
+								onClick={closeMobile}
+							>
+								Témoignages
+							</Link>
 
 							<Link
 								to={ROUTES.contact}

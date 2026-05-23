@@ -12,7 +12,7 @@ const OfferJeunesPage = () => {
     <SiteLayout>
       <PageMeta
         title="Études personnalisées"
-        description="Études et analyses sur mesure : notes de cadrage, benchmarks et synthèses décisionnelles avec CAYRIBE Partners."
+        description="Études et analyses sur mesure : notes de cadrage, benchmarks et synthèses décisionnelles avec CAYRIBE PARTNERS."
       />
       <PageHero
         variant="editorial"

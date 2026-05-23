@@ -1,6 +1,6 @@
 import { useInView } from "@/hooks/useInView";
 import { useCountUp } from "@/hooks/useCountUp";
-import { Briefcase, Clock, MapPin, Sparkles } from "lucide-react";
+import { Briefcase, Clock, Landmark, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 type StatConfig = {
@@ -17,16 +17,21 @@ type StatConfig = {
 };
 
 const stats: StatConfig[] = [
-  { target: 200, prefix: "+ de ", suffix: "", label: "projets accompagnés", icon: Briefcase },
-  { target: 15, suffix: "", label: "ans d'expérience", icon: Clock },
+  {
+    target: 500,
+    prefix: "+ de ",
+    suffix: "",
+    label: "projets accompagnés en Guadeloupe et en Martinique",
+    icon: Briefcase,
+  },
   {
     target: 0,
-    suffix: "",
-    label: "",
-    icon: MapPin,
-    displayLines: ["Intervention en", "Guadeloupe et Martinique"],
+    displayText: "+15",
+    label: "années d'expérience",
+    icon: Clock,
   },
-  { target: 20, prefix: "+ ", suffix: "", label: "entreprises innovantes accompagnées", icon: Sparkles },
+  { target: 20, prefix: "+ ", suffix: "", label: "collectivités publiques accompagnées", icon: Landmark },
+  { target: 10, prefix: "+ ", suffix: "", label: "collaborateurs salariés et associés", icon: Users },
 ];
 
 function StatCard({ stat, index, active }: { stat: StatConfig; index: number; active: boolean }) {
@@ -58,17 +63,11 @@ function StatCard({ stat, index, active }: { stat: StatConfig; index: number; ac
           ))}
         </p>
       ) : (
-        <p
-          className={`font-heading font-bold text-primary-foreground ${
-            stat.displayText
-              ? "text-[1.05rem] leading-snug tracking-tight text-balance sm:text-lg md:text-xl lg:text-2xl"
-              : "mb-2 text-4xl tabular-nums md:text-5xl"
-          }`}
-        >
+        <p className="mb-2 font-heading text-4xl font-bold tabular-nums text-primary-foreground md:text-5xl">
           {main}
         </p>
       )}
-      {stat.label ? <p className="text-primary-foreground/60 text-sm">{stat.label}</p> : null}
+      {stat.label ? <p className="text-sm text-primary-foreground/60">{stat.label}</p> : null}
     </div>
   );
 }
