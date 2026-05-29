@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import logo from "@/assets/logo-cayribe-partners.png";
 import { Menu, X } from "lucide-react";
 import { BRAND_NAME } from "@/config/brand";
+import { SHOW_TESTIMONIALS } from "@/config/features";
 import { ROUTES } from "@/config/navigation";
 import NavHoverDropdown from "@/components/NavHoverDropdown";
 import { Separator } from "@/components/ui/separator";
@@ -13,13 +14,16 @@ const offresItems = [
 	{ label: "Rise", to: ROUTES.offres.rise },
 	{ label: "Études personnalisées", to: ROUTES.offres.etudesPersonnalisees },
 	{ label: "Recherche de financements", to: ROUTES.offres.rechercheFinancements },
+	{ label: "Interventions du cabinet", to: ROUTES.offres.interventionsCabinet },
 ] as const;
 
 const quiSommesNousItems = [
 	{ label: "Présentation du cabinet", to: ROUTES.quiSommesNous.presentation },
 	{ label: "Équipe", to: ROUTES.quiSommesNous.equipe },
-	{ label: "Témoignages", to: ROUTES.temoignagesQuiSommesNous },
-] as const;
+	...(SHOW_TESTIMONIALS
+		? [{ label: "Témoignages" as const, to: ROUTES.temoignagesQuiSommesNous }]
+		: []),
+];
 
 const mobileLink =
 	"block rounded-lg px-3 py-2.5 text-[15px] font-medium text-foreground/95 transition-colors hover:bg-muted/80 active:bg-muted";
@@ -144,7 +148,7 @@ const Navbar = () => {
 						triggerTo={ROUTES.offresRoot}
 						triggerClassName={triggerClass}
 						items={offresItems}
-						contentClassName="min-w-[14rem]"
+						contentClassName="min-w-[16rem]"
 					/>
 
 					<Link

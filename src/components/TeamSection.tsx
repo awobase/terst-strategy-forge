@@ -27,7 +27,7 @@ const TeamSection = () => {
           </div>
 
           <h3 className="mx-auto mt-14 max-w-2xl text-center font-heading text-xl font-semibold text-foreground md:mt-16 md:text-2xl">
-            Rencontrez nos dirigeants
+            Rencontrez notre équipe
           </h3>
 
           <div className="mx-auto mt-10 flex max-w-2xl flex-col items-center justify-center gap-12 sm:flex-row sm:items-stretch sm:gap-10 md:mt-12 md:max-w-3xl md:gap-16">
@@ -59,8 +59,9 @@ const TeamSection = () => {
           <div className="mx-auto mt-10 max-w-2xl rounded-2xl border border-border/60 bg-[hsl(220,22%,97%)] px-6 py-8 text-center md:mt-12 md:px-10 md:py-10">
             <h3 className="font-heading text-xl font-bold text-foreground">Rejoindre le cabinet</h3>
             <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-              Candidatures spontanées, embauches et consultants indépendants sont les bienvenues. Pour nous présenter
-              votre profil ou échanger sur une collaboration, rendez-vous sur la page{" "}
+              Consultants indépendants et candidatures spontanées pour les stages sont les bienvenues. Pour nous
+              présenter votre profil, votre candidature de stage ou échanger sur une collaboration, rendez-vous sur
+              la page{" "}
               <Link to={ROUTES.contact} className="font-semibold text-primary hover:underline">
                 Contact
               </Link>

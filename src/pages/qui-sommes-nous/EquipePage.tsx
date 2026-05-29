@@ -43,8 +43,8 @@ const EquipePage = () => {
         </p>
         <h2>Rejoindre le cabinet</h2>
         <p>
-          Candidatures spontanées, embauches et consultants indépendants sont les bienvenues. Pour nous présenter
-          votre profil ou échanger sur une collaboration, consultez la page{" "}
+          Consultants indépendants et candidatures spontanées pour les stages sont les bienvenues. Pour nous
+          présenter votre profil, votre candidature de stage ou échanger sur une collaboration, consultez la page{" "}
           <Link to={ROUTES.contact}>Contact</Link>.
         </p>
       </InteriorArticle>

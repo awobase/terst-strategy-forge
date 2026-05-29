@@ -3,6 +3,7 @@ import SiteLayout from "@/components/SiteLayout";
 import PageMeta from "@/components/PageMeta";
 import { BRAND_NAME } from "@/config/brand";
 import TeamSection from "@/components/TeamSection";
+import { SHOW_TESTIMONIALS } from "@/config/features";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import { useInView } from "@/hooks/useInView";
 import { cn } from "@/lib/utils";
@@ -170,7 +171,7 @@ const QuiSommesNousPage = () => {
 
       <TeamSection />
 
-      <TestimonialsSection />
+      {SHOW_TESTIMONIALS ? <TestimonialsSection /> : null}
     </SiteLayout>
   );
 };

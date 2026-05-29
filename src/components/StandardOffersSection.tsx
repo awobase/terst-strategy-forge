@@ -22,12 +22,13 @@ const OFFERS: StandardOffer[] = [
     title: "Start",
     lead: "L’offre START s’adresse aux porteurs de projets souhaitant transformer une idée en projet viable, structuré et prêt à être lancé. Pensée comme un véritable parcours d’amorçage, elle permet de poser des bases solides avant la création ou le démarrage d’activité.",
     keyPoints: [
-      "15 crédits d’accompagnement",
-      "Engagement sur une période de 6 mois",
-      "Accompagnement dédié aux projets en phase de création ou de structuration",
+      "15 crédits*",
+      "Engagement sur 6 mois",
+      "Dédié aux projets en phase de création ou de structuration",
     ],
     price: "150 € TTC / mois",
     interventions: [
+      "Sessions de brainstorming (intelligence collective)",
       "Structuration du projet",
       "Analyse de marché et étude de faisabilité",
       "Élaboration du business plan",
@@ -43,9 +44,9 @@ const OFFERS: StandardOffer[] = [
     title: "Rise",
     lead: "L’offre RISE est destinée aux entreprises et associations souhaitant franchir un cap : croissance, innovation, optimisation ou repositionnement stratégique. Cet accompagnement s’inscrit dans une logique de développement durable et maîtrisé de l’activité.",
     keyPoints: [
-      "40 crédits d’accompagnement",
-      "Abonnement sur une période de 12 mois",
-      "Accompagnement dédié aux entreprises et associations en développement",
+      "40 crédits*",
+      "Engagement sur 12 mois",
+      "Dédié aux entreprises et associations en développement",
     ],
     price: "190 € TTC / mois",
     interventions: [
@@ -56,7 +57,7 @@ const OFFERS: StandardOffer[] = [
       "Relations public-privé et développement partenarial",
     ],
     outcomeStatement:
-      "Une entreprise mieux organisée, stratégiquement positionnée et dotée d’outils concrets pour accélérer durablement sa croissance.",
+      "Une entreprise mieux organisée et un projet disposant d’outils concrets afin de soutenir durablement sa croissance.",
     theme: "blue",
     icon: TrendingUp,
   },
@@ -67,11 +68,15 @@ const cardTheme = {
     shell: "bg-secondary text-secondary-foreground border-secondary shadow-lg shadow-secondary/25",
     interventionBorder: "border-secondary/50",
     outcome: "border-white/25 bg-white/10",
+    bullet: "bg-secondary",
+    price: "text-black",
   },
   blue: {
     shell: "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/25",
     interventionBorder: "border-white/30",
     outcome: "border-white/25 bg-white/10",
+    bullet: "bg-primary",
+    price: "text-white",
   },
 } as const;
 
@@ -91,32 +96,39 @@ function OfferCard({ offer }: { offer: StandardOffer }) {
 
       <p className="mt-6 text-center text-sm leading-relaxed opacity-95 md:text-base">{offer.lead}</p>
 
-      <div className="mt-6 rounded-xl bg-white p-5 text-left text-foreground shadow-inner md:p-6">
-        <ul className="space-y-2.5 text-sm leading-relaxed md:text-[0.95rem]">
+      <div className="mt-6 rounded-xl bg-white p-5 text-foreground shadow-inner md:p-6">
+        <ul className="mx-auto max-w-xs space-y-4 text-sm leading-relaxed md:max-w-sm md:text-[0.95rem]">
           {offer.keyPoints.map((line) => (
-            <li key={line} className="flex gap-2">
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-foreground/70" aria-hidden />
+            <li key={line} className="flex flex-col items-center gap-2 text-center">
+              <span className={cn("h-2 w-2 shrink-0 rounded-full", t.bullet)} aria-hidden />
               <span>{line}</span>
             </li>
           ))}
         </ul>
       </div>
 
-      <p className="mt-6 text-center font-heading text-2xl font-bold md:text-3xl">{offer.price}</p>
-
       <div className={cn("mt-8 rounded-xl border-2 bg-white/95 p-5 text-foreground md:p-6", t.interventionBorder)}>
-        <h4 className="font-heading text-base font-bold underline decoration-2 underline-offset-4 md:text-lg">
-          Intervention sur :
+        <h4 className="text-center font-heading text-base font-bold md:text-lg">
+          Exemple de thématiques abordées
         </h4>
         <ul className="mt-4 space-y-2 text-sm leading-relaxed md:text-[0.95rem]">
           {offer.interventions.map((line) => (
             <li key={line} className="flex gap-2">
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-foreground/60" aria-hidden />
+              <span className={cn("mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full", t.bullet)} aria-hidden />
               <span>{line}</span>
             </li>
           ))}
         </ul>
       </div>
+
+      <p
+        className={cn(
+          "mt-6 text-center font-heading text-2xl font-medium italic md:mt-8 md:text-[1.75rem] lg:text-3xl",
+          t.price,
+        )}
+      >
+        {offer.price}
+      </p>
 
       <div className={cn("mt-6 rounded-xl border px-5 py-5 md:px-6", t.outcome)}>
         <p className="text-xs font-semibold uppercase tracking-[0.12em] opacity-80">Ce que vous obtenez</p>
@@ -158,6 +170,10 @@ const StandardOffersSection = () => {
             <OfferCard key={offer.id} offer={offer} />
           ))}
         </div>
+
+        <p className="mx-auto mt-8 max-w-3xl text-center text-[10px] leading-relaxed text-muted-foreground sm:text-[11px]">
+          * 1 crédit correspond à 1 heure d&apos;accompagnement par un consultant confirmé
+        </p>
       </div>
     </section>
   );
