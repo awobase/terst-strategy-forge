@@ -6,6 +6,7 @@
 
 @layer base {
   :root {
+    --site-header-height: 4.5rem;
     --background: 220 20% 99%;
     --foreground: 222 32% 12%;
 

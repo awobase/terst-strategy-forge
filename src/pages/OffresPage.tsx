@@ -54,21 +54,19 @@ type ServiceOfferChapterProps = {
 };
 
 const quickLinks = [
-  { href: "#cas-clients", name: "Cas clients", tag: "Exemples" },
-  { href: "#start", name: "Start", tag: "Standard" },
-  { href: "#rise", name: "Rise", tag: "Standard" },
-  { href: "#etudes-personnalisees", name: "Études", tag: "Personnalisées" },
-  { href: "#recherche-financements", name: "Financements", tag: "Recherche" },
-  { href: "#formation-cabinet", name: "Formation", tag: "Cabinet" },
+  { href: "#cas-clients", name: "Cas clients" },
+  { href: "#offres-standard", name: "Start & Rise" },
+  { href: "#etudes-personnalisees", name: "Études" },
+  { href: "#recherche-financements", name: "Financements" },
+  { href: "#formation-cabinet", name: "Formation" },
 ];
 
 const offresNavItems = [
-  { id: "cas-clients", label: "Cas clients", tag: "Exemples" },
-  { id: "start", label: "Start", tag: "Standard" },
-  { id: "rise", label: "Rise", tag: "Standard" },
-  { id: "etudes-personnalisees", label: "Études", tag: "Perso." },
-  { id: "recherche-financements", label: "Financements", tag: "Recherche" },
-  { id: "formation-cabinet", label: "Formation", tag: "Cabinet" },
+  { id: "cas-clients", label: "Cas clients" },
+  { id: "offres-standard", label: "Start & Rise" },
+  { id: "etudes-personnalisees", label: "Études" },
+  { id: "recherche-financements", label: "Financements" },
+  { id: "formation-cabinet", label: "Formation" },
 ] as const;
 
 function ServiceOfferChapter({
@@ -255,17 +253,14 @@ const OffresPage = () => {
 
       <div className="relative z-20 -mt-14 md:-mt-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             {quickLinks.map((q) => (
               <a
                 key={q.href}
                 href={q.href}
                 className="group flex flex-col rounded-2xl border border-border/60 bg-card/95 p-5 shadow-lg shadow-primary/5 backdrop-blur-md transition hover:-translate-y-1 hover:border-primary/30 hover:shadow-xl"
               >
-                <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                  {q.tag}
-                </span>
-                <span className="mt-2 font-heading text-xl font-bold text-foreground">{q.name}</span>
+                <span className="font-heading text-xl font-bold text-foreground">{q.name}</span>
                 <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-primary">
                   Détails
                   <ArrowRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5" aria-hidden />

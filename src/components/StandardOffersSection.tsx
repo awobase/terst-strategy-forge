@@ -152,7 +152,7 @@ const StandardOffersSection = () => {
   const block = useInView();
 
   return (
-    <section className="border-b border-border/40 bg-background py-16 md:py-24">
+    <section id="offres-standard" className="scroll-mt-28 border-b border-border/40 bg-background py-16 md:py-24">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <p className="eyebrow text-primary">Offres standard</p>

@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { useInView } from "@/hooks/useInView";
 import { cn } from "@/lib/utils";
-import { ArrowUpRight, Briefcase } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 function SectorTile({ sector, onSelect }: { sector: SectorCategory; onSelect: () => void }) {
   const style = SECTOR_STYLES[sector.color];
@@ -117,13 +117,9 @@ const SectorReferencesSection = () => {
                   references.map((ref, index) => (
                     <article
                       key={`${activeId}-${index}-${ref.text.slice(0, 32)}`}
-                      className="relative rounded-2xl border border-border/50 bg-muted/20 p-5 pl-6 md:p-6"
+                      className="rounded-2xl border border-border/50 border-l-4 border-l-secondary/70 bg-muted/20 px-5 py-5 md:px-6 md:py-6"
                     >
-                      <Briefcase
-                        className="absolute left-4 top-4 h-7 w-7 text-primary/15"
-                        aria-hidden
-                      />
-                      <p className="relative text-sm leading-relaxed text-foreground/90 md:text-[0.95rem] md:leading-relaxed">
+                      <p className="text-sm leading-relaxed text-foreground/90 md:text-[0.95rem] md:leading-relaxed">
                         {ref.text}
                       </p>
                     </article>

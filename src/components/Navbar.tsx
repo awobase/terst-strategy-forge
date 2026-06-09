@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, type ReactNode } from "react";
+import { useState, useEffect, useCallback, useRef, type ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "@/assets/logo-cayribe-partners.png";
 import { Menu, X } from "lucide-react";
@@ -40,6 +40,26 @@ const Navbar = () => {
 	const isHome = location.pathname === "/";
 	const [scrolled, setScrolled] = useState(!isHome);
 	const [mobileOpen, setMobileOpen] = useState(false);
+	const navRef = useRef<HTMLElement>(null);
+
+	useEffect(() => {
+		const el = navRef.current;
+		if (!el) return;
+
+		const syncHeaderHeight = () => {
+			document.documentElement.style.setProperty("--site-header-height", `${el.offsetHeight}px`);
+		};
+
+		syncHeaderHeight();
+		const observer = new ResizeObserver(syncHeaderHeight);
+		observer.observe(el);
+		window.addEventListener("resize", syncHeaderHeight);
+
+		return () => {
+			observer.disconnect();
+			window.removeEventListener("resize", syncHeaderHeight);
+		};
+	}, [scrolled, mobileOpen, isHome]);
 
 	useEffect(() => {
 		if (!isHome) {
@@ -96,6 +116,7 @@ const Navbar = () => {
 
 	return (
 		<nav
+			ref={navRef}
 			aria-label="Navigation principale"
 			className={cn(
 				"fixed left-0 right-0 top-0 z-50 transition-[background-color,box-shadow,padding,border-color] duration-300",
