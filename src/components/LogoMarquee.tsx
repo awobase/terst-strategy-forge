@@ -53,8 +53,8 @@ const plainSizeStyles = {
 } as const;
 
 const staticSizeStyles = {
-  img: "h-16 w-auto max-w-[7rem] sm:h-[4.5rem] sm:max-w-[8.5rem] md:h-20 md:max-w-[9.5rem]",
-  py: "py-5 md:py-6",
+  img: "h-9 w-auto max-w-[3.25rem] sm:h-14 sm:max-w-[6.5rem] md:h-20 md:max-w-[9.5rem]",
+  py: "py-4 sm:py-5 md:py-6",
 } as const;
 
 function LogoTile({
@@ -130,7 +130,7 @@ const LogoMarquee = ({
       >
         <div
           className={cn(
-            "flex flex-nowrap items-center justify-center gap-x-5 overflow-x-auto sm:gap-x-6 md:gap-x-8 lg:gap-x-10",
+            "flex flex-wrap items-center justify-center gap-x-3 gap-y-4 overflow-x-hidden sm:flex-nowrap sm:gap-x-6 md:gap-x-8 lg:gap-x-10",
             staticSizeStyles.py,
           )}
         >

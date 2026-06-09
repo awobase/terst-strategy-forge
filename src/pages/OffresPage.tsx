@@ -56,6 +56,8 @@ type ServiceOfferChapterProps = {
   photo?: {
     src: string;
     alt: string;
+    /** < 1 = effet dézoom (plus de contenu visible) */
+    scale?: number;
   };
   /** Photo à droite à la place de la liste ; la liste passe en dessous */
   photoBesideList?: boolean;
@@ -125,11 +127,16 @@ function ServiceOfferChapter({
   );
 
   const photoBlock = photo ? (
-    <div className="group overflow-hidden rounded-3xl shadow-xl ring-1 ring-border/50">
+    <div className="group overflow-hidden rounded-3xl bg-muted/20 shadow-xl ring-1 ring-border/50">
       <img
         src={photo.src}
         alt={photo.alt}
-        className="aspect-[16/10] w-full min-h-[220px] object-cover object-center transition duration-700 group-hover:scale-[1.02] sm:min-h-[280px] md:min-h-[360px] lg:min-h-[420px]"
+        className={cn(
+          "aspect-[16/10] w-full min-h-[220px] origin-center object-cover object-center sm:min-h-[280px] md:min-h-[360px] lg:min-h-[420px]",
+          photo.scale
+            ? "scale-[0.88] transition-transform duration-700 hover:scale-[0.92]"
+            : "transition duration-700 group-hover:scale-[1.02]",
+        )}
         loading="lazy"
         decoding="async"
       />
@@ -310,6 +317,7 @@ const OffresPage = () => {
         photo={{
           src: offresEtudePerso,
           alt: "Consultants CAYRIBE PARTNERS en analyse stratégique et étude de marché",
+          scale: 0.88,
         }}
         photoBesideList
       />
