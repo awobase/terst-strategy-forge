@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import { useCallback, useEffect, useState } from "react";
 import {
   getReferencesForSector,
   SECTOR_CAROUSEL_STYLES,
@@ -10,33 +11,37 @@ import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const AUTOPLAY_MS = 4500;
-const AUTOPLAY_MS_REDUCED = 6500;
-
 function wrapIndex(index: number, total: number) {
   return ((index % total) + total) % total;
 }
 
+function getPreviewSide(index: number, selected: number, total: number): "left" | "right" {
+  const forward = wrapIndex(index - selected, total);
+  return forward > 0 && forward <= total / 2 ? "right" : "left";
+}
+const AUTOPLAY_MS = 4500;
+const AUTOPLAY_MS_REDUCED = 6500;
+
 function SectorPreviewCard({
   sector,
-  onSelect,
   side,
+  onClick,
 }: {
   sector: SectorCategory;
-  onSelect: () => void;
   side: "left" | "right";
+  onClick: () => void;
 }) {
   const style = SECTOR_CAROUSEL_STYLES[sector.color];
 
   return (
     <button
       type="button"
-      onClick={onSelect}
+      onClick={onClick}
       aria-label={`Afficher le secteur ${sector.label}`}
       className={cn(
-        "group relative hidden h-56 w-[7.75rem] shrink-0 flex-col items-center justify-center overflow-hidden rounded-2xl border-2 px-3 transition-all duration-500 sm:flex md:h-64 md:w-[8.75rem]",
-        "scale-[0.88] opacity-60 hover:scale-[0.92] hover:opacity-100",
-        side === "left" ? "-rotate-2 hover:rotate-0" : "rotate-2 hover:rotate-0",
+        "group relative mx-auto flex h-52 w-[7rem] flex-col items-center justify-center overflow-hidden rounded-2xl border-2 px-2.5 md:h-60 md:w-[8rem]",
+        side === "left" ? "-rotate-3" : "rotate-3",
+        "opacity-70 transition-[transform,opacity] duration-500 hover:opacity-100",
         style.border,
         style.header,
       )}
@@ -45,17 +50,8 @@ function SectorPreviewCard({
         className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/15 via-transparent to-black/10"
         aria-hidden
       />
-      <span
-        className={cn(
-          "relative z-10 text-center text-sm font-semibold leading-snug transition-colors md:text-[0.95rem]",
-          style.title,
-          "group-hover:text-white",
-        )}
-      >
+      <span className={cn("relative z-10 text-center text-xs font-semibold leading-snug md:text-sm", style.title)}>
         {sector.label}
-      </span>
-      <span className="relative z-10 mt-3 text-[10px] font-medium uppercase tracking-[0.16em] text-white/70 opacity-0 transition-opacity group-hover:opacity-100">
-        Voir
       </span>
     </button>
   );
@@ -75,9 +71,8 @@ function SectorActiveCard({
 
   return (
     <div
-      key={sector.id}
       className={cn(
-        "relative z-10 flex min-h-[22rem] w-full max-w-xl flex-col overflow-hidden rounded-3xl border-2 bg-card md:min-h-[26rem]",
+        "relative mx-auto flex min-h-[22rem] w-full max-w-xl flex-col overflow-hidden rounded-3xl border-2 bg-card md:min-h-[26rem]",
         style.border,
         style.shadow,
       )}
@@ -90,10 +85,6 @@ function SectorActiveCard({
           className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/15 via-transparent to-black/10"
           aria-hidden
         />
-        <div
-          className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-white/10 blur-md"
-          aria-hidden
-        />
         <p className="relative text-[10px] font-semibold uppercase tracking-[0.2em] text-white/70">Secteur</p>
         <h3 className={cn("relative mt-2 font-heading text-xl font-bold leading-snug md:text-2xl", style.title)}>
           {sector.label}
@@ -101,20 +92,19 @@ function SectorActiveCard({
       </div>
 
       <div className="relative flex-1 bg-muted/15 px-5 py-5 md:px-7 md:py-6">
-        <div className="sector-refs-scroll max-h-[17rem] space-y-4 overflow-y-auto pr-1 md:max-h-[19rem] md:space-y-4">
+        <div className="sector-refs-scroll max-h-[17rem] space-y-4 overflow-y-auto pr-1 md:max-h-[19rem]">
           {references.length > 0 ? (
             references.map((ref, index) => (
               <article
                 key={`${sector.id}-${index}-${ref.text.slice(0, 32)}`}
-                className="animate-fade-in rounded-xl border border-border/60 bg-card px-4 py-3.5 shadow-sm transition-shadow hover:shadow-md md:px-5 md:py-4"
-                style={{ animationDelay: `${index * 60}ms` }}
+                className="rounded-xl border border-border/60 bg-card px-4 py-3.5 shadow-sm md:px-5 md:py-4"
               >
                 <p className="text-sm leading-relaxed text-foreground/90 md:text-[0.95rem]">{ref.text}</p>
               </article>
             ))
           ) : (
             <div className="rounded-xl border border-dashed border-border/60 bg-muted/10 px-5 py-12 text-center">
-              <p className="text-sm leading-relaxed text-muted-foreground">
+              <p className="text-sm text-muted-foreground">
                 Références sectorielles en cours de publication pour ce secteur.
               </p>
             </div>
@@ -133,7 +123,7 @@ function SectorActiveCard({
 
 const SectorReferencesSection = () => {
   const block = useInView();
-  const [current, setCurrent] = useState(0);
+  const [selected, setSelected] = useState(0);
   const [paused, setPaused] = useState(false);
   const [progressEpoch, setProgressEpoch] = useState(0);
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -141,37 +131,50 @@ const SectorReferencesSection = () => {
 
   const autoplayMs = prefersReducedMotion ? AUTOPLAY_MS_REDUCED : AUTOPLAY_MS;
 
-  const prevSector = SECTOR_CATEGORIES_WITH_REFERENCES[wrapIndex(current - 1, total)];
-  const activeSector = SECTOR_CATEGORIES_WITH_REFERENCES[current];
-  const nextSector = SECTOR_CATEGORIES_WITH_REFERENCES[wrapIndex(current + 1, total)];
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    align: "center",
+    containScroll: false,
+    skipSnaps: false,
+    duration: prefersReducedMotion ? 0 : 28,
+  });
+
+  const activeSector = SECTOR_CATEGORIES_WITH_REFERENCES[selected];
   const activeStyle = SECTOR_CAROUSEL_STYLES[activeSector.color];
 
-  const bumpProgress = () => setProgressEpoch((epoch) => epoch + 1);
+  const bumpProgress = useCallback(() => setProgressEpoch((n) => n + 1), []);
 
-  const goPrev = () => {
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelected(emblaApi.selectedScrollSnap());
     bumpProgress();
-    setCurrent((index) => wrapIndex(index - 1, total));
-  };
-
-  const goNext = () => {
-    bumpProgress();
-    setCurrent((index) => wrapIndex(index + 1, total));
-  };
-
-  const resumeAutoplay = () => {
-    setPaused(false);
-    bumpProgress();
-  };
+  }, [bumpProgress, emblaApi]);
 
   useEffect(() => {
-    if (paused || total <= 1) return;
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on("select", onSelect);
+    emblaApi.on("reInit", onSelect);
+    return () => {
+      emblaApi.off("select", onSelect);
+      emblaApi.off("reInit", onSelect);
+    };
+  }, [emblaApi, onSelect]);
 
-    const timer = window.setInterval(() => {
-      setCurrent((index) => wrapIndex(index + 1, total));
-    }, autoplayMs);
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+  const scrollTo = useCallback((index: number) => emblaApi?.scrollTo(index), [emblaApi]);
 
+  const resumeAutoplay = useCallback(() => {
+    setPaused(false);
+    bumpProgress();
+  }, [bumpProgress]);
+
+  useEffect(() => {
+    if (paused || total <= 1 || !emblaApi) return;
+    const timer = window.setInterval(() => emblaApi.scrollNext(), autoplayMs);
     return () => window.clearInterval(timer);
-  }, [autoplayMs, paused, total, current, progressEpoch]);
+  }, [autoplayMs, emblaApi, paused, total, progressEpoch]);
 
   return (
     <section
@@ -190,7 +193,8 @@ const SectorReferencesSection = () => {
       <div
         ref={block.ref}
         className={cn(
-          "container relative z-10 mx-auto max-w-6xl px-4 transition-all duration-700 sm:px-6 lg:px-8",
+          "container relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8",
+          "transition-all duration-700",
           block.inView ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
         )}
       >
@@ -203,28 +207,52 @@ const SectorReferencesSection = () => {
           <div className="flex items-center gap-2 md:gap-4">
             <button
               type="button"
-              onClick={goPrev}
+              onClick={scrollPrev}
               aria-label="Secteur précédent"
-              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border/80 bg-background/80 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:bg-primary hover:text-primary-foreground hover:shadow-md active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border/80 bg-background/80 shadow-sm transition-all hover:border-primary hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               <ChevronLeft className="h-5 w-5" />
             </button>
 
-            <div className="flex min-w-0 flex-1 items-center justify-center gap-2 md:gap-5">
-              <SectorPreviewCard sector={prevSector} onSelect={goPrev} side="left" />
-              <SectorActiveCard
-                sector={activeSector}
-                onMouseEnter={() => setPaused(true)}
-                onMouseLeave={resumeAutoplay}
-              />
-              <SectorPreviewCard sector={nextSector} onSelect={goNext} side="right" />
+            <div className="min-w-0 flex-1 overflow-hidden" ref={emblaRef}>
+              <div className="flex touch-pan-y items-stretch">
+                {SECTOR_CATEGORIES_WITH_REFERENCES.map((sector, index) => {
+                  const isActive = index === selected;
+                  const side = getPreviewSide(index, selected, total);
+
+                  return (
+                    <div
+                      key={sector.id}
+                      className={cn(
+                        "flex min-w-0 shrink-0 grow-0 basis-[88%] items-center justify-center py-2 pl-3 sm:basis-[72%] sm:pl-4 md:basis-[42rem] md:pl-5",
+                        "transition-[flex-basis,opacity,transform] duration-500 ease-out",
+                        isActive ? "z-10 opacity-100" : "z-0 opacity-80",
+                      )}
+                    >
+                      {isActive ? (
+                        <SectorActiveCard
+                          sector={sector}
+                          onMouseEnter={() => setPaused(true)}
+                          onMouseLeave={resumeAutoplay}
+                        />
+                      ) : (
+                        <SectorPreviewCard
+                          sector={sector}
+                          side={side}
+                          onClick={() => scrollTo(index)}
+                        />
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
             <button
               type="button"
-              onClick={goNext}
+              onClick={scrollNext}
               aria-label="Secteur suivant"
-              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border/80 bg-background/80 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:bg-primary hover:text-primary-foreground hover:shadow-md active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border/80 bg-background/80 shadow-sm transition-all hover:border-primary hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               <ChevronRight className="h-5 w-5" />
             </button>
@@ -234,7 +262,7 @@ const SectorReferencesSection = () => {
             {total > 1 && (
               <div className="h-1 w-full max-w-md overflow-hidden rounded-full bg-border/50" aria-hidden>
                 <div
-                  key={`${current}-${progressEpoch}`}
+                  key={`${selected}-${progressEpoch}`}
                   className={cn("testimonial-progress h-full rounded-full", activeStyle.dot)}
                   style={{
                     animationDuration: `${autoplayMs}ms`,
@@ -246,7 +274,7 @@ const SectorReferencesSection = () => {
             <p className="text-sm text-muted-foreground">
               <span className="font-medium text-foreground">{activeSector.label}</span>
               <span className="mx-2 text-border">·</span>
-              {current + 1} sur {total}
+              {selected + 1} sur {total}
             </p>
           </div>
         </div>
