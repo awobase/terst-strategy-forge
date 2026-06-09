@@ -154,11 +154,17 @@
   }
 
   .scroll-marquee {
-    animation: marquee 40s linear infinite;
+    animation: marquee 20s linear infinite;
   }
 
   .scroll-marquee:hover {
     animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-marquee {
+      animation: none;
+    }
   }
 }
 

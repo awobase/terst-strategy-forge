@@ -8,6 +8,8 @@ import { useInView } from "@/hooks/useInView";
 import { cn } from "@/lib/utils";
 import StandardOffersSection from "@/components/StandardOffersSection";
 import LogoMarquee from "@/components/LogoMarquee";
+import OffresStickyNav from "@/components/OffresStickyNav";
+import CaseStudiesSection from "@/components/CaseStudiesSection";
 import { FUNDING_PARTNER_LOGOS, type FundingPartnerLogo } from "@/config/fundingPartners";
 import {
   ArrowRight,
@@ -52,12 +54,22 @@ type ServiceOfferChapterProps = {
 };
 
 const quickLinks = [
+  { href: "#cas-clients", name: "Cas clients", tag: "Exemples" },
   { href: "#start", name: "Start", tag: "Standard" },
   { href: "#rise", name: "Rise", tag: "Standard" },
   { href: "#etudes-personnalisees", name: "Études", tag: "Personnalisées" },
   { href: "#recherche-financements", name: "Financements", tag: "Recherche" },
-  { href: "#interventions-cabinet", name: "Interventions", tag: "Cabinet" },
+  { href: "#formation-cabinet", name: "Formation", tag: "Cabinet" },
 ];
+
+const offresNavItems = [
+  { id: "cas-clients", label: "Cas clients", tag: "Exemples" },
+  { id: "start", label: "Start", tag: "Standard" },
+  { id: "rise", label: "Rise", tag: "Standard" },
+  { id: "etudes-personnalisees", label: "Études", tag: "Perso." },
+  { id: "recherche-financements", label: "Financements", tag: "Recherche" },
+  { id: "formation-cabinet", label: "Formation", tag: "Cabinet" },
+] as const;
 
 function ServiceOfferChapter({
   id,
@@ -206,6 +218,7 @@ const OffresPage = () => {
       <PageMeta
         title="Offres"
         description="Start, Rise, études personnalisées et recherche de financements : accompagnement concret et orienté résultats — CAYRIBE PARTNERS."
+        canonicalPath="/offres"
       />
 
       <section className="relative overflow-hidden bg-[hsl(222,42%,12%)] text-primary-foreground">
@@ -242,7 +255,7 @@ const OffresPage = () => {
 
       <div className="relative z-20 -mt-14 md:-mt-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
             {quickLinks.map((q) => (
               <a
                 key={q.href}
@@ -262,6 +275,10 @@ const OffresPage = () => {
           </div>
         </div>
       </div>
+
+      <OffresStickyNav items={offresNavItems} />
+
+      <CaseStudiesSection />
 
       <StandardOffersSection />
 
@@ -309,10 +326,10 @@ const OffresPage = () => {
       />
 
       <ServiceOfferChapter
-        id="interventions-cabinet"
+        id="formation-cabinet"
         index={4}
         tags={["#Ateliers", "#Webinaire", "#Conférences"]}
-        title="Interventions du cabinet"
+        title="Formation du cabinet"
         lead="Le développement d’un projet repose aussi sur l’accès à une information claire, à des outils adaptés et à une vision stratégique permettant de prendre les bonnes décisions."
         detail="À travers nos ateliers, webinaires et conférences, nous transmettons des outils, des méthodes et des clés de compréhension autour de la stratégie, du financement et du développement de projet. Chaque intervention est pensée pour apporter des conseils concrets, applicables et adaptés aux réalités du terrain."
         listTitle="Nos interventions comprennent"

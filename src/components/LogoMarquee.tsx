@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 export type MarqueeLogo = {
   src: string;
@@ -31,16 +32,49 @@ const sizeStyles = {
   },
 } as const;
 
+function LogoTile({
+  logo,
+  size,
+  decorative,
+}: {
+  logo: MarqueeLogo;
+  size: keyof typeof sizeStyles;
+  decorative?: boolean;
+}) {
+  const s = sizeStyles[size];
+  return (
+    <div className={cn("flex shrink-0 items-center justify-center", s.gap)}>
+      <div
+        className={cn(
+          "flex items-center justify-center rounded-xl",
+          s.slot,
+          logo.onLight && "bg-white shadow-md ring-1 ring-border/40",
+        )}
+      >
+        <img
+          src={logo.src}
+          alt={decorative ? "" : logo.alt}
+          className={cn("w-auto max-w-full object-contain object-center opacity-95", s.img)}
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    </div>
+  );
+}
+
 const LogoMarquee = ({
   logos,
   className,
   fadeFromClass = "from-background",
   size = "default",
 }: LogoMarqueeProps) => {
+  const prefersReducedMotion = usePrefersReducedMotion();
+
   if (logos.length === 0) return null;
 
-  const strip = [...logos, ...logos];
   const s = sizeStyles[size];
+  const strip = prefersReducedMotion ? logos : [...logos, ...logos];
 
   return (
     <div
@@ -48,45 +82,40 @@ const LogoMarquee = ({
       aria-label="Partenaires et dispositifs de financement"
       role="region"
     >
-      <div
-        className={cn(
-          "pointer-events-none absolute inset-y-0 left-0 z-10 bg-gradient-to-r to-transparent",
-          s.fade,
-          fadeFromClass,
-        )}
-        aria-hidden
-      />
-      <div
-        className={cn(
-          "pointer-events-none absolute inset-y-0 right-0 z-10 bg-gradient-to-l to-transparent",
-          s.fade,
-          fadeFromClass,
-        )}
-        aria-hidden
-      />
+      {!prefersReducedMotion ? (
+        <>
+          <div
+            className={cn(
+              "pointer-events-none absolute inset-y-0 left-0 z-10 bg-gradient-to-r to-transparent",
+              s.fade,
+              fadeFromClass,
+            )}
+            aria-hidden
+          />
+          <div
+            className={cn(
+              "pointer-events-none absolute inset-y-0 right-0 z-10 bg-gradient-to-l to-transparent",
+              s.fade,
+              fadeFromClass,
+            )}
+            aria-hidden
+          />
+        </>
+      ) : null}
 
-      <div className={cn("flex scroll-marquee", s.py)}>
+      <div
+        className={cn(
+          prefersReducedMotion ? "flex flex-wrap justify-center gap-y-4" : "flex scroll-marquee",
+          s.py,
+        )}
+      >
         {strip.map((logo, i) => (
-          <div key={`${logo.alt}-${i}`} className={cn("flex shrink-0 items-center justify-center", s.gap)}>
-            <div
-              className={cn(
-                "flex items-center justify-center rounded-xl",
-                s.slot,
-                logo.onLight && "bg-white shadow-md ring-1 ring-border/40",
-              )}
-            >
-              <img
-                src={logo.src}
-                alt={i < logos.length ? logo.alt : ""}
-                className={cn(
-                  "w-auto max-w-full object-contain object-center opacity-95",
-                  s.img,
-                )}
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-          </div>
+          <LogoTile
+            key={`${logo.alt}-${i}`}
+            logo={logo}
+            size={size}
+            decorative={!prefersReducedMotion && i >= logos.length}
+          />
         ))}
       </div>
     </div>

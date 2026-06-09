@@ -19,7 +19,6 @@ const PartnersSection = ({ omitHeading = false }: PartnersSectionProps) => {
               inView ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
             }`}
           >
-            <p className="eyebrow">Références</p>
             <h2 className="section-title">Ils nous font confiance</h2>
           </div>
         ) : null}

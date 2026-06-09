@@ -14,7 +14,7 @@ const offresItems = [
 	{ label: "Rise", to: ROUTES.offres.rise },
 	{ label: "Études personnalisées", to: ROUTES.offres.etudesPersonnalisees },
 	{ label: "Recherche de financements", to: ROUTES.offres.rechercheFinancements },
-	{ label: "Interventions du cabinet", to: ROUTES.offres.interventionsCabinet },
+	{ label: "Formation du cabinet", to: ROUTES.offres.formationCabinet },
 ] as const;
 
 const quiSommesNousItems = [
@@ -23,6 +23,7 @@ const quiSommesNousItems = [
 	...(SHOW_TESTIMONIALS
 		? [{ label: "Témoignages" as const, to: ROUTES.temoignagesQuiSommesNous }]
 		: []),
+	{ label: "Références sectorielles", to: ROUTES.quiSommesNous.referencesSectorielles },
 ];
 
 const mobileLink =

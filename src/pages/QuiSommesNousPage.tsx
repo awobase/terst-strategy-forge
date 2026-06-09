@@ -3,6 +3,8 @@ import SiteLayout from "@/components/SiteLayout";
 import PageMeta from "@/components/PageMeta";
 import { BRAND_NAME } from "@/config/brand";
 import TeamSection from "@/components/TeamSection";
+import SectorReferencesSection from "@/components/SectorReferencesSection";
+import PartnersSection from "@/components/PartnersSection";
 import { SHOW_TESTIMONIALS } from "@/config/features";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import { useInView } from "@/hooks/useInView";
@@ -169,9 +171,13 @@ const QuiSommesNousPage = () => {
         </div>
       </section>
 
+      <SectorReferencesSection />
+
       <TeamSection />
 
       {SHOW_TESTIMONIALS ? <TestimonialsSection /> : null}
+
+      <PartnersSection />
     </SiteLayout>
   );
 };

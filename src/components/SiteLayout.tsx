@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ChatbotWidget from "@/components/ChatbotWidget";
+import StructuredData from "@/components/StructuredData";
 
 type SiteLayoutProps = {
   children: React.ReactNode;
@@ -31,6 +32,7 @@ const SiteLayout = ({ children, isHome = false }: SiteLayoutProps) => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <StructuredData />
       <Navbar />
       <main
         id="contenu-principal"
