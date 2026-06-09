@@ -1,12 +1,11 @@
-import aboutImg from "@/assets/about-dashboard.jpg";
+import quiSommesNousCarousel1 from "@/assets/qui-sommes-nous-carousel-1.png";
+import quiSommesNousCarousel2 from "@/assets/qui-sommes-nous-carousel-2.png";
+import AutoPhotoCarousel from "@/components/AutoPhotoCarousel";
 import SiteLayout from "@/components/SiteLayout";
 import PageMeta from "@/components/PageMeta";
 import { BRAND_NAME } from "@/config/brand";
 import TeamSection from "@/components/TeamSection";
 import SectorReferencesSection from "@/components/SectorReferencesSection";
-import PartnersSection from "@/components/PartnersSection";
-import { SHOW_TESTIMONIALS } from "@/config/features";
-import TestimonialsSection from "@/components/TestimonialsSection";
 import { useInView } from "@/hooks/useInView";
 import { cn } from "@/lib/utils";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
@@ -15,6 +14,17 @@ const storyHighlights = [
   "Vision locale et standards internationaux",
   "Méthodes éprouvées, livrables actionnables",
   "Indicateurs de suivi et gouvernance de projet",
+];
+
+const STORY_SLIDES = [
+  {
+    src: quiSommesNousCarousel1,
+    alt: "Consultants CAYRIBE PARTNERS en séance de travail collaboratif",
+  },
+  {
+    src: quiSommesNousCarousel2,
+    alt: "Présentation de l'organigramme et de l'approche du cabinet CAYRIBE PARTNERS",
+  },
 ];
 
 const metrics = [
@@ -108,13 +118,9 @@ const QuiSommesNousPage = () => {
           <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
             <div className="relative lg:sticky lg:top-28">
               <div className="group relative overflow-hidden rounded-3xl ring-1 ring-border/50 shadow-xl">
-                <img
-                  src={aboutImg}
-                  alt="Tableaux de bord stratégiques et pilotage de la performance"
-                  className="aspect-[4/3] w-full object-cover transition duration-700 group-hover:scale-[1.03]"
-                  width={1280}
-                  height={854}
-                  loading="lazy"
+                <AutoPhotoCarousel
+                  slides={STORY_SLIDES}
+                  ariaLabel="Accompagnement terrain CAYRIBE PARTNERS"
                 />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[hsl(222,42%,12%)/0.35] to-transparent" />
               </div>
@@ -171,13 +177,9 @@ const QuiSommesNousPage = () => {
         </div>
       </section>
 
-      <SectorReferencesSection />
-
       <TeamSection />
 
-      {SHOW_TESTIMONIALS ? <TestimonialsSection /> : null}
-
-      <PartnersSection />
+      <SectorReferencesSection />
     </SiteLayout>
   );
 };

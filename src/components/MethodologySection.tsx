@@ -1,5 +1,18 @@
-import methodImg from "@/assets/methodology-board.jpg";
+import methodologyCarousel1 from "@/assets/methodology-carousel-1.png";
+import methodologyCarousel2 from "@/assets/methodology-carousel-2.png";
+import AutoPhotoCarousel from "@/components/AutoPhotoCarousel";
 import { useInView } from "@/hooks/useInView";
+
+const METHODOLOGY_SLIDES = [
+  {
+    src: methodologyCarousel1,
+    alt: "Consultant CAYRIBE PARTNERS en échange avec une cliente",
+  },
+  {
+    src: methodologyCarousel2,
+    alt: "Consultante CAYRIBE PARTNERS lors d'un accompagnement terrain",
+  },
+];
 
 const steps = [
   {
@@ -43,13 +56,9 @@ const MethodologySection = () => {
         <div ref={ref} className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="relative">
             <div className="group overflow-hidden rounded-2xl shadow-xl ring-1 ring-border/40">
-              <img
-                src={methodImg}
-                alt="Consultants autour d'un tableau stratégique"
-                className="w-full object-cover transition-[transform,filter] duration-700 ease-out will-change-transform group-hover:scale-[1.04] group-hover:brightness-[1.03]"
-                loading="lazy"
-                width={1280}
-                height={854}
+              <AutoPhotoCarousel
+                slides={METHODOLOGY_SLIDES}
+                ariaLabel="Consultants CAYRIBE PARTNERS en accompagnement stratégique"
               />
             </div>
           </div>

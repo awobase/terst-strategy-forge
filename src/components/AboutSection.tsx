@@ -1,4 +1,5 @@
 import aboutImg from "@/assets/about-dashboard.jpg";
+import AboutPhotoCarousel from "@/components/AboutPhotoCarousel";
 import { useInView } from "@/hooks/useInView";
 import { CheckCircle } from "lucide-react";
 import { BRAND_NAME } from "@/config/brand";
@@ -55,17 +56,21 @@ const AboutSection = ({ variant = "default", seamless = false }: AboutSectionPro
               isPresentation ? "shadow-md md:rounded-3xl md:shadow-lg" : "shadow-xl ring-border/40",
             )}
           >
-            <img
-              src={aboutImg}
-              alt="Consultant analysant un dashboard stratégique"
-              className={cn(
-                "h-full w-full object-cover transition-[transform,filter] duration-700 ease-out will-change-transform group-hover:scale-[1.045] group-hover:brightness-[1.03]",
-                isPresentation && "aspect-[4/3] md:aspect-auto md:min-h-[320px]",
-              )}
-              loading="lazy"
-              width={1280}
-              height={854}
-            />
+            {isPresentation ? (
+              <img
+                src={aboutImg}
+                alt="Consultant analysant un dashboard stratégique"
+                className={cn(
+                  "h-full w-full object-cover transition-[transform,filter] duration-700 ease-out will-change-transform group-hover:scale-[1.045] group-hover:brightness-[1.03]",
+                  "aspect-[4/3] md:aspect-auto md:min-h-[320px]",
+                )}
+                loading="lazy"
+                width={1280}
+                height={854}
+              />
+            ) : (
+              <AboutPhotoCarousel />
+            )}
           </div>
           <div
             className={cn(

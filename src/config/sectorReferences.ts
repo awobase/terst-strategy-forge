@@ -40,18 +40,11 @@ export const SECTOR_CATEGORIES: SectorCategory[] = [
     keywords: ["environnement", "circulaire", "écologie"],
   },
   { id: "sante", label: "Santé", color: "orange", keywords: ["santé", "sante"] },
-  { id: "silver", label: "Silver Economie", color: "red", keywords: ["silver"] },
   {
     id: "edition",
     label: "Edition (livres), Production (films)",
     color: "green",
     keywords: ["edition", "édition", "culture", "film", "production"],
-  },
-  {
-    id: "rd",
-    label: "Recherche & Développement",
-    color: "purple",
-    keywords: ["recherche", "développement", "developpement", "université", "universite"],
   },
   { id: "artisanat", label: "Artisanat", color: "blue", keywords: ["artisanat"] },
   {
@@ -66,10 +59,67 @@ export function getReferencesForSector(sectorId: string): SectorReference[] {
   return SECTOR_REFERENCES[sectorId] ?? [];
 }
 
+/** Secteurs affichés dans le carrousel (au moins une référence validée) */
+export const SECTOR_CATEGORIES_WITH_REFERENCES = SECTOR_CATEGORIES.filter(
+  (sector) => getReferencesForSector(sector.id).length > 0,
+);
+
 export type SectorStyle = {
   card: string;
   accent: string;
   glow: string;
+};
+
+export type SectorCarouselStyle = {
+  border: string;
+  title: string;
+  header: string;
+  shadow: string;
+  preview: string;
+  dot: string;
+};
+
+export const SECTOR_CAROUSEL_STYLES: Record<SectorColor, SectorCarouselStyle> = {
+  red: {
+    border: "border-[hsl(0,68%,52%)]",
+    title: "text-white",
+    header: "bg-gradient-to-br from-[hsl(0,68%,52%)] to-[hsl(0,62%,42%)]",
+    shadow: "shadow-[0_20px_40px_-14px_hsl(0_68%_42%/0.32)]",
+    preview: "bg-gradient-to-br from-[hsl(0,68%,52%)/10] to-[hsl(0,62%,42%)/5]",
+    dot: "bg-[hsl(0,68%,52%)]",
+  },
+  green: {
+    border: "border-[hsl(152,42%,42%)]",
+    title: "text-white",
+    header: "bg-gradient-to-br from-[hsl(152,42%,42%)] to-[hsl(152,38%,34%)]",
+    shadow: "shadow-[0_20px_40px_-14px_hsl(152_42%_30%/0.32)]",
+    preview: "bg-gradient-to-br from-[hsl(152,42%,42%)/10] to-[hsl(152,38%,34%)/5]",
+    dot: "bg-[hsl(152,42%,42%)]",
+  },
+  purple: {
+    border: "border-[hsl(262,48%,50%)]",
+    title: "text-white",
+    header: "bg-gradient-to-br from-[hsl(262,48%,50%)] to-[hsl(262,44%,40%)]",
+    shadow: "shadow-[0_20px_40px_-14px_hsl(262_48%_38%/0.32)]",
+    preview: "bg-gradient-to-br from-[hsl(262,48%,50%)/10] to-[hsl(262,44%,40%)/5]",
+    dot: "bg-[hsl(262,48%,50%)]",
+  },
+  blue: {
+    border: "border-primary",
+    title: "text-white",
+    header: "bg-gradient-to-br from-primary to-[hsl(222,58%,28%)]",
+    shadow: "shadow-[0_20px_40px_-14px_hsl(222_58%_36%/0.32)]",
+    preview: "bg-gradient-to-br from-primary/10 to-primary/5",
+    dot: "bg-primary",
+  },
+  orange: {
+    border: "border-secondary",
+    title: "text-white",
+    header: "bg-gradient-to-br from-secondary to-[hsl(28,82%,44%)]",
+    shadow: "shadow-[0_20px_40px_-14px_hsl(32_88%_40%/0.32)]",
+    preview: "bg-gradient-to-br from-secondary/10 to-[hsl(28,82%,44%)/5]",
+    dot: "bg-secondary",
+  },
 };
 
 export const SECTOR_STYLES: Record<SectorColor, SectorStyle> = {

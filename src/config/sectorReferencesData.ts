@@ -1,4 +1,4 @@
-/** Références sectorielles anonymisées — source : references-Tableau 1.csv */
+/** Références sectorielles anonymisées — source : references-Tableau 1.csv (VALIDATION = OK) */
 
 export type SectorReference = {
   text: string;
@@ -73,16 +73,11 @@ export const SECTOR_REFERENCES: Record<string, SectorReference[]> = {
     { text: "Plateforme médicale innovante : montage du dossier et financement FEDER" },
     { text: "Projet de coworking d'auxiliaires médicaux : étude de faisabilité, modèle économique, stratégie de financement, financement LEADER" },
   ],
-  "silver": [
-  ],
   "edition": [
     { text: "Entreprise d'édition de bande dessinée pour enfants : modèle économique, stratégie de développement" },
     { text: "Projet de bibliobus : analyse de marché, construction d'un modèle économique" },
     { text: "Entreprise d'excursions en bateau : recherche de sources de financements, portage juridique, analyse de coûts de revient, préfinancement subvention" },
     { text: "Projet de base nautique / café solidaire : stratégie de financement, construction d'un budget prévisionnel, recommandations organisationnelles, financement LEADER" },
-  ],
-  "rd": [
-    { text: "Entreprise semi-industrielle de transformation du manioc : modèle économique, stratégie de développement, projet de R&D, recherche de financement, financement LEADER, ARI" },
   ],
   "artisanat": [
     { text: "Entreprise artisanale de fabrication de produits haut de gamme : analyse de marché, analyse de process, détermination des coûts de revient, stratégie de développement international" },

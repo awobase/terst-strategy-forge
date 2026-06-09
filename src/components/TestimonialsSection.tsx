@@ -1,20 +1,44 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   formatTestimonialAuthor,
   formatTestimonialCaption,
   formatTestimonialText,
   TESTIMONIALS,
 } from "@/config/testimonials";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
+
+const AUTOPLAY_MS = 3500;
+const AUTOPLAY_MS_REDUCED = 5500;
 
 const TestimonialsSection = () => {
   const [current, setCurrent] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [progressEpoch, setProgressEpoch] = useState(0);
+  const prefersReducedMotion = usePrefersReducedMotion();
   const total = TESTIMONIALS.length;
-
-  if (total === 0) return null;
 
   const next = () => setCurrent((c) => (c + 1) % total);
   const prev = () => setCurrent((c) => (c - 1 + total) % total);
+
+  const autoplayMs = prefersReducedMotion ? AUTOPLAY_MS_REDUCED : AUTOPLAY_MS;
+
+  useEffect(() => {
+    if (paused || total <= 1) return;
+
+    const timer = window.setInterval(() => {
+      setCurrent((c) => (c + 1) % total);
+    }, autoplayMs);
+
+    return () => window.clearInterval(timer);
+  }, [autoplayMs, paused, total, current, progressEpoch]);
+
+  const resumeAutoplay = () => {
+    setPaused(false);
+    setProgressEpoch((epoch) => epoch + 1);
+  };
+
+  if (total === 0) return null;
 
   const t = TESTIMONIALS[current];
 
@@ -41,27 +65,52 @@ const TestimonialsSection = () => {
             <ChevronLeft className="h-5 w-5" />
           </button>
 
-          <div className="min-w-0 flex-1">
-            <div className="relative rounded-2xl border border-border/50 bg-surface p-8 shadow-sm md:p-14">
-              <Quote className="absolute left-6 top-6 h-14 w-14 text-primary/[0.08]" aria-hidden />
+          <div
+            className="min-w-0 flex-1"
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={resumeAutoplay}
+          >
+            <div
+              className="relative overflow-hidden rounded-2xl border border-border/60 bg-card p-8 shadow-sm md:p-12 md:px-14"
+              aria-live="polite"
+            >
+              <Quote
+                className="pointer-events-none absolute left-8 top-8 h-14 w-14 text-secondary/25 md:left-10 md:top-10 md:h-[3.75rem] md:w-[3.75rem]"
+                fill="currentColor"
+                stroke="none"
+                aria-hidden
+              />
 
-              <div className="relative z-10 text-center">
-                <blockquote className="mb-8 text-lg font-medium leading-relaxed text-foreground md:text-xl">
-                  <span className="text-primary/80">&ldquo;</span>
-                  {formatTestimonialText(t.text)}
-                  <span className="text-primary/80">&rdquo;</span>
+              <div key={current} className="relative z-10 animate-fade-in text-center">
+                <blockquote className="mb-6 mt-2 px-4 pt-4 md:mb-8 md:mt-4 md:px-8 md:pt-6">
+                  <p className="text-base font-medium leading-relaxed text-foreground md:text-lg md:leading-relaxed">
+                    {formatTestimonialText(t.text)}
+                  </p>
                 </blockquote>
 
+                <p className="font-heading text-lg font-semibold text-foreground md:text-xl">
+                  {formatTestimonialAuthor(t)}
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground md:mt-1.5 md:text-base">
+                  {formatTestimonialCaption(t)}
+                </p>
+              </div>
+
+              {total > 1 && (
                 <div
-                  className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 font-heading text-xl font-bold text-primary"
+                  className="relative z-10 mt-8 h-1 overflow-hidden rounded-full bg-border/50"
                   aria-hidden
                 >
-                  {t.firstName.charAt(0)}
-                  {t.lastInitial}
+                  <div
+                    key={`${current}-${progressEpoch}`}
+                    className="testimonial-progress h-full rounded-full bg-secondary"
+                    style={{
+                      animationDuration: `${autoplayMs}ms`,
+                      animationPlayState: paused ? "paused" : "running",
+                    }}
+                  />
                 </div>
-                <p className="font-heading font-semibold text-foreground">{formatTestimonialAuthor(t)}</p>
-                <p className="text-sm text-muted-foreground">{formatTestimonialCaption(t)}</p>
-              </div>
+              )}
             </div>
           </div>
 

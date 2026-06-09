@@ -23,7 +23,12 @@ const PartnersSection = ({ omitHeading = false }: PartnersSectionProps) => {
           </div>
         ) : null}
 
-        <LogoMarquee logos={TRUST_PARTNER_LOGOS} fadeFromClass="from-background" size="large" />
+        <LogoMarquee
+          logos={TRUST_PARTNER_LOGOS}
+          fadeFromClass="from-background"
+          size="large"
+          variant="plain"
+        />
       </div>
     </section>
   );

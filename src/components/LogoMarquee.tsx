@@ -5,6 +5,7 @@ export type MarqueeLogo = {
   src: string;
   alt: string;
   onLight?: boolean;
+  scale?: number;
 };
 
 type LogoMarqueeProps = {
@@ -13,6 +14,10 @@ type LogoMarqueeProps = {
   /** Classe Tailwind pour le dégradé latéral (ex. from-background) */
   fadeFromClass?: string;
   size?: "default" | "large";
+  /** plain = logos nus, sans carte/bouton */
+  variant?: "default" | "plain";
+  /** static = tous les logos visibles en grille, sans défilement */
+  layout?: "marquee" | "static";
 };
 
 const sizeStyles = {
@@ -32,15 +37,55 @@ const sizeStyles = {
   },
 } as const;
 
+const plainSizeStyles = {
+  default: {
+    img: "h-12 w-auto max-w-[9rem] sm:h-14 sm:max-w-[10rem]",
+    gap: "mx-6 sm:mx-8",
+    fade: "w-12 sm:w-16",
+    py: "py-2",
+  },
+  large: {
+    img: "h-28 w-auto max-w-[18rem] sm:h-32 sm:max-w-[20rem] md:h-36 md:max-w-[22rem]",
+    gap: "mx-10 sm:mx-14 md:mx-20",
+    fade: "w-20 sm:w-28",
+    py: "py-6 md:py-8",
+  },
+} as const;
+
+const staticSizeStyles = {
+  img: "h-16 w-auto max-w-[7rem] sm:h-[4.5rem] sm:max-w-[8.5rem] md:h-20 md:max-w-[9.5rem]",
+  py: "py-5 md:py-6",
+} as const;
+
 function LogoTile({
   logo,
   size,
+  variant,
   decorative,
 }: {
   logo: MarqueeLogo;
   size: keyof typeof sizeStyles;
+  variant: "default" | "plain";
   decorative?: boolean;
 }) {
+  if (variant === "plain") {
+    const s = plainSizeStyles[size];
+    const scale = logo.scale ?? 1;
+    return (
+      <div className={cn("flex shrink-0 items-center justify-center", s.gap)}>
+        <img
+          src={logo.src}
+          alt={decorative ? "" : logo.alt}
+          className={cn("origin-center object-contain object-center", s.img)}
+          style={scale !== 1 ? { transform: `scale(${scale})` } : undefined}
+          loading="eager"
+          decoding="async"
+          draggable={false}
+        />
+      </div>
+    );
+  }
+
   const s = sizeStyles[size];
   return (
     <div className={cn("flex shrink-0 items-center justify-center", s.gap)}>
@@ -57,6 +102,7 @@ function LogoTile({
           className={cn("w-auto max-w-full object-contain object-center opacity-95", s.img)}
           loading="lazy"
           decoding="async"
+          draggable={false}
         />
       </div>
     </div>
@@ -68,12 +114,44 @@ const LogoMarquee = ({
   className,
   fadeFromClass = "from-background",
   size = "default",
+  variant = "default",
+  layout = "marquee",
 }: LogoMarqueeProps) => {
   const prefersReducedMotion = usePrefersReducedMotion();
 
   if (logos.length === 0) return null;
 
-  const s = sizeStyles[size];
+  if (layout === "static") {
+    return (
+      <div
+        className={cn(className)}
+        aria-label="Partenaires et dispositifs de financement"
+        role="region"
+      >
+        <div
+          className={cn(
+            "flex flex-nowrap items-center justify-center gap-x-5 overflow-x-auto sm:gap-x-6 md:gap-x-8 lg:gap-x-10",
+            staticSizeStyles.py,
+          )}
+        >
+          {logos.map((logo) => (
+            <img
+              key={logo.alt}
+              src={logo.src}
+              alt={logo.alt}
+              className={cn("shrink-0 object-contain object-center", staticSizeStyles.img)}
+              loading="eager"
+              decoding="async"
+              draggable={false}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  const s = variant === "plain" ? plainSizeStyles[size] : sizeStyles[size];
+  const durationSec = Math.max(48, logos.length * 2.8);
   const strip = prefersReducedMotion ? logos : [...logos, ...logos];
 
   return (
@@ -105,15 +183,17 @@ const LogoMarquee = ({
 
       <div
         className={cn(
-          prefersReducedMotion ? "flex flex-wrap justify-center gap-y-4" : "flex scroll-marquee",
+          prefersReducedMotion ? "flex flex-wrap justify-center gap-y-6" : "flex w-max max-w-none flex-nowrap scroll-marquee",
           s.py,
         )}
+        style={prefersReducedMotion ? undefined : { animationDuration: `${durationSec}s` }}
       >
         {strip.map((logo, i) => (
           <LogoTile
             key={`${logo.alt}-${i}`}
             logo={logo}
             size={size}
+            variant={variant}
             decorative={!prefersReducedMotion && i >= logos.length}
           />
         ))}

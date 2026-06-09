@@ -124,6 +124,14 @@
     opacity: 0;
   }
 
+  .testimonial-progress {
+    animation-name: testimonialProgress;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
   .animation-delay-200 {
     animation-delay: 0.2s;
   }
@@ -138,6 +146,20 @@
 
   .animation-delay-800 {
     animation-delay: 0.8s;
+  }
+
+  .sector-refs-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+
+  .sector-refs-scroll::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .sector-refs-scroll::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 9999px;
   }
 
   .text-gradient-primary {
@@ -191,6 +213,15 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes testimonialProgress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
   }
 }
 

@@ -1,4 +1,7 @@
 import { Link } from "react-router-dom";
+import offresEtudePerso from "@/assets/offres-etude-perso.png";
+import offresFormation from "@/assets/offres-formation.png";
+import offresRechFinancements from "@/assets/offres-rech-financements.png";
 import SiteLayout from "@/components/SiteLayout";
 import PageMeta from "@/components/PageMeta";
 import { SHOW_TESTIMONIALS } from "@/config/features";
@@ -9,7 +12,6 @@ import { cn } from "@/lib/utils";
 import StandardOffersSection from "@/components/StandardOffersSection";
 import LogoMarquee from "@/components/LogoMarquee";
 import OffresStickyNav from "@/components/OffresStickyNav";
-import CaseStudiesSection from "@/components/CaseStudiesSection";
 import { FUNDING_PARTNER_LOGOS, type FundingPartnerLogo } from "@/config/fundingPartners";
 import {
   ArrowRight,
@@ -51,10 +53,13 @@ type ServiceOfferChapterProps = {
   icon: LucideIcon | typeof MarketStudyIcon;
   ctaInHeader?: boolean;
   partnerLogos?: readonly FundingPartnerLogo[];
+  photo?: {
+    src: string;
+    alt: string;
+  };
 };
 
 const quickLinks = [
-  { href: "#cas-clients", name: "Cas clients" },
   { href: "#offres-standard", name: "Start & Rise" },
   { href: "#etudes-personnalisees", name: "Études" },
   { href: "#recherche-financements", name: "Financements" },
@@ -62,7 +67,6 @@ const quickLinks = [
 ];
 
 const offresNavItems = [
-  { id: "cas-clients", label: "Cas clients" },
   { id: "offres-standard", label: "Start & Rise" },
   { id: "etudes-personnalisees", label: "Études" },
   { id: "recherche-financements", label: "Financements" },
@@ -82,10 +86,10 @@ function ServiceOfferChapter({
   icon: Icon,
   ctaInHeader = false,
   partnerLogos,
+  photo,
 }: ServiceOfferChapterProps) {
   const block = useInView();
   const bgMuted = index % 2 === 1;
-  const marqueeFade = bgMuted ? "from-[hsl(220,22%,97%)]" : "from-background";
 
   const ctaLink = (
     <Link
@@ -147,10 +151,6 @@ function ServiceOfferChapter({
                 {detail}
               </p>
 
-              {partnerLogos && ctaInHeader ? (
-                <LogoMarquee logos={partnerLogos} className="mt-8 hidden lg:block" fadeFromClass={marqueeFade} />
-              ) : null}
-
               {ctaInHeader ? <div className="mt-6 hidden lg:block">{ctaLink}</div> : null}
             </header>
 
@@ -179,6 +179,20 @@ function ServiceOfferChapter({
             </div>
           </div>
 
+          {photo ? (
+            <div className="mx-auto mt-10 w-full max-w-5xl md:mt-14">
+              <div className="group overflow-hidden rounded-3xl shadow-xl ring-1 ring-border/50">
+                <img
+                  src={photo.src}
+                  alt={photo.alt}
+                  className="aspect-[16/10] w-full min-h-[220px] object-cover object-center transition duration-700 group-hover:scale-[1.02] sm:min-h-[280px] md:min-h-[360px] lg:min-h-[420px]"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+          ) : null}
+
           {footer ? (
             <aside className="mx-auto mt-12 max-w-4xl rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/[0.06] via-card to-transparent px-6 py-6 md:mt-14 md:px-10 md:py-8">
               <p className="text-center text-[0.98rem] leading-[1.75] text-muted-foreground md:text-base md:leading-relaxed">
@@ -188,20 +202,10 @@ function ServiceOfferChapter({
           ) : null}
 
           {partnerLogos ? (
-            <LogoMarquee
-              logos={partnerLogos}
-              className={cn("mt-10 md:mt-12", ctaInHeader && "lg:hidden")}
-              fadeFromClass={marqueeFade}
-            />
+            <LogoMarquee logos={partnerLogos} layout="static" className="mt-10 md:mt-12" />
           ) : null}
 
-          <div
-            className={cn(
-              "flex justify-center",
-              partnerLogos ? "mt-6 md:mt-8" : "mt-10 md:mt-12",
-              ctaInHeader && "lg:hidden",
-            )}
-          >
+          <div className={cn("flex justify-center", partnerLogos ? "mt-8 md:mt-10" : "mt-10 md:mt-12")}>
             {ctaLink}
           </div>
         </div>
@@ -253,7 +257,7 @@ const OffresPage = () => {
 
       <div className="relative z-20 -mt-14 md:-mt-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {quickLinks.map((q) => (
               <a
                 key={q.href}
@@ -272,8 +276,6 @@ const OffresPage = () => {
       </div>
 
       <OffresStickyNav items={offresNavItems} />
-
-      <CaseStudiesSection />
 
       <StandardOffersSection />
 
@@ -297,6 +299,10 @@ const OffresPage = () => {
         footer="Chaque mission fait l’objet d’un forfait adapté à votre besoin, défini après un échange préalable permettant de bien comprendre vos enjeux."
         icon={MarketStudyIcon}
         ctaInHeader
+        photo={{
+          src: offresEtudePerso,
+          alt: "Consultants CAYRIBE PARTNERS en analyse stratégique et étude de marché",
+        }}
       />
 
       <ServiceOfferChapter
@@ -318,6 +324,10 @@ const OffresPage = () => {
         icon={Landmark}
         ctaInHeader
         partnerLogos={FUNDING_PARTNER_LOGOS}
+        photo={{
+          src: offresRechFinancements,
+          alt: "Accompagnement CAYRIBE PARTNERS en recherche et montage de financements",
+        }}
       />
 
       <ServiceOfferChapter
@@ -339,6 +349,10 @@ const OffresPage = () => {
         ]}
         icon={Presentation}
         ctaInHeader
+        photo={{
+          src: offresFormation,
+          alt: "Atelier de formation animé par CAYRIBE PARTNERS",
+        }}
       />
 
       {SHOW_TESTIMONIALS ? <TestimonialsSection /> : null}
