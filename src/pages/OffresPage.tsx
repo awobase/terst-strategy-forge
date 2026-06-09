@@ -57,6 +57,8 @@ type ServiceOfferChapterProps = {
     src: string;
     alt: string;
   };
+  /** Photo à droite à la place de la liste ; la liste passe en dessous */
+  photoBesideList?: boolean;
 };
 
 const quickLinks = [
@@ -87,6 +89,7 @@ function ServiceOfferChapter({
   ctaInHeader = false,
   partnerLogos,
   photo,
+  photoBesideList = false,
 }: ServiceOfferChapterProps) {
   const block = useInView();
   const bgMuted = index % 2 === 1;
@@ -100,6 +103,38 @@ function ServiceOfferChapter({
       <ArrowRight className="h-4 w-4" aria-hidden />
     </Link>
   );
+
+  const listBlock = (
+    <div className="rounded-2xl border border-border/50 bg-card p-6 shadow-sm md:p-8">
+      <h3 className="font-heading text-lg font-bold text-foreground md:text-xl">{listTitle}</h3>
+      <ul className="mt-6 grid gap-3 sm:grid-cols-2 sm:gap-4">
+        {listItems.map((line, i) => (
+          <li
+            key={line}
+            className={cn(
+              "flex gap-3 rounded-xl border border-border/40 bg-background/80 px-4 py-3.5",
+              (line.length > 100 || (i === 0 && listItems.length % 2 === 1)) && "sm:col-span-2",
+            )}
+          >
+            <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-secondary" aria-hidden />
+            <span className="text-sm leading-relaxed text-foreground/85">{line}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+
+  const photoBlock = photo ? (
+    <div className="group overflow-hidden rounded-3xl shadow-xl ring-1 ring-border/50">
+      <img
+        src={photo.src}
+        alt={photo.alt}
+        className="aspect-[16/10] w-full min-h-[220px] object-cover object-center transition duration-700 group-hover:scale-[1.02] sm:min-h-[280px] md:min-h-[360px] lg:min-h-[420px]"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+  ) : null;
 
   return (
     <section
@@ -154,43 +189,16 @@ function ServiceOfferChapter({
               {ctaInHeader ? <div className="mt-6 hidden lg:block">{ctaLink}</div> : null}
             </header>
 
-            {/* Liste */}
+            {/* Liste ou photo (colonne droite) */}
             <div className="mt-12 lg:col-span-7 lg:mt-0">
-              <div className="rounded-2xl border border-border/50 bg-card p-6 shadow-sm md:p-8">
-                <h3 className="font-heading text-lg font-bold text-foreground md:text-xl">{listTitle}</h3>
-                <ul className="mt-6 grid gap-3 sm:grid-cols-2 sm:gap-4">
-                  {listItems.map((line, i) => (
-                    <li
-                      key={line}
-                      className={cn(
-                        "flex gap-3 rounded-xl border border-border/40 bg-background/80 px-4 py-3.5",
-                        (line.length > 100 || (i === 0 && listItems.length % 2 === 1)) && "sm:col-span-2",
-                      )}
-                    >
-                      <CheckCircle2
-                        className="mt-0.5 h-5 w-5 shrink-0 text-secondary"
-                        aria-hidden
-                      />
-                      <span className="text-sm leading-relaxed text-foreground/85">{line}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {photoBesideList && photoBlock ? photoBlock : listBlock}
             </div>
           </div>
 
-          {photo ? (
-            <div className="mx-auto mt-10 w-full max-w-5xl md:mt-14">
-              <div className="group overflow-hidden rounded-3xl shadow-xl ring-1 ring-border/50">
-                <img
-                  src={photo.src}
-                  alt={photo.alt}
-                  className="aspect-[16/10] w-full min-h-[220px] object-cover object-center transition duration-700 group-hover:scale-[1.02] sm:min-h-[280px] md:min-h-[360px] lg:min-h-[420px]"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-            </div>
+          {photoBesideList && photo ? (
+            <div className="mx-auto mt-10 w-full max-w-5xl md:mt-14">{listBlock}</div>
+          ) : photo ? (
+            <div className="mx-auto mt-10 w-full max-w-5xl md:mt-14">{photoBlock}</div>
           ) : null}
 
           {footer ? (
@@ -303,6 +311,7 @@ const OffresPage = () => {
           src: offresEtudePerso,
           alt: "Consultants CAYRIBE PARTNERS en analyse stratégique et étude de marché",
         }}
+        photoBesideList
       />
 
       <ServiceOfferChapter
@@ -328,6 +337,7 @@ const OffresPage = () => {
           src: offresRechFinancements,
           alt: "Accompagnement CAYRIBE PARTNERS en recherche et montage de financements",
         }}
+        photoBesideList
       />
 
       <ServiceOfferChapter
@@ -353,6 +363,7 @@ const OffresPage = () => {
           src: offresFormation,
           alt: "Atelier de formation animé par CAYRIBE PARTNERS",
         }}
+        photoBesideList
       />
 
       {SHOW_TESTIMONIALS ? <TestimonialsSection /> : null}
