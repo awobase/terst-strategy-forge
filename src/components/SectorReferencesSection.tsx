@@ -72,7 +72,7 @@ function SectorReferencesPanel({ sector }: { sector: SectorCategory }) {
       className="overflow-hidden rounded-2xl border border-border/60 bg-card shadow-md"
       aria-live="polite"
     >
-      <div className={cn("px-5 py-4 md:px-6 md:py-5", style.header)}>
+      <div className={cn("px-5 py-4 text-center md:px-6 md:py-5", style.header)}>
         <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/75">Secteur</p>
         <h3 className={cn("mt-1 font-heading text-lg font-bold md:text-xl", style.title)}>{sector.label}</h3>
       </div>
@@ -112,7 +112,10 @@ const SectorReferencesSection = () => {
   const activeSector = activeIndex !== null ? sectors[activeIndex] ?? null : null;
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
-  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+  const scrollNext = useCallback(() => {
+    setActiveIndex(null);
+    emblaApi?.scrollNext();
+  }, [emblaApi]);
 
   const selectSector = useCallback(
     (index: number) => {
@@ -123,10 +126,10 @@ const SectorReferencesSection = () => {
   );
 
   useEffect(() => {
-    if (paused || total <= 1 || !emblaApi) return;
+    if (paused || activeIndex !== null || total <= 1 || !emblaApi) return;
     const timer = window.setInterval(() => emblaApi.scrollNext(), autoplayMs);
     return () => window.clearInterval(timer);
-  }, [autoplayMs, emblaApi, paused, total]);
+  }, [activeIndex, autoplayMs, emblaApi, paused, total]);
 
   if (total === 0) return null;
 
