@@ -71,7 +71,7 @@ const QuiSommesNousPage = () => {
           <img
             src={martiniqueSilhouette}
             alt=""
-            className="absolute left-[58%] top-[15%] w-[14rem] max-w-none -translate-x-1/2 object-contain opacity-[0.18] sepia saturate-[0.7] hue-rotate-[340deg] sm:w-[18rem] md:left-[55%] md:top-[16%] md:w-[23rem] lg:w-[27rem] xl:left-[51%] xl:w-[31rem]"
+            className="absolute left-[58%] top-[15%] w-[11rem] max-w-none -translate-x-1/2 object-contain opacity-[0.18] sepia saturate-[0.7] hue-rotate-[340deg] sm:w-[15rem] md:left-[55%] md:top-[16%] md:w-[19rem] lg:w-[23rem] xl:left-[51%] xl:w-[26rem]"
             style={{ aspectRatio: "341 / 419" }}
             draggable={false}
           />
