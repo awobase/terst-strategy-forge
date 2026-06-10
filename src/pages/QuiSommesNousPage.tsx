@@ -71,14 +71,14 @@ const QuiSommesNousPage = () => {
           <img
             src={martiniqueSilhouette}
             alt=""
-            className="absolute left-[58%] top-[15%] w-[11rem] max-w-none -translate-x-1/2 object-contain opacity-[0.18] sepia saturate-[0.7] hue-rotate-[340deg] sm:w-[15rem] md:left-[55%] md:top-[16%] md:w-[19rem] lg:w-[23rem] xl:left-[51%] xl:w-[26rem]"
+            className="absolute left-[58%] top-[15%] w-[9rem] max-w-none -translate-x-1/2 object-contain opacity-[0.18] sepia saturate-[0.7] hue-rotate-[340deg] sm:w-[12rem] md:left-[55%] md:top-[16%] md:w-[16rem] lg:w-[19rem] xl:left-[51%] xl:w-[22rem]"
             style={{ aspectRatio: "341 / 419" }}
             draggable={false}
           />
           <img
             src={guadeloupeSilhouette}
             alt=""
-            className="absolute right-[-6rem] top-[8%] w-[14rem] max-w-none object-contain opacity-[0.18] sepia saturate-[0.7] hue-rotate-[340deg] sm:right-[-2rem] sm:w-[18rem] md:right-[8%] md:top-[9%] md:w-[23rem] lg:right-[13%] lg:w-[27rem] xl:right-[17%] xl:w-[31rem]"
+            className="absolute right-[-6rem] top-[8%] w-[14rem] max-w-none object-contain opacity-[0.24] sepia saturate-[0.7] hue-rotate-[340deg] sm:right-[-2rem] sm:w-[18rem] md:right-[8%] md:top-[9%] md:w-[23rem] lg:right-[13%] lg:w-[27rem] xl:right-[17%] xl:w-[31rem]"
             style={{ aspectRatio: "495 / 461" }}
             draggable={false}
           />
