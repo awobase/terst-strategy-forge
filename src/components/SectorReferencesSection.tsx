@@ -103,7 +103,7 @@ const SectorReferencesSection = () => {
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: total > 1,
-    align: "start",
+    align: "center",
     containScroll: "trimSnaps",
     dragFree: false,
     duration: prefersReducedMotion ? 0 : 26,
@@ -111,7 +111,11 @@ const SectorReferencesSection = () => {
 
   const activeSector = activeIndex !== null ? sectors[activeIndex] ?? null : null;
 
-  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollPrev = useCallback(() => {
+    setActiveIndex(null);
+    emblaApi?.scrollPrev();
+  }, [emblaApi]);
+
   const scrollNext = useCallback(() => {
     setActiveIndex(null);
     emblaApi?.scrollNext();
@@ -176,7 +180,7 @@ const SectorReferencesSection = () => {
             </button>
 
             <div className="min-w-0 flex-1 overflow-hidden" ref={emblaRef}>
-              <div className="flex touch-pan-y">
+              <div className="-ml-3 flex touch-pan-y sm:-ml-4 md:-ml-5">
                 {sectors.map((sector, index) => {
                   const referenceCount = getReferencesForSector(sector.id).length;
 
