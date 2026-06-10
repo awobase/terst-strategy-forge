@@ -46,65 +46,60 @@ const QuiSommesNousPage = () => {
       />
 
       <section
-        id="presentation"
-        className="scroll-mt-28 relative overflow-hidden bg-[hsl(222,42%,12%)] text-primary-foreground"
+        className="relative min-h-[560px] overflow-hidden bg-[hsl(224,38%,11%)] text-primary-foreground md:min-h-[600px]"
       >
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.35]"
+          className="pointer-events-none absolute inset-0 opacity-80"
           style={{
-            backgroundImage: `radial-gradient(circle at 20% 20%, hsl(32 88% 52% / 0.12) 0%, transparent 45%),
-              radial-gradient(circle at 85% 60%, hsl(222 58% 45% / 0.2) 0%, transparent 40%),
-              linear-gradient(180deg, transparent 0%, hsl(222 42% 8% / 0.9) 100%)`,
+            backgroundImage: `radial-gradient(circle at 72% 28%, hsl(222 60% 38% / 0.16) 0%, transparent 34%),
+              radial-gradient(circle at 26% 18%, hsl(32 88% 52% / 0.08) 0%, transparent 32%),
+              linear-gradient(90deg, hsl(224 38% 11% / 0.98) 0%, hsl(224 38% 11% / 0.84) 45%, hsl(224 38% 10% / 0.96) 100%),
+              linear-gradient(180deg, transparent 0%, hsl(224 44% 7% / 0.72) 100%)`,
           }}
           aria-hidden
         />
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.07]"
+          className="pointer-events-none absolute inset-0 opacity-[0.075]"
           style={{
-            backgroundImage: `linear-gradient(hsl(0 0% 100% / 0.5) 1px, transparent 1px),
-              linear-gradient(90deg, hsl(0 0% 100% / 0.5) 1px, transparent 1px)`,
+            backgroundImage: `linear-gradient(hsl(0 0% 100% / 0.72) 1px, transparent 1px),
+              linear-gradient(90deg, hsl(0 0% 100% / 0.72) 1px, transparent 1px)`,
             backgroundSize: "48px 48px",
           }}
           aria-hidden
         />
-        <div
-          className="pointer-events-none absolute inset-y-0 right-0 hidden w-[min(52%,28rem)] md:block xl:w-[min(48%,32rem)]"
-          style={{
-            maskImage: "linear-gradient(to right, transparent 0%, black 28%)",
-            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 28%)",
-          }}
-          aria-hidden
-        >
-          <div className="relative h-full w-full">
-            <img
-              src={guadeloupeSilhouette}
-              alt=""
-              className="absolute bottom-[24%] left-0 w-[12rem] max-w-none object-contain object-left-bottom opacity-[0.16] saturate-[0.85] md:bottom-[26%] md:w-[15rem] xl:w-[17rem]"
-              style={{ aspectRatio: "495 / 461" }}
-              draggable={false}
-            />
-            <img
-              src={martiniqueSilhouette}
-              alt=""
-              className="absolute bottom-[10%] right-0 w-[10rem] max-w-none object-contain object-right-bottom opacity-[0.14] saturate-[0.9] md:w-[12rem] xl:w-[14rem]"
-              style={{ aspectRatio: "341 / 419" }}
-              draggable={false}
-            />
-          </div>
+        <div className="pointer-events-none absolute inset-0 z-[1] overflow-hidden" aria-hidden>
+          <img
+            src={guadeloupeSilhouette}
+            alt=""
+            className="absolute left-[58%] top-[15%] w-[14rem] max-w-none -translate-x-1/2 object-contain opacity-[0.15] saturate-[0.75] sm:w-[18rem] md:left-[55%] md:top-[16%] md:w-[23rem] lg:w-[27rem] xl:left-[51%] xl:w-[31rem]"
+            style={{ aspectRatio: "495 / 461" }}
+            draggable={false}
+          />
+          <img
+            src={martiniqueSilhouette}
+            alt=""
+            className="absolute right-[-6rem] top-[8%] w-[14rem] max-w-none object-contain opacity-[0.18] sepia saturate-[0.7] hue-rotate-[340deg] sm:right-[-2rem] sm:w-[18rem] md:right-[8%] md:top-[9%] md:w-[23rem] lg:right-[13%] lg:w-[27rem] xl:right-[17%] xl:w-[31rem]"
+            style={{ aspectRatio: "341 / 419" }}
+            draggable={false}
+          />
         </div>
-        <div className="container relative z-10 mx-auto px-4 pb-20 pt-24 sm:px-6 md:pb-28 md:pt-28 lg:px-8">
-          <p className="eyebrow mb-4 text-secondary">Qui sommes-nous</p>
-          <h1 className="font-heading text-4xl font-bold leading-[1.12] tracking-tight md:text-5xl lg:max-w-[22ch] lg:text-[3.25rem]">
-            Des entrepreneurs au service des{" "}
-            <span className="bg-gradient-to-r from-secondary to-amber-300/90 bg-clip-text text-transparent">
-              entrepreneurs…
-            </span>
-          </h1>
+        <div className="container relative z-10 mx-auto px-4 pb-20 pt-12 sm:px-6 md:pb-24 md:pt-14 lg:px-8">
+          <p className="eyebrow mb-12 text-secondary sm:mb-14">Qui sommes-nous</p>
+
+          <div className="max-w-[50rem]">
+            <h1 className="font-heading text-[3rem] font-bold leading-[1.03] tracking-tight sm:text-[3.75rem] md:text-[4rem] lg:text-[4.35rem]">
+              Des entrepreneurs au service des{" "}
+              <span className="bg-gradient-to-r from-secondary to-amber-300 bg-clip-text text-transparent">
+                entrepreneurs…
+              </span>
+            </h1>
+          </div>
+
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-primary-foreground/75 md:text-xl">
             Nous accompagnons celles et ceux qui veulent transformer une ambition en un projet solide, structuré et
             finançable. Une approche qui fait toute la différence.
           </p>
-          <div className="mt-10">
+          <div className="mb-3 mt-8">
             <a
               href="#equipe"
               className="inline-flex items-center gap-2 rounded-lg bg-secondary px-5 py-3 text-sm font-semibold text-secondary-foreground shadow-lg shadow-secondary/20 transition hover:-translate-y-0.5 hover:shadow-xl"
@@ -116,13 +111,13 @@ const QuiSommesNousPage = () => {
         </div>
       </section>
 
-      <div className="relative z-20 -mt-12 md:-mt-16">
+      <div className="relative z-20 -mt-20 md:-mt-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-5 md:grid-cols-3">
             {metrics.map((m) => (
               <div
                 key={m.label}
-                className="rounded-2xl border border-border/60 bg-card/95 p-6 shadow-lg shadow-primary/5 backdrop-blur-md md:p-7"
+                className="min-h-[132px] rounded-2xl border border-border/60 bg-card/95 p-6 shadow-lg shadow-primary/5 backdrop-blur-md md:p-7"
               >
                 <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-primary/80">{m.label}</p>
                 <p className="mt-2 font-heading text-xl font-bold leading-snug tracking-tight text-foreground md:text-2xl">
@@ -134,7 +129,7 @@ const QuiSommesNousPage = () => {
         </div>
       </div>
 
-      <section className="border-b border-border/40 bg-background py-16 md:py-24">
+      <section id="presentation" className="scroll-mt-28 border-b border-border/40 bg-background py-16 md:py-24">
         <div
           ref={story.ref}
           className={cn(
