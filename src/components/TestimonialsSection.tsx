@@ -76,14 +76,14 @@ const TestimonialsSection = () => {
                 aria-live="polite"
               >
                 <Quote
-                  className="pointer-events-none absolute left-8 top-8 h-14 w-14 text-secondary/25 md:left-10 md:top-10 md:h-[3.75rem] md:w-[3.75rem]"
+                  className="pointer-events-none absolute left-5 top-5 h-9 w-9 text-secondary/25 sm:left-6 sm:top-6 sm:h-10 sm:w-10 md:left-10 md:top-10 md:h-[3.75rem] md:w-[3.75rem]"
                   fill="currentColor"
                   stroke="none"
                   aria-hidden
                 />
 
                 <div key={current} className="relative z-10 animate-fade-in text-center">
-                  <blockquote className="mb-6 mt-2 px-4 pt-4 md:mb-8 md:mt-4 md:px-8 md:pt-6">
+                  <blockquote className="mb-6 mt-0 px-2 pt-11 sm:px-4 sm:pt-12 md:mb-8 md:mt-4 md:px-8 md:pt-6">
                     <p className="text-base font-medium leading-relaxed text-foreground md:text-lg md:leading-relaxed">
                       {formatTestimonialText(t.text)}
                     </p>
