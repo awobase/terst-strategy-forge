@@ -67,20 +67,22 @@ const QuiSommesNousPage = () => {
           }}
           aria-hidden
         />
-        <div className="pointer-events-none absolute inset-0 z-[1] overflow-hidden" aria-hidden>
-          <img
-            src={martiniqueSilhouette}
-            alt=""
-            className="absolute left-[44%] top-[18%] w-[6.5rem] max-w-none -translate-x-1/2 object-contain opacity-[0.24] sepia saturate-[0.7] hue-rotate-[340deg] sm:w-[8.5rem] md:left-[46%] md:top-[19%] md:w-[11rem] lg:w-[13rem] xl:left-[44%] xl:w-[15.5rem]"
-            style={{ aspectRatio: "341 / 419" }}
-            draggable={false}
+        <div className="pointer-events-none absolute inset-0 z-[1] overflow-hidden [--island-tint:hsl(30_18%_24%)]" aria-hidden>
+          <div
+            className="absolute left-[44%] top-[18%] w-[6.5rem] max-w-none -translate-x-1/2 bg-[var(--island-tint)] opacity-[0.24] sm:w-[8.5rem] md:left-[46%] md:top-[19%] md:w-[11rem] lg:w-[13rem] xl:left-[44%] xl:w-[15.5rem]"
+            style={{
+              aspectRatio: "341 / 419",
+              mask: `url(${martiniqueSilhouette}) center / contain no-repeat`,
+              WebkitMask: `url(${martiniqueSilhouette}) center / contain no-repeat`,
+            }}
           />
-          <img
-            src={guadeloupeSilhouette}
-            alt=""
-            className="absolute right-[-6rem] top-[8%] w-[14rem] max-w-none object-contain opacity-[0.24] sepia saturate-[0.7] hue-rotate-[340deg] sm:right-[-2rem] sm:w-[18rem] md:right-[8%] md:top-[9%] md:w-[23rem] lg:right-[13%] lg:w-[27rem] xl:right-[17%] xl:w-[31rem]"
-            style={{ aspectRatio: "495 / 461" }}
-            draggable={false}
+          <div
+            className="absolute right-[-6rem] top-[8%] w-[14rem] max-w-none bg-[var(--island-tint)] opacity-[0.24] sm:right-[-2rem] sm:w-[18rem] md:right-[8%] md:top-[9%] md:w-[23rem] lg:right-[13%] lg:w-[27rem] xl:right-[17%] xl:w-[31rem]"
+            style={{
+              aspectRatio: "495 / 461",
+              mask: `url(${guadeloupeSilhouette}) center / contain no-repeat`,
+              WebkitMask: `url(${guadeloupeSilhouette}) center / contain no-repeat`,
+            }}
           />
         </div>
         <div className="container relative z-10 mx-auto px-4 pb-20 pt-12 sm:px-6 md:pb-24 md:pt-14 lg:px-8">
