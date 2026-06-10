@@ -4,8 +4,8 @@ import offresFormation from "@/assets/offres-formation.png";
 import offresRechFinancements from "@/assets/offres-rech-financements.png";
 import SiteLayout from "@/components/SiteLayout";
 import PageMeta from "@/components/PageMeta";
-import { SHOW_TESTIMONIALS } from "@/config/features";
 import TestimonialsSection from "@/components/TestimonialsSection";
+import { SHOW_TESTIMONIALS } from "@/config/features";
 import { ROUTES } from "@/config/navigation";
 import { useInView } from "@/hooks/useInView";
 import { cn } from "@/lib/utils";
@@ -75,6 +75,7 @@ const offresNavItems = [
   { id: "etudes-personnalisees", label: "Études" },
   { id: "recherche-financements", label: "Financements" },
   { id: "formation-cabinet", label: "Formation" },
+  ...(SHOW_TESTIMONIALS ? [{ id: "temoignages" as const, label: "Témoignages" as const }] : []),
 ] as const;
 
 function ServiceOfferChapter({

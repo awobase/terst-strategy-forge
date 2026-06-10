@@ -15,14 +15,12 @@ const offresItems = [
 	{ label: "Études personnalisées", to: ROUTES.offres.etudesPersonnalisees },
 	{ label: "Recherche de financements", to: ROUTES.offres.rechercheFinancements },
 	{ label: "Formation du cabinet", to: ROUTES.offres.formationCabinet },
+	...(SHOW_TESTIMONIALS ? [{ label: "Témoignages" as const, to: ROUTES.offres.temoignages }] : []),
 ] as const;
 
 const quiSommesNousItems = [
 	{ label: "Présentation du cabinet", to: ROUTES.quiSommesNous.presentation },
 	{ label: "Équipe", to: ROUTES.quiSommesNous.equipe },
-	...(SHOW_TESTIMONIALS
-		? [{ label: "Témoignages" as const, to: ROUTES.temoignagesOffres }]
-		: []),
 	{ label: "Références sectorielles", to: ROUTES.quiSommesNous.referencesSectorielles },
 ];
 

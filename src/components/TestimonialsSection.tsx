@@ -50,78 +50,80 @@ const TestimonialsSection = () => {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/[0.02] rounded-full -translate-y-1/2" />
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-14 max-w-2xl mx-auto">
+        <div className="text-center mb-8 max-w-2xl mx-auto">
           <p className="eyebrow">Témoignages</p>
           <h2 className="section-title">La voix de nos clients</h2>
         </div>
 
-        <div className="mx-auto flex max-w-4xl items-center gap-3 md:gap-4">
-          <button
+        <div
+          className="mx-auto max-w-4xl"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={resumeAutoplay}
+        >
+          <div className="flex items-center gap-3 md:gap-4">
+            <button
             type="button"
-            onClick={prev}
-            aria-label="Témoignage précédent"
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:bg-primary hover:text-primary-foreground hover:shadow-md active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-          >
-            <ChevronLeft className="h-5 w-5" />
-          </button>
-
-          <div
-            className="min-w-0 flex-1"
-            onMouseEnter={() => setPaused(true)}
-            onMouseLeave={resumeAutoplay}
-          >
-            <div
-              className="relative overflow-hidden rounded-2xl border border-border/60 bg-card p-8 shadow-sm md:p-12 md:px-14"
-              aria-live="polite"
+              onClick={prev}
+              aria-label="Témoignage précédent"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:bg-primary hover:text-primary-foreground hover:shadow-md active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
-              <Quote
-                className="pointer-events-none absolute left-8 top-8 h-14 w-14 text-secondary/25 md:left-10 md:top-10 md:h-[3.75rem] md:w-[3.75rem]"
-                fill="currentColor"
-                stroke="none"
-                aria-hidden
-              />
+              <ChevronLeft className="h-5 w-5" />
+            </button>
 
-              <div key={current} className="relative z-10 animate-fade-in text-center">
-                <blockquote className="mb-6 mt-2 px-4 pt-4 md:mb-8 md:mt-4 md:px-8 md:pt-6">
-                  <p className="text-base font-medium leading-relaxed text-foreground md:text-lg md:leading-relaxed">
-                    {formatTestimonialText(t.text)}
-                  </p>
-                </blockquote>
-
-                <p className="font-heading text-lg font-semibold text-foreground md:text-xl">
-                  {formatTestimonialAuthor(t)}
-                </p>
-                <p className="mt-1 text-sm text-muted-foreground md:mt-1.5 md:text-base">
-                  {formatTestimonialCaption(t)}
-                </p>
-              </div>
-
-              {total > 1 && (
-                <div
-                  className="relative z-10 mt-8 h-1 overflow-hidden rounded-full bg-border/50"
+            <div className="min-w-0 flex-1">
+              <div
+                className="relative overflow-hidden rounded-2xl border border-border/60 bg-card p-8 shadow-sm md:p-12 md:px-14"
+                aria-live="polite"
+              >
+                <Quote
+                  className="pointer-events-none absolute left-8 top-8 h-14 w-14 text-secondary/25 md:left-10 md:top-10 md:h-[3.75rem] md:w-[3.75rem]"
+                  fill="currentColor"
+                  stroke="none"
                   aria-hidden
-                >
-                  <div
-                    key={`${current}-${progressEpoch}`}
-                    className="testimonial-progress h-full rounded-full bg-secondary"
-                    style={{
-                      animationDuration: `${autoplayMs}ms`,
-                      animationPlayState: paused ? "paused" : "running",
-                    }}
-                  />
+                />
+
+                <div key={current} className="relative z-10 animate-fade-in text-center">
+                  <blockquote className="mb-6 mt-2 px-4 pt-4 md:mb-8 md:mt-4 md:px-8 md:pt-6">
+                    <p className="text-base font-medium leading-relaxed text-foreground md:text-lg md:leading-relaxed">
+                      {formatTestimonialText(t.text)}
+                    </p>
+                  </blockquote>
+
+                  <p className="font-heading text-lg font-semibold text-foreground md:text-xl">
+                    {formatTestimonialAuthor(t)}
+                  </p>
+                  <p className="mt-1 text-sm text-muted-foreground md:mt-1.5 md:text-base">
+                    {formatTestimonialCaption(t)}
+                  </p>
                 </div>
-              )}
+              </div>
             </div>
+
+            <button
+              type="button"
+              onClick={next}
+              aria-label="Témoignage suivant"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:bg-primary hover:text-primary-foreground hover:shadow-md active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
           </div>
 
-          <button
-            type="button"
-            onClick={next}
-            aria-label="Témoignage suivant"
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:bg-primary hover:text-primary-foreground hover:shadow-md active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-          >
-            <ChevronRight className="h-5 w-5" />
-          </button>
+          {total > 1 && (
+            <div
+              className="relative mt-8 h-1 overflow-hidden rounded-full bg-secondary/10"
+              aria-hidden
+            >
+              <div
+                key={`${current}-${progressEpoch}`}
+                className="testimonial-progress h-full rounded-full bg-secondary/25"
+                style={{
+                  animationDuration: `${autoplayMs}ms`,
+                  animationPlayState: paused ? "paused" : "running",
+                }}
+              />
+            </div>
+          )}
         </div>
       </div>
     </section>

@@ -9,6 +9,7 @@ export const ROUTES = {
     etudesPersonnalisees: "/offres#etudes-personnalisees",
     rechercheFinancements: "/offres#recherche-financements",
     formationCabinet: "/offres#formation-cabinet",
+    temoignages: "/offres#temoignages",
   },
   quiSommesNousRoot: "/qui-sommes-nous",
   quiSommesNous: {
@@ -17,8 +18,6 @@ export const ROUTES = {
     referencesSectorielles: "/qui-sommes-nous#references-sectorielles",
     partenaires: "/qui-sommes-nous#partenaires",
   },
-  temoignagesOffres: "/offres#temoignages",
-  temoignagesQuiSommesNous: "/qui-sommes-nous#temoignages",
   /** Formulaire unique (objet au choix dans le formulaire) */
   contact: "/contact",
 } as const;

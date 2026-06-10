@@ -69,7 +69,7 @@ function SectorReferencesPanel({ sector }: { sector: SectorCategory }) {
   return (
     <article
       key={sector.id}
-      className="animate-fade-in overflow-hidden rounded-2xl border border-border/60 bg-card shadow-md"
+      className="overflow-hidden rounded-2xl border border-border/60 bg-card shadow-md"
       aria-live="polite"
     >
       <div className={cn("px-5 py-4 md:px-6 md:py-5", style.header)}>
@@ -94,10 +94,8 @@ function SectorReferencesPanel({ sector }: { sector: SectorCategory }) {
 const SectorReferencesSection = () => {
   const block = useInView();
   const sectors = SECTOR_CATEGORIES_WITH_REFERENCES;
-  const [selectedId, setSelectedId] = useState<string | null>(sectors[0]?.id ?? null);
-  const [carouselIndex, setCarouselIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [paused, setPaused] = useState(false);
-  const [progressEpoch, setProgressEpoch] = useState(0);
   const prefersReducedMotion = usePrefersReducedMotion();
   const total = sectors.length;
 
@@ -111,44 +109,24 @@ const SectorReferencesSection = () => {
     duration: prefersReducedMotion ? 0 : 26,
   });
 
-  const selectedSector = sectors.find((s) => s.id === selectedId) ?? null;
-
-  const bumpProgress = useCallback(() => setProgressEpoch((n) => n + 1), []);
-
-  const onCarouselSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setCarouselIndex(emblaApi.selectedScrollSnap());
-    bumpProgress();
-  }, [bumpProgress, emblaApi]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    onCarouselSelect();
-    emblaApi.on("select", onCarouselSelect);
-    emblaApi.on("reInit", onCarouselSelect);
-    return () => {
-      emblaApi.off("select", onCarouselSelect);
-      emblaApi.off("reInit", onCarouselSelect);
-    };
-  }, [emblaApi, onCarouselSelect]);
+  const activeSector = activeIndex !== null ? sectors[activeIndex] ?? null : null;
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
   const selectSector = useCallback(
-    (id: string, index: number) => {
-      setSelectedId(id);
+    (index: number) => {
+      setActiveIndex(index);
       emblaApi?.scrollTo(index);
-      bumpProgress();
     },
-    [bumpProgress, emblaApi],
+    [emblaApi],
   );
 
   useEffect(() => {
     if (paused || total <= 1 || !emblaApi) return;
     const timer = window.setInterval(() => emblaApi.scrollNext(), autoplayMs);
     return () => window.clearInterval(timer);
-  }, [autoplayMs, emblaApi, paused, total, progressEpoch]);
+  }, [autoplayMs, emblaApi, paused, total]);
 
   if (total === 0) return null;
 
@@ -182,10 +160,7 @@ const SectorReferencesSection = () => {
         <div
           className="mx-auto mt-12 max-w-5xl md:mt-14"
           onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => {
-            setPaused(false);
-            bumpProgress();
-          }}
+          onMouseLeave={() => setPaused(false)}
         >
           <div className="flex items-center gap-2 md:gap-4">
             <button
@@ -211,8 +186,8 @@ const SectorReferencesSection = () => {
                         <SectorGalleryCard
                           sector={sector}
                           referenceCount={referenceCount}
-                          isSelected={selectedId === sector.id}
-                          onSelect={() => selectSector(sector.id, index)}
+                          isSelected={activeIndex === index}
+                          onSelect={() => selectSector(index)}
                         />
                       </div>
                     </div>
@@ -231,32 +206,8 @@ const SectorReferencesSection = () => {
             </button>
           </div>
 
-          {total > 1 && (
-            <div className="mt-5 flex flex-col items-center gap-3">
-              <div className="h-1 w-full max-w-md overflow-hidden rounded-full bg-border/50" aria-hidden>
-                <div
-                  key={`${carouselIndex}-${progressEpoch}`}
-                  className="testimonial-progress h-full rounded-full bg-secondary"
-                  style={{
-                    animationDuration: `${autoplayMs}ms`,
-                    animationPlayState: paused ? "paused" : "running",
-                  }}
-                />
-              </div>
-              <p className="text-sm text-muted-foreground">
-                {carouselIndex + 1} sur {total} secteurs
-              </p>
-            </div>
-          )}
-
           <div className="mt-8 md:mt-10">
-            {selectedSector ? (
-              <SectorReferencesPanel sector={selectedSector} />
-            ) : (
-              <p className="rounded-2xl border border-dashed border-border/60 bg-muted/10 px-6 py-10 text-center text-sm text-muted-foreground">
-                Sélectionnez un secteur dans la galerie pour afficher ses références.
-              </p>
-            )}
+            {activeSector ? <SectorReferencesPanel sector={activeSector} /> : null}
           </div>
         </div>
       </div>
