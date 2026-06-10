@@ -32,7 +32,7 @@ import villeLamentin from "@/assets/trust-partners/ville-lamentin.png";
 export type TrustPartnerLogo = {
   src: string;
   alt: string;
-  /** Agrandissement visuel pour les logos plus compacts (défaut : 1) */
+  /** Ajustement fin optionnel pour les logos très compacts (défaut : 1) */
   scale?: number;
 };
 
@@ -44,28 +44,28 @@ export const TRUST_PARTNER_LOGOS: TrustPartnerLogo[] = [
   { src: bpifrance, alt: "Bpifrance" },
   { src: cangt, alt: "CANGT — Communauté d'agglomération du Nord Grande-Terre" },
   { src: capNordMartinique, alt: "CAP Nord Martinique" },
-  { src: cciGuadeloupe, alt: "CCI des Îles de Guadeloupe", scale: 1.2 },
+  { src: cciGuadeloupe, alt: "CCI des Îles de Guadeloupe" },
   { src: cmarGuadeloupe, alt: "Chambre de Métiers et de l'Artisanat de Guadeloupe" },
-  { src: chuMartinique, alt: "CHU de Martinique", scale: 1.5 },
+  { src: chuMartinique, alt: "CHU de Martinique" },
   { src: universiteAntilles, alt: "Université des Antilles" },
   { src: inovaTechnopole, alt: "I-Nova Technopole Guadeloupe" },
   { src: technopoleMartinique, alt: "Technopole Martinique" },
-  { src: martiniqueDev, alt: "Martinique Développement", scale: 1.75 },
+  { src: martiniqueDev, alt: "Martinique Développement" },
   { src: prefetMartinique, alt: "Préfet de la Martinique" },
-  { src: drfipMartinique, alt: "DRFIP Martinique", scale: 1.5 },
-  { src: deetsGuadeloupe, alt: "DEETS Guadeloupe", scale: 1.3 },
+  { src: drfipMartinique, alt: "DRFIP Martinique" },
+  { src: deetsGuadeloupe, alt: "DEETS Guadeloupe" },
   { src: villeFortDeFrance, alt: "Ville de Fort-de-France" },
   { src: villeBaieMahault, alt: "Ville de Baie-Mahault" },
-  { src: villeLamentin, alt: "Ville du Lamentin", scale: 1.15 },
+  { src: villeLamentin, alt: "Ville du Lamentin" },
   { src: mpiGuadeloupe, alt: "MPI Guadeloupe — Association des Moyennes et Petites Industries" },
   { src: capExcellence, alt: "CAP Excellence" },
-  { src: afdas, alt: "AFDAS", scale: 1.75 },
-  { src: agepta, alt: "AGEPTA", scale: 1.3 },
-  { src: cacem, alt: "CACEM", scale: 1.5 },
-  { src: carl, alt: "CARL", scale: 1.3 },
-  { src: ftpg, alt: "FTPG", scale: 1.2 },
-  { src: exportTt, alt: "Export TT", scale: 1.3 },
+  { src: afdas, alt: "AFDAS" },
+  { src: agepta, alt: "AGEPTA" },
+  { src: cacem, alt: "CACEM" },
+  { src: carl, alt: "CARL" },
+  { src: ftpg, alt: "FTPG" },
+  { src: exportTt, alt: "Export TT" },
   { src: ligueVoileMartinique, alt: "Ligue de voile de Martinique" },
-  { src: parm, alt: "PARM", scale: 1.25 },
+  { src: parm, alt: "PARM" },
   { src: opiiec, alt: "OPIIEC" },
 ];

@@ -11,7 +11,7 @@ const PartnersSection = ({ omitHeading = false }: PartnersSectionProps) => {
   const { ref, inView } = useInView();
 
   return (
-    <section className="border-b border-border/40 bg-gradient-to-b from-background to-surface/25 py-16 md:py-24">
+    <section className="border-b border-border/40 bg-background py-16 md:py-24">
       <div ref={ref} className="container mx-auto px-4 sm:px-6 lg:px-8">
         {!omitHeading ? (
           <div
@@ -26,7 +26,7 @@ const PartnersSection = ({ omitHeading = false }: PartnersSectionProps) => {
         <LogoMarquee
           logos={TRUST_PARTNER_LOGOS}
           fadeFromClass="from-background"
-          size="large"
+          size="default"
           variant="plain"
         />
       </div>

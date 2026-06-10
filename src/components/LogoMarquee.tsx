@@ -18,6 +18,8 @@ type LogoMarqueeProps = {
   variant?: "default" | "plain";
   /** static = tous les logos visibles en grille, sans défilement */
   layout?: "marquee" | "static";
+  /** Fond blanc derrière chaque logo — utile pour les PNG à zones transparentes */
+  logoTile?: boolean;
 };
 
 const sizeStyles = {
@@ -39,16 +41,18 @@ const sizeStyles = {
 
 const plainSizeStyles = {
   default: {
-    img: "h-12 w-auto max-w-[9rem] sm:h-14 sm:max-w-[10rem]",
-    gap: "mx-6 sm:mx-8",
-    fade: "w-12 sm:w-16",
-    py: "py-2",
+    img: "h-12 w-auto max-w-[7.5rem] sm:h-14 sm:max-w-[8.75rem] md:h-16 md:max-w-[10rem]",
+    tile: "h-11 min-w-[5.25rem] px-2.5 sm:h-12 sm:min-w-[5.75rem] sm:px-3 md:h-[3.25rem] md:min-w-[6.25rem]",
+    gap: "mx-4 sm:mx-6 md:mx-8",
+    fade: "w-10 sm:w-12",
+    py: "py-1",
   },
   large: {
-    img: "h-28 w-auto max-w-[18rem] sm:h-32 sm:max-w-[20rem] md:h-36 md:max-w-[22rem]",
-    gap: "mx-10 sm:mx-14 md:mx-20",
-    fade: "w-20 sm:w-28",
-    py: "py-6 md:py-8",
+    img: "h-10 w-auto max-w-[6.5rem] sm:h-11 sm:max-w-[7.5rem] md:h-12 md:max-w-[8.5rem]",
+    tile: "h-14 min-w-[6.75rem] px-3 sm:h-16 sm:min-w-[7.5rem] md:h-[4.25rem] md:min-w-[8.5rem]",
+    gap: "mx-5 sm:mx-7 md:mx-9",
+    fade: "w-12 sm:w-16",
+    py: "py-3 md:py-4",
   },
 } as const;
 
@@ -62,26 +66,43 @@ function LogoTile({
   size,
   variant,
   decorative,
+  logoTile = false,
 }: {
   logo: MarqueeLogo;
   size: keyof typeof sizeStyles;
   variant: "default" | "plain";
   decorative?: boolean;
+  logoTile?: boolean;
 }) {
   if (variant === "plain") {
     const s = plainSizeStyles[size];
     const scale = logo.scale ?? 1;
+    const image = (
+      <img
+        src={logo.src}
+        alt={decorative ? "" : logo.alt}
+        className={cn("object-contain object-center opacity-100", logoTile ? "max-h-full max-w-full" : "", s.img)}
+        style={scale !== 1 ? { transform: `scale(${scale})` } : undefined}
+        loading="eager"
+        decoding="async"
+        draggable={false}
+      />
+    );
+
     return (
       <div className={cn("flex shrink-0 items-center justify-center", s.gap)}>
-        <img
-          src={logo.src}
-          alt={decorative ? "" : logo.alt}
-          className={cn("origin-center object-contain object-center", s.img)}
-          style={scale !== 1 ? { transform: `scale(${scale})` } : undefined}
-          loading="eager"
-          decoding="async"
-          draggable={false}
-        />
+        {logoTile ? (
+          <div
+            className={cn(
+              "flex items-center justify-center rounded-lg bg-white shadow-sm ring-1 ring-border/25",
+              s.tile,
+            )}
+          >
+            {image}
+          </div>
+        ) : (
+          image
+        )}
       </div>
     );
   }
@@ -116,6 +137,7 @@ const LogoMarquee = ({
   size = "default",
   variant = "default",
   layout = "marquee",
+  logoTile = false,
 }: LogoMarqueeProps) => {
   const prefersReducedMotion = usePrefersReducedMotion();
 
@@ -160,7 +182,7 @@ const LogoMarquee = ({
       aria-label="Partenaires et dispositifs de financement"
       role="region"
     >
-      {!prefersReducedMotion ? (
+      {!prefersReducedMotion && variant !== "plain" ? (
         <>
           <div
             className={cn(
@@ -194,6 +216,7 @@ const LogoMarquee = ({
             logo={logo}
             size={size}
             variant={variant}
+            logoTile={logoTile}
             decorative={!prefersReducedMotion && i >= logos.length}
           />
         ))}

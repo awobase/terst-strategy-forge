@@ -6,6 +6,7 @@ import {
   SECTOR_CATEGORIES_WITH_REFERENCES,
   type SectorCategory,
 } from "@/config/sectorReferences";
+import type { SectorReference } from "@/config/sectorReferencesData";
 import { useInView } from "@/hooks/useInView";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { cn } from "@/lib/utils";
@@ -62,6 +63,21 @@ function SectorGalleryCard({
   );
 }
 
+function SectorReferenceText({ reference }: { reference: SectorReference }) {
+  if (!reference.highlight) {
+    return (
+      <p className="text-sm leading-relaxed text-foreground/90 md:text-[0.95rem]">{reference.text}</p>
+    );
+  }
+
+  return (
+    <p className="text-sm leading-relaxed text-foreground/90 md:text-[0.95rem]">
+      <span className="font-semibold text-foreground">{reference.highlight}</span>
+      {reference.text ? <> : {reference.text}</> : null}
+    </p>
+  );
+}
+
 function SectorReferencesPanel({ sector }: { sector: SectorCategory }) {
   const style = SECTOR_CAROUSEL_STYLES[sector.color];
   const references = getReferencesForSector(sector.id);
@@ -83,7 +99,7 @@ function SectorReferencesPanel({ sector }: { sector: SectorCategory }) {
             key={`${sector.id}-${index}`}
             className="rounded-xl border border-border/60 bg-card px-4 py-3.5 shadow-sm md:px-5 md:py-4"
           >
-            <p className="text-sm leading-relaxed text-foreground/90 md:text-[0.95rem]">{ref.text}</p>
+            <SectorReferenceText reference={ref} />
           </div>
         ))}
       </div>
