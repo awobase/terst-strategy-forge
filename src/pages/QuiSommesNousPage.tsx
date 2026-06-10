@@ -1,5 +1,7 @@
 import quiSommesNousCarousel1 from "@/assets/qui-sommes-nous-carousel-1.png";
 import quiSommesNousCarousel2 from "@/assets/qui-sommes-nous-carousel-2.png";
+import guadeloupeSilhouette from "@/assets/guadeloupe-silhouette.png";
+import martiniqueSilhouette from "@/assets/martinique-silhouette.png";
 import AutoPhotoCarousel from "@/components/AutoPhotoCarousel";
 import SiteLayout from "@/components/SiteLayout";
 import PageMeta from "@/components/PageMeta";
@@ -65,6 +67,31 @@ const QuiSommesNousPage = () => {
           }}
           aria-hidden
         />
+        <div
+          className="pointer-events-none absolute inset-y-0 right-0 hidden w-[min(52%,28rem)] md:block xl:w-[min(48%,32rem)]"
+          style={{
+            maskImage: "linear-gradient(to right, transparent 0%, black 28%)",
+            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 28%)",
+          }}
+          aria-hidden
+        >
+          <div className="relative h-full w-full">
+            <img
+              src={guadeloupeSilhouette}
+              alt=""
+              className="absolute bottom-[24%] left-0 w-[12rem] max-w-none object-contain object-left-bottom opacity-[0.16] saturate-[0.85] md:bottom-[26%] md:w-[15rem] xl:w-[17rem]"
+              style={{ aspectRatio: "495 / 461" }}
+              draggable={false}
+            />
+            <img
+              src={martiniqueSilhouette}
+              alt=""
+              className="absolute bottom-[10%] right-0 w-[10rem] max-w-none object-contain object-right-bottom opacity-[0.14] saturate-[0.9] md:w-[12rem] xl:w-[14rem]"
+              style={{ aspectRatio: "341 / 419" }}
+              draggable={false}
+            />
+          </div>
+        </div>
         <div className="container relative z-10 mx-auto px-4 pb-20 pt-24 sm:px-6 md:pb-28 md:pt-28 lg:px-8">
           <p className="eyebrow mb-4 text-secondary">Qui sommes-nous</p>
           <h1 className="font-heading text-4xl font-bold leading-[1.12] tracking-tight md:text-5xl lg:max-w-[22ch] lg:text-[3.25rem]">

@@ -67,14 +67,14 @@ const quickLinks = [
   { href: "#offres-standard", name: "Start & Rise" },
   { href: "#etudes-personnalisees", name: "Études" },
   { href: "#recherche-financements", name: "Financements" },
-  { href: "#formation-cabinet", name: "Formation" },
+  { href: "#formation-cabinet", name: "Formations" },
 ];
 
 const offresNavItems = [
   { id: "offres-standard", label: "Start & Rise" },
   { id: "etudes-personnalisees", label: "Études" },
   { id: "recherche-financements", label: "Financements" },
-  { id: "formation-cabinet", label: "Formation" },
+  { id: "formation-cabinet", label: "Formations" },
   ...(SHOW_TESTIMONIALS ? [{ id: "temoignages" as const, label: "Témoignages" as const }] : []),
 ] as const;
 
@@ -353,7 +353,7 @@ const OffresPage = () => {
         id="formation-cabinet"
         index={4}
         tags={["#Ateliers", "#Webinaire", "#Conférences"]}
-        title="Formation du cabinet"
+        title="Formations"
         lead="Le développement d’un projet repose aussi sur l’accès à une information claire, à des outils adaptés et à une vision stratégique permettant de prendre les bonnes décisions."
         detail="À travers nos ateliers, webinaires et conférences, nous transmettons des outils, des méthodes et des clés de compréhension autour de la stratégie, du financement et du développement de projet. Chaque intervention est pensée pour apporter des conseils concrets, applicables et adaptés aux réalités du terrain."
         listTitle="Nos interventions comprennent"
