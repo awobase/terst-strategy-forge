@@ -56,7 +56,7 @@ type ServiceOfferChapterProps = {
   photo?: {
     src: string;
     alt: string;
-    /** Affiche la photo entière sans recadrage serré */
+    /** Cadre ajusté au format naturel de l'image, sans recadrage */
     contain?: boolean;
   };
   /** Photo à droite à la place de la liste ; la liste passe en dessous */
@@ -128,19 +128,14 @@ function ServiceOfferChapter({
   );
 
   const photoBlock = photo ? (
-    <div
-      className={cn(
-        "group overflow-hidden rounded-3xl shadow-xl ring-1 ring-border/50",
-        photo.contain && "bg-card",
-      )}
-    >
+    <div className="group overflow-hidden rounded-3xl shadow-xl ring-1 ring-border/50">
       <img
         src={photo.src}
         alt={photo.alt}
         className={cn(
           "w-full origin-center transition duration-700",
           photo.contain
-            ? "aspect-[16/10] object-contain object-center p-2 sm:min-h-[260px] md:min-h-[340px] lg:min-h-[400px]"
+            ? "block h-auto w-full"
             : "aspect-[16/10] min-h-[220px] object-cover object-center group-hover:scale-[1.02] sm:min-h-[280px] md:min-h-[360px] lg:min-h-[420px]",
         )}
         loading="lazy"
@@ -322,7 +317,7 @@ const OffresPage = () => {
         ctaInHeader
         photo={{
           src: offresEtudePerso,
-          alt: "Consultants CAYRIBE PARTNERS en analyse stratégique et étude de marché",
+          alt: "Échange professionnel autour d'un bureau lors d'une étude personnalisée",
           contain: true,
         }}
         photoBesideList
