@@ -69,17 +69,17 @@ const QuiSommesNousPage = () => {
         />
         <div className="pointer-events-none absolute inset-0 z-[1] overflow-hidden" aria-hidden>
           <img
-            src={guadeloupeSilhouette}
+            src={martiniqueSilhouette}
             alt=""
             className="absolute left-[58%] top-[15%] w-[14rem] max-w-none -translate-x-1/2 object-contain opacity-[0.18] sepia saturate-[0.7] hue-rotate-[340deg] sm:w-[18rem] md:left-[55%] md:top-[16%] md:w-[23rem] lg:w-[27rem] xl:left-[51%] xl:w-[31rem]"
-            style={{ aspectRatio: "495 / 461" }}
+            style={{ aspectRatio: "341 / 419" }}
             draggable={false}
           />
           <img
-            src={martiniqueSilhouette}
+            src={guadeloupeSilhouette}
             alt=""
             className="absolute right-[-6rem] top-[8%] w-[14rem] max-w-none object-contain opacity-[0.18] sepia saturate-[0.7] hue-rotate-[340deg] sm:right-[-2rem] sm:w-[18rem] md:right-[8%] md:top-[9%] md:w-[23rem] lg:right-[13%] lg:w-[27rem] xl:right-[17%] xl:w-[31rem]"
-            style={{ aspectRatio: "341 / 419" }}
+            style={{ aspectRatio: "495 / 461" }}
             draggable={false}
           />
         </div>
