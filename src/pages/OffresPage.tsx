@@ -56,8 +56,8 @@ type ServiceOfferChapterProps = {
   photo?: {
     src: string;
     alt: string;
-    /** < 1 = effet dézoom (plus de contenu visible) */
-    scale?: number;
+    /** Affiche la photo entière sans recadrage serré */
+    contain?: boolean;
   };
   /** Photo à droite à la place de la liste ; la liste passe en dessous */
   photoBesideList?: boolean;
@@ -127,15 +127,20 @@ function ServiceOfferChapter({
   );
 
   const photoBlock = photo ? (
-    <div className="group overflow-hidden rounded-3xl bg-muted/20 shadow-xl ring-1 ring-border/50">
+    <div
+      className={cn(
+        "group overflow-hidden rounded-3xl shadow-xl ring-1 ring-border/50",
+        photo.contain && "bg-card",
+      )}
+    >
       <img
         src={photo.src}
         alt={photo.alt}
         className={cn(
-          "aspect-[16/10] w-full min-h-[220px] origin-center object-cover object-center sm:min-h-[280px] md:min-h-[360px] lg:min-h-[420px]",
-          photo.scale
-            ? "scale-[0.88] transition-transform duration-700 hover:scale-[0.92]"
-            : "transition duration-700 group-hover:scale-[1.02]",
+          "w-full origin-center transition duration-700",
+          photo.contain
+            ? "aspect-[16/10] object-contain object-center p-2 sm:min-h-[260px] md:min-h-[340px] lg:min-h-[400px]"
+            : "aspect-[16/10] min-h-[220px] object-cover object-center group-hover:scale-[1.02] sm:min-h-[280px] md:min-h-[360px] lg:min-h-[420px]",
         )}
         loading="lazy"
         decoding="async"
@@ -183,7 +188,7 @@ function ServiceOfferChapter({
                 </div>
               </div>
 
-              <blockquote className="mt-8 border-l-4 border-secondary/80 bg-card/60 py-4 pl-5 pr-4 shadow-sm md:mt-10 md:py-5 md:pl-6">
+              <blockquote className="mt-8 border-l-4 border-secondary bg-card/60 py-4 pl-5 pr-4 shadow-sm md:mt-10 md:py-5 md:pl-6">
                 <p className="text-base font-medium leading-relaxed text-foreground md:text-lg md:leading-relaxed">
                   {lead}
                 </p>
@@ -317,7 +322,7 @@ const OffresPage = () => {
         photo={{
           src: offresEtudePerso,
           alt: "Consultants CAYRIBE PARTNERS en analyse stratégique et étude de marché",
-          scale: 0.88,
+          contain: true,
         }}
         photoBesideList
       />
