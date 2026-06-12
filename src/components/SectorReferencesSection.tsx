@@ -178,6 +178,9 @@ const SectorReferencesSection = () => {
         <div className="mx-auto max-w-3xl text-center">
           <p className="eyebrow text-primary">Références</p>
           <h2 className="section-title mt-2">Nos références sectorielles</h2>
+          <p className="section-lead mx-auto mt-4">
+            Quelques exemples de missions réalisées en Guadeloupe et en Martinique
+          </p>
         </div>
 
         <div

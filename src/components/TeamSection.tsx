@@ -27,7 +27,7 @@ const TeamSection = () => {
           </div>
 
           <h3 className="mx-auto mt-14 max-w-2xl text-center font-heading text-xl font-semibold text-foreground md:mt-16 md:text-2xl">
-            Rencontrez notre équipe
+            Rencontrez nos Consultants Managers
           </h3>
 
           <div className="mx-auto mt-10 flex max-w-2xl flex-col items-center justify-center gap-12 sm:flex-row sm:items-stretch sm:gap-10 md:mt-12 md:max-w-3xl md:gap-16">
@@ -41,7 +41,8 @@ const TeamSection = () => {
               <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
                 <Users className="h-5 w-5" aria-hidden />
               </div>
-              <p className="text-base leading-relaxed text-muted-foreground">
+              <h3 className="font-heading text-xl font-bold text-foreground">Nos Partners</h3>
+              <p className="mt-4 text-base leading-relaxed text-muted-foreground">
                 Lorsque la mission le nécessite, nous mobilisons un réseau caribéen de consultants indépendants et
                 d&apos;expertises complémentaires&nbsp;: avocats, agences de communication, experts-comptables, etc.
               </p>

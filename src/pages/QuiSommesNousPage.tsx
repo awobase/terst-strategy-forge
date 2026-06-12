@@ -7,6 +7,7 @@ import SiteLayout from "@/components/SiteLayout";
 import PageMeta from "@/components/PageMeta";
 import { BRAND_NAME } from "@/config/brand";
 import TeamSection from "@/components/TeamSection";
+import ExpertisesSection from "@/components/ExpertisesSection";
 import SectorReferencesSection from "@/components/SectorReferencesSection";
 import { useInView } from "@/hooks/useInView";
 import { cn } from "@/lib/utils";
@@ -106,7 +107,7 @@ const QuiSommesNousPage = () => {
               href="#equipe"
               className="inline-flex items-center gap-2 rounded-lg bg-secondary px-5 py-3 text-sm font-semibold text-secondary-foreground shadow-lg shadow-secondary/20 transition hover:-translate-y-0.5 hover:shadow-xl"
             >
-              Rencontrez notre équipe
+              Rencontrez nos Consultants Managers
               <ArrowRight className="h-4 w-4" aria-hidden />
             </a>
           </div>
@@ -202,6 +203,8 @@ const QuiSommesNousPage = () => {
       </section>
 
       <TeamSection />
+
+      <ExpertisesSection />
 
       <SectorReferencesSection />
     </SiteLayout>

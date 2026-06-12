@@ -9,3 +9,8 @@ export const CONTACT_PHONE_DISPLAY = "0690 415159";
 export const CONTACT_PHONE_TEL = "+590690415159";
 
 export const CONTACT_PHONE_HREF = `tel:${CONTACT_PHONE_TEL}`;
+
+export const SOCIAL_LINKS = {
+  linkedin: "https://www.linkedin.com/company/cayribe-partners/",
+  instagram: "https://www.instagram.com/cayribepartners/",
+} as const;

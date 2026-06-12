@@ -1,4 +1,4 @@
-import { Linkedin, Mail } from "lucide-react";
+import { Instagram, Linkedin, Mail } from "lucide-react";
 import type { TeamMember } from "@/config/team";
 import { cn } from "@/lib/utils";
 
@@ -33,6 +33,64 @@ type TeamFlipCardProps = {
   member: TeamMember;
   className?: string;
 };
+
+function MemberContactLinks({
+  member,
+  displayName,
+  iconBtnClass,
+}: {
+  member: TeamMember;
+  displayName: string;
+  iconBtnClass: string;
+}) {
+  return (
+    <div className="flex gap-3">
+      {member.email ? (
+        <a
+          href={`mailto:${member.email}`}
+          className={cn(
+            "flex h-10 w-10 items-center justify-center rounded-full border transition",
+            iconBtnClass,
+          )}
+          aria-label={`Envoyer un e-mail à ${displayName}`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <Mail className="h-4 w-4" aria-hidden />
+        </a>
+      ) : null}
+      {member.linkedin ? (
+        <a
+          href={member.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(
+            "flex h-10 w-10 items-center justify-center rounded-full border transition",
+            iconBtnClass,
+          )}
+          aria-label={`Profil LinkedIn de ${displayName}`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <Linkedin className="h-4 w-4" aria-hidden />
+        </a>
+      ) : null}
+      {member.instagram ? (
+        <a
+          href={member.instagram}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(
+            "flex h-10 w-10 items-center justify-center rounded-full border transition",
+            iconBtnClass,
+          )}
+          aria-label={`Profil Instagram de ${displayName}`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <Instagram className="h-4 w-4" aria-hidden />
+        </a>
+      ) : null}
+    </div>
+  );
+}
 
 const TeamFlipCard = ({ member, className }: TeamFlipCardProps) => {
   const t = themeStyles[member.theme];
@@ -89,47 +147,23 @@ const TeamFlipCard = ({ member, className }: TeamFlipCardProps) => {
             <p className={cn("mt-2 text-center text-sm font-semibold", t.title)}>{member.title}</p>
             <p className={cn("mt-3 text-center text-sm leading-relaxed", t.expertise)}>{member.expertise}</p>
             <div className="mt-auto flex gap-3 pt-6">
-              {member.email ? (
-                <a
-                  href={`mailto:${member.email}`}
-                  className={cn(
-                    "flex h-10 w-10 items-center justify-center rounded-full border transition",
-                    t.iconBtn,
-                  )}
-                  aria-label={`Envoyer un e-mail à ${displayName}`}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <Mail className="h-4 w-4" aria-hidden />
-                </a>
-              ) : null}
-              {member.linkedin ? (
-                <a
-                  href={member.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={cn(
-                    "flex h-10 w-10 items-center justify-center rounded-full border transition",
-                    t.iconBtn,
-                  )}
-                  aria-label={`Profil LinkedIn de ${displayName}`}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <Linkedin className="h-4 w-4" aria-hidden />
-                </a>
-              ) : null}
+              <MemberContactLinks member={member} displayName={displayName} iconBtnClass={t.iconBtn} />
             </div>
           </div>
 
           <div
             className={cn(
-              "absolute inset-0 flex flex-col justify-center rounded-3xl border-2 px-6 py-8",
+              "absolute inset-0 flex flex-col rounded-3xl border-2 px-6 py-8",
               t.back,
               "[backface-visibility:hidden] [transform:rotateY(180deg)]",
             )}
           >
             <p className={cn("text-xs font-semibold uppercase tracking-[0.14em]", t.backLabel)}>Présentation</p>
-            <p className="mt-4 text-sm leading-relaxed">{member.bio}</p>
-            <p className={cn("mt-6 text-center text-xs", t.hint)}>Survoler pour revenir au profil</p>
+            <p className="mt-4 flex-1 overflow-y-auto text-sm leading-relaxed">{member.bio}</p>
+            <div className="mt-4 flex flex-col items-center gap-4">
+              <MemberContactLinks member={member} displayName={displayName} iconBtnClass={t.iconBtn} />
+              <p className={cn("text-center text-xs", t.hint)}>Survoler pour revenir au profil</p>
+            </div>
           </div>
         </div>
       </div>

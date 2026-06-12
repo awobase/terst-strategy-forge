@@ -3,18 +3,18 @@ import PageHero from "@/components/PageHero";
 import PageMeta from "@/components/PageMeta";
 import ContactSection from "@/components/ContactSection";
 import { crumbsContact } from "@/config/breadcrumbs";
-import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_HREF } from "@/config/contact";
+import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_HREF, SOCIAL_LINKS } from "@/config/contact";
 import { Instagram, Linkedin, Mail, Phone } from "lucide-react";
 
-const SOCIAL_LINKS = [
+const CONTACT_SOCIAL_LINKS = [
 	{
 		label: "LinkedIn",
-		href: "https://www.linkedin.com",
+		href: SOCIAL_LINKS.linkedin,
 		icon: Linkedin,
 	},
 	{
 		label: "Instagram",
-		href: "https://www.instagram.com",
+		href: SOCIAL_LINKS.instagram,
 		icon: Instagram,
 	},
 ] as const;
@@ -110,7 +110,7 @@ const ContactPage = () => {
 								l’écosystème entrepreneurial.
 							</p>
 							<ul className="mt-8 flex flex-col gap-4">
-								{SOCIAL_LINKS.map(({ label, href, icon: Icon }) => (
+								{CONTACT_SOCIAL_LINKS.map(({ label, href, icon: Icon }) => (
 									<li key={label}>
 										<a
 											href={href}

@@ -20,6 +20,8 @@ type LogoMarqueeProps = {
   layout?: "marquee" | "static";
   /** Fond blanc derrière chaque logo — utile pour les PNG à zones transparentes */
   logoTile?: boolean;
+  /** Logo affiché en premier au chargement du défilement (alt exact) */
+  startAtAlt?: string;
 };
 
 const sizeStyles = {
@@ -138,10 +140,18 @@ const LogoMarquee = ({
   variant = "default",
   layout = "marquee",
   logoTile = false,
+  startAtAlt,
 }: LogoMarqueeProps) => {
   const prefersReducedMotion = usePrefersReducedMotion();
 
-  if (logos.length === 0) return null;
+  const orderedLogos = (() => {
+    if (!startAtAlt) return logos;
+    const startIndex = logos.findIndex((logo) => logo.alt === startAtAlt);
+    if (startIndex <= 0) return logos;
+    return [...logos.slice(startIndex), ...logos.slice(0, startIndex)];
+  })();
+
+  if (orderedLogos.length === 0) return null;
 
   if (layout === "static") {
     return (
@@ -156,7 +166,7 @@ const LogoMarquee = ({
             staticSizeStyles.py,
           )}
         >
-          {logos.map((logo) => (
+          {orderedLogos.map((logo) => (
             <img
               key={logo.alt}
               src={logo.src}
@@ -173,8 +183,8 @@ const LogoMarquee = ({
   }
 
   const s = variant === "plain" ? plainSizeStyles[size] : sizeStyles[size];
-  const durationSec = Math.max(48, logos.length * 2.8);
-  const strip = prefersReducedMotion ? logos : [...logos, ...logos];
+  const durationSec = Math.max(48, orderedLogos.length * 2.8);
+  const strip = prefersReducedMotion ? orderedLogos : [...orderedLogos, ...orderedLogos];
 
   return (
     <div
@@ -217,7 +227,7 @@ const LogoMarquee = ({
             size={size}
             variant={variant}
             logoTile={logoTile}
-            decorative={!prefersReducedMotion && i >= logos.length}
+            decorative={!prefersReducedMotion && i >= orderedLogos.length}
           />
         ))}
       </div>

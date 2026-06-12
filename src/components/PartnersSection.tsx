@@ -25,6 +25,7 @@ const PartnersSection = ({ omitHeading = false }: PartnersSectionProps) => {
 
         <LogoMarquee
           logos={TRUST_PARTNER_LOGOS}
+          startAtAlt="OPIIEC"
           fadeFromClass="from-background"
           size="default"
           variant="plain"

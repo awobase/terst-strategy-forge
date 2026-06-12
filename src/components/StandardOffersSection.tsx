@@ -50,7 +50,7 @@ const OFFERS: StandardOffer[] = [
     ],
     price: "190 € TTC / mois",
     interventions: [
-      "Business development et stratégie de croissance",
+      "Développement business et stratégie de croissance",
       "Management de projet et innovation",
       "Analyse marketing et positionnement stratégique",
       "Optimisation opérationnelle et financière",

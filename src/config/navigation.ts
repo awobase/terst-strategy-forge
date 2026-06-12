@@ -15,6 +15,7 @@ export const ROUTES = {
   quiSommesNous: {
     presentation: "/qui-sommes-nous#presentation",
     equipe: "/qui-sommes-nous#equipe",
+    expertises: "/qui-sommes-nous#expertises",
     referencesSectorielles: "/qui-sommes-nous#references-sectorielles",
     partenaires: "/qui-sommes-nous#partenaires",
   },

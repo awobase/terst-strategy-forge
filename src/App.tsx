@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound.tsx";
 import ContactPage from "./pages/contact/ContactPage.tsx";
 import QuiSommesNousPage from "./pages/QuiSommesNousPage.tsx";
 import OffresPage from "./pages/OffresPage.tsx";
+import MentionsLegalesPage from "./pages/MentionsLegalesPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,7 @@ const App = () => (
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/contact/prise-de-contact" element={<Navigate to="/contact" replace />} />
           <Route path="/contact/recrutement" element={<Navigate to="/contact?objet=stage-cv" replace />} />
+          <Route path="/mentions-legales" element={<MentionsLegalesPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

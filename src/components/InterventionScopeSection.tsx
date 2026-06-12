@@ -17,8 +17,10 @@ const InterventionScopeSection = () => {
       >
         <div className="mx-auto max-w-2xl text-center">
           <p className="eyebrow text-primary">Périmètre d&apos;intervention</p>
-          <h2 className="section-title mt-2">Une approche structurante, fondée sur des analyses pragmatiques</h2>
-          <p className="section-lead mx-auto mt-4">Du projet à sa mise en œuvre</p>
+          <h2 className="section-title mt-2">De l&apos;idée à la mise en œuvre d&apos;un projet</h2>
+          <p className="section-lead mx-auto mt-4">
+            Une approche structurante, fondée sur des analyses pragmatiques
+          </p>
         </div>
 
         <div className="mt-10 rounded-2xl border border-border/40 bg-card/50 p-4 shadow-sm sm:p-6 md:mt-12 md:p-8">

@@ -2,7 +2,6 @@ import SiteLayout from "@/components/SiteLayout";
 import PageMeta from "@/components/PageMeta";
 import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
-import ExpertisesSection from "@/components/ExpertisesSection";
 import InterventionScopeSection from "@/components/InterventionScopeSection";
 import MethodologySection from "@/components/MethodologySection";
 import StatsSection from "@/components/StatsSection";
@@ -17,7 +16,6 @@ const Index = () => {
       />
       <HeroSection />
       <AboutSection />
-      <ExpertisesSection />
       <InterventionScopeSection />
       <MethodologySection />
       <StatsSection />

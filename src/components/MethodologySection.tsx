@@ -18,7 +18,7 @@ const steps = [
   {
     num: "01",
     title: "Diagnostic 360",
-    desc: "Analyse globale de votre projet ou de votre organisation à un instant T : marché, modèle économique, positionnement, ressources et enjeux de développement afin d'identifier clairement les priorités.",
+    desc: "Analyse globale de votre projet ou de votre organisation : marché, modèle économique, positionnement, ressources et enjeux de développement afin d'identifier clairement les priorités.",
   },
   {
     num: "02",

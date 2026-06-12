@@ -12,14 +12,14 @@ export const TESTIMONIALS: Testimonial[] = [
     lastInitial: "T",
     role: "Chef d'entreprise",
     sector: "Artisanat haut de gamme",
-    text: "Une équipe de professionnel dédié au service des professionnels. Dès le premier rendez-vous je me suis senti en confiance car l'équipe a analysé les atouts mais aussi les faiblesses et a su m'accompagner dans le développement et la stratégie de mon entreprise.",
+    text: "Une équipe de professionnels dédiés au service des professionnels. Dès le premier rendez-vous je me suis senti en confiance car l'équipe a analysé les atouts mais aussi les faiblesses et a su m'accompagner dans le développement et la stratégie de mon entreprise.",
   },
   {
     firstName: "Natacha",
     lastInitial: "D",
     role: "Chef d'entreprise",
     sector: "Agrotransformation",
-    text: "Cayribe Partners est un cabinet de consulting fiable, réactif et compétant,accompagnant ses clients avec rigueur et professionnalisme.Cayribe apporte des solutions adaptées à chaque situation,ne négligeant aucun détail",
+    text: "Cayribe Partners est un cabinet de consulting fiable, réactif et compétent,accompagnant ses clients avec rigueur et professionnalisme.Cayribe apporte des solutions adaptées à chaque situation,ne négligeant aucun détail",
   },
   {
     firstName: "Sylvia",
@@ -68,7 +68,7 @@ export const TESTIMONIALS: Testimonial[] = [
     lastInitial: "S",
     role: "Chef d'entreprise",
     sector: "Economie circulaire",
-    text: "Ce sont des visionnaires compétents. Ils savent mettre en pratique et persuader pour de nouvelles stratégies. Avec cette équipe, nous avons la chance d’avoir un accompagnement exemplaire. On travail sur tous les niveaux de notre projet. Ils sont présents de A à Z.",
+    text: "Ce sont des visionnaires compétents. Ils savent mettre en pratique et persuader pour de nouvelles stratégies. Avec cette équipe, nous avons la chance d’avoir un accompagnement exemplaire. On travaille sur tous les niveaux de notre projet. Ils sont présents de A à Z.",
   },
   {
     firstName: "Andrew",
@@ -82,7 +82,7 @@ export const TESTIMONIALS: Testimonial[] = [
     lastInitial: "R",
     role: "Présidente d'association",
     sector: "Tourisme",
-    text: "Une équipe proche de son client, CAYRIBE PARTNERS c’est plus que du conseil c’est un véritable accompagnement qui permet de faire émerger les meilleurs pistes de solutions de developpement d’une structure",
+    text: "Une équipe proche de son client, CAYRIBE PARTNERS c’est plus que du conseil c’est un véritable accompagnement qui permet de faire émerger les meilleures pistes de solutions de developpement d’une structure",
   },
   {
     firstName: "Isabella",
@@ -131,7 +131,7 @@ export const TESTIMONIALS: Testimonial[] = [
     lastInitial: "P",
     role: "Porteur de projet",
     sector: "Transport",
-    text: "Cayribe Partners a été le cabinet qui m’a permis de transformer mon idée en chiffres concrets mais aussi m’a aidé à developer le réseau nécessaire a la création de mon entreprise. J’ai adoré travailler avec cette équipe dynamique et sérieuse dans tout ce qu’il font",
+    text: "Cayribe Partners a été le cabinet qui m’a permis de transformer mon idée en chiffres concrets mais aussi m’a aidé à developer le réseau nécessaire a la création de mon entreprise. J’ai adoré travailler avec cette équipe dynamique et sérieuse dans tout ce qu’ils font",
   },
   {
     firstName: "Florence",

@@ -21,6 +21,7 @@ const offresItems = [
 const quiSommesNousItems = [
 	{ label: "Présentation du cabinet", to: ROUTES.quiSommesNous.presentation },
 	{ label: "Équipe", to: ROUTES.quiSommesNous.equipe },
+	{ label: "Nos expertises", to: ROUTES.quiSommesNous.expertises },
 	{ label: "Références sectorielles", to: ROUTES.quiSommesNous.referencesSectorielles },
 ];
 

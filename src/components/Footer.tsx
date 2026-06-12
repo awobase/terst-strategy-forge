@@ -4,7 +4,7 @@ import awobaseLogo from "@/assets/logo-awobase.png";
 import europeSengageLogo from "@/assets/logo-europe-sengage-france.png";
 import { Linkedin, Instagram } from "lucide-react";
 import { BRAND_NAME } from "@/config/brand";
-import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_HREF } from "@/config/contact";
+import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_HREF, SOCIAL_LINKS } from "@/config/contact";
 
 const Footer = () => {
 	return (
@@ -60,7 +60,7 @@ const Footer = () => {
 						</h4>
 						<div className="flex gap-3">
 							<a
-								href="https://www.linkedin.com"
+								href={SOCIAL_LINKS.linkedin}
 								target="_blank"
 								rel="noopener noreferrer"
 								className="flex h-11 w-11 items-center justify-center rounded-lg bg-[hsl(220,18%,18%)] transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 hover:bg-secondary active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary"
@@ -69,7 +69,7 @@ const Footer = () => {
 								<Linkedin className="w-5 h-5 text-[hsl(220,18%,78%)]" />
 							</a>
 							<a
-								href="https://www.instagram.com"
+								href={SOCIAL_LINKS.instagram}
 								target="_blank"
 								rel="noopener noreferrer"
 								className="flex h-11 w-11 items-center justify-center rounded-lg bg-[hsl(220,18%,18%)] transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 hover:bg-secondary active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary"
@@ -84,6 +84,12 @@ const Footer = () => {
 				<div className="border-t border-[hsl(220,20%,20%)] pt-8 flex flex-col items-stretch gap-6 sm:flex-row sm:items-center sm:justify-between">
 					<p className="text-[hsl(220,16%,48%)] text-sm text-center sm:text-left">
 						© 2026 {BRAND_NAME}. Tous droits réservés.
+						<Link
+							to="/mentions-legales"
+							className="ml-3 underline-offset-4 transition-colors hover:text-secondary hover:underline"
+						>
+							Mentions légales
+						</Link>
 					</p>
 					<div className="flex flex-wrap items-center justify-center gap-5 sm:justify-end">
 						<img

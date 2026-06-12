@@ -15,6 +15,7 @@ export type TeamMember = {
   theme: TeamMemberTheme;
   email?: string;
   linkedin?: string;
+  instagram?: string;
   photo?: string;
   initials: string;
 };
@@ -33,6 +34,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
     theme: "blue",
     email: "contact@cayribepartners.com",
     linkedin: "https://www.linkedin.com/company/cayribepartners",
+    instagram: "https://www.instagram.com/cayribepartners/",
     photo: youriPhoto,
     initials: "Y",
   },
@@ -45,7 +47,8 @@ export const TEAM_MEMBERS: TeamMember[] = [
     bio: "Diplômée d’un master en management de projet et forte d’une expérience dans le secteur de la fusion-acquisition à Paris, j’ai choisi de revenir en Guadeloupe afin d’apporter mon savoir-faire et ma compréhension des dynamiques économiques antillaises, au service des futurs dirigeants qui contribueront au rayonnement de nos îles.",
     theme: "orange",
     email: "contact@cayribepartners.com",
-    linkedin: "https://www.linkedin.com",
+    linkedin: "https://www.linkedin.com/company/cayribepartners",
+    instagram: "https://www.instagram.com/cayribepartners/",
     photo: melodyPhoto,
     initials: "M",
   },

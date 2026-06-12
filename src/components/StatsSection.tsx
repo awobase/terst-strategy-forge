@@ -31,7 +31,7 @@ const stats: StatConfig[] = [
     icon: Clock,
   },
   { target: 20, prefix: "+ ", suffix: "", label: "collectivités publiques accompagnées", icon: Landmark },
-  { target: 10, prefix: "+ ", suffix: "", label: "collaborateurs salariés et associés", icon: Users },
+  { target: 10, prefix: "+ ", suffix: "", label: "Partners", icon: Users },
 ];
 
 function StatCard({ stat, index, active }: { stat: StatConfig; index: number; active: boolean }) {
