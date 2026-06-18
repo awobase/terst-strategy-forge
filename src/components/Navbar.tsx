@@ -10,8 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
 const offresItems = [
-	{ label: "Start", to: ROUTES.offres.start },
-	{ label: "Rise", to: ROUTES.offres.rise },
+	{ label: "Start & Rise", to: ROUTES.offres.standard },
 	{ label: "Études personnalisées", to: ROUTES.offres.etudesPersonnalisees },
 	{ label: "Recherche de financements", to: ROUTES.offres.rechercheFinancements },
 	{ label: "Formations", to: ROUTES.offres.formationCabinet },

@@ -4,6 +4,7 @@ export const ROUTES = {
   home: "/",
   offresRoot: "/offres",
   offres: {
+    standard: "/offres#offres-standard",
     start: "/offres#start",
     rise: "/offres#rise",
     etudesPersonnalisees: "/offres#etudes-personnalisees",

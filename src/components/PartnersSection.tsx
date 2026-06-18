@@ -2,6 +2,16 @@ import LogoMarquee from "@/components/LogoMarquee";
 import { TRUST_PARTNER_LOGOS } from "@/config/trustPartners";
 import { useInView } from "@/hooks/useInView";
 
+const HOME_PARTNER_LOGOS = [
+  ...TRUST_PARTNER_LOGOS.filter((logo) => logo.alt === "CACEM"),
+  ...TRUST_PARTNER_LOGOS.filter((logo) => logo.alt === "Région Guadeloupe"),
+  ...TRUST_PARTNER_LOGOS.filter((logo) => logo.alt === "Collectivité Territoriale de Martinique"),
+  ...TRUST_PARTNER_LOGOS.filter(
+    (logo) =>
+      !["CACEM", "Région Guadeloupe", "Collectivité Territoriale de Martinique"].includes(logo.alt),
+  ),
+];
+
 type PartnersSectionProps = {
   /** Masque le bloc titre si la page affiche déjà l'introduction */
   omitHeading?: boolean;
@@ -24,8 +34,7 @@ const PartnersSection = ({ omitHeading = false }: PartnersSectionProps) => {
         ) : null}
 
         <LogoMarquee
-          logos={TRUST_PARTNER_LOGOS}
-          startAtAlt="OPIIEC"
+          logos={HOME_PARTNER_LOGOS}
           fadeFromClass="from-background"
           size="default"
           variant="plain"

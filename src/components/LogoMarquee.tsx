@@ -1,5 +1,7 @@
 import { cn } from "@/lib/utils";
+import { useInView } from "@/hooks/useInView";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import { useEffect, useState } from "react";
 
 export type MarqueeLogo = {
   src: string;
@@ -142,7 +144,15 @@ const LogoMarquee = ({
   logoTile = false,
   startAtAlt,
 }: LogoMarqueeProps) => {
+  const block = useInView(0.25);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const [animationReady, setAnimationReady] = useState(false);
+
+  useEffect(() => {
+    if (!block.inView || prefersReducedMotion) return;
+    const timer = window.setTimeout(() => setAnimationReady(true), 900);
+    return () => window.clearTimeout(timer);
+  }, [block.inView, prefersReducedMotion]);
 
   const orderedLogos = (() => {
     if (!startAtAlt) return logos;
@@ -188,6 +198,7 @@ const LogoMarquee = ({
 
   return (
     <div
+      ref={block.ref}
       className={cn("relative overflow-hidden", className)}
       aria-label="Partenaires et dispositifs de financement"
       role="region"
@@ -218,7 +229,11 @@ const LogoMarquee = ({
           prefersReducedMotion ? "flex flex-wrap justify-center gap-y-6" : "flex w-max max-w-none flex-nowrap scroll-marquee",
           s.py,
         )}
-        style={prefersReducedMotion ? undefined : { animationDuration: `${durationSec}s` }}
+        style={
+          prefersReducedMotion
+            ? undefined
+            : { animationDuration: `${durationSec}s`, animationPlayState: animationReady ? "running" : "paused" }
+        }
       >
         {strip.map((logo, i) => (
           <LogoTile

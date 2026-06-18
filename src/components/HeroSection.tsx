@@ -82,8 +82,8 @@ const HeroSection = () => {
           </p>
 
           <div className="animate-fade-up animation-delay-600 flex flex-col gap-3 sm:flex-row sm:gap-4">
-            <a
-              href="#expertises"
+            <Link
+              to={ROUTES.quiSommesNous.expertises}
               className="group flex items-center justify-center gap-2 rounded-lg bg-secondary px-8 py-4 text-center font-semibold text-secondary-foreground shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:shadow-xl hover:shadow-secondary/30 active:translate-y-0 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--hero-overlay))]"
             >
               Découvrir nos expertises
@@ -95,7 +95,7 @@ const HeroSection = () => {
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
-            </a>
+            </Link>
             <Link
               to={ROUTES.contact}
               className="rounded-lg border border-primary-foreground/35 bg-primary-foreground/[0.04] px-8 py-4 text-center font-semibold text-primary-foreground backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary-foreground/15 hover:shadow-lg active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--hero-overlay))]"
