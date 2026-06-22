@@ -38,10 +38,10 @@ export type TrustPartnerLogo = {
 
 /** Logos « Ils nous font confiance » — références institutionnelles et partenaires */
 export const TRUST_PARTNER_LOGOS: TrustPartnerLogo[] = [
-  { src: regionGuadeloupe, alt: "Région Guadeloupe" },
   { src: ctmMartinique, alt: "Collectivité Territoriale de Martinique" },
   { src: ademeRepublique, alt: "ADEME — Agence de la transition écologique" },
   { src: bpifrance, alt: "Bpifrance" },
+  { src: regionGuadeloupe, alt: "Région Guadeloupe" },
   { src: cangt, alt: "CANGT — Communauté d'agglomération du Nord Grande-Terre" },
   { src: capNordMartinique, alt: "CAP Nord Martinique" },
   { src: cciGuadeloupe, alt: "CCI des Îles de Guadeloupe" },
@@ -53,7 +53,11 @@ export const TRUST_PARTNER_LOGOS: TrustPartnerLogo[] = [
   { src: martiniqueDev, alt: "Martinique Développement", scale: 1.2 },
   { src: prefetMartinique, alt: "Préfet de la Martinique", scale: 1.15 },
   { src: drfipMartinique, alt: "DRFIP Martinique" },
-  { src: deetsGuadeloupe, alt: "Préfet de la Région Guadeloupe", scale: 1.15 },
+  {
+    src: deetsGuadeloupe,
+    alt: "Préfet de la Région Guadeloupe — DEETS",
+    scale: 1.15,
+  },
   { src: villeFortDeFrance, alt: "Ville de Fort-de-France" },
   { src: villeBaieMahault, alt: "Ville de Baie-Mahault" },
   { src: villeLamentin, alt: "Ville du Lamentin" },
