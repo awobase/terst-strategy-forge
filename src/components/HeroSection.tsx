@@ -4,7 +4,7 @@ import logo from "@/assets/logo-cayribe-partners.png";
 import { ROUTES } from "@/config/navigation";
 import { OG_IMAGE_PATH } from "@/config/site";
 
-const HERO_VIDEO_SRC = "/videos/rendu-header.mp4";
+const HERO_VIDEO_SRC = "https://video.cayribepartners.com/rendu-header.mp4";
 const HERO_VIDEO_POSTER = OG_IMAGE_PATH;
 
 const HeroSection = () => {
