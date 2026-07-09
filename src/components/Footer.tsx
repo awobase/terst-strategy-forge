@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import logo from "@/assets/logo-cayribe-partners.png";
 import awobaseLogo from "@/assets/logo-awobase.png";
-import europeSengageLogo from "@/assets/logo-europe-sengage-france.png";
+import europeSengageLogo from "@/assets/logo-europe-sengage-guadeloupe.png";
 import { Linkedin, Instagram } from "lucide-react";
 import { BRAND_NAME } from "@/config/brand";
 import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_HREF, SOCIAL_LINKS } from "@/config/contact";
@@ -94,10 +94,10 @@ const Footer = () => {
 					<div className="flex flex-wrap items-center justify-center gap-5 sm:justify-end">
 						<img
 							src={europeSengageLogo}
-							alt="Logo l'Europe s'engage en France"
-							className="h-7 w-auto max-w-[140px] object-contain object-left opacity-95 sm:h-8 sm:max-w-[160px]"
-							width={160}
-							height={48}
+							alt="Logo L'Europe s'engage en Guadeloupe"
+							className="h-11 w-auto max-w-[210px] object-contain object-left opacity-95 sm:h-12 sm:max-w-[240px]"
+							width={240}
+							height={240}
 							loading="lazy"
 						/>
 						<a

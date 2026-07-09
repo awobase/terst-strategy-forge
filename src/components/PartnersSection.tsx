@@ -1,16 +1,19 @@
 import LogoMarquee from "@/components/LogoMarquee";
 import { TRUST_PARTNER_LOGOS } from "@/config/trustPartners";
 import { useInView } from "@/hooks/useInView";
+import type { MarqueeLogo } from "@/components/LogoMarquee";
 
-const HOME_PARTNER_LOGOS = [
-  ...TRUST_PARTNER_LOGOS.filter((logo) => logo.alt === "CACEM"),
-  ...TRUST_PARTNER_LOGOS.filter((logo) => logo.alt === "Région Guadeloupe"),
-  ...TRUST_PARTNER_LOGOS.filter((logo) => logo.alt === "Collectivité Territoriale de Martinique"),
-  ...TRUST_PARTNER_LOGOS.filter(
-    (logo) =>
-      !["CACEM", "Région Guadeloupe", "Collectivité Territoriale de Martinique"].includes(logo.alt),
-  ),
-];
+function buildHomePartnerLogos(logos: MarqueeLogo[]) {
+  return [
+    ...logos.filter((logo) => logo.alt === "CACEM"),
+    ...logos.filter((logo) => logo.alt === "Région Guadeloupe"),
+    ...logos.filter((logo) => logo.alt === "Collectivité Territoriale de Martinique"),
+    ...logos.filter(
+      (logo) =>
+        !["CACEM", "Région Guadeloupe", "Collectivité Territoriale de Martinique"].includes(logo.alt),
+    ),
+  ];
+}
 
 type PartnersSectionProps = {
   /** Masque le bloc titre si la page affiche déjà l'introduction */
@@ -19,6 +22,7 @@ type PartnersSectionProps = {
 
 const PartnersSection = ({ omitHeading = false }: PartnersSectionProps) => {
   const { ref, inView } = useInView();
+  const logos = buildHomePartnerLogos(TRUST_PARTNER_LOGOS);
 
   return (
     <section className="border-b border-border/40 bg-background py-16 md:py-24">
@@ -34,7 +38,7 @@ const PartnersSection = ({ omitHeading = false }: PartnersSectionProps) => {
         ) : null}
 
         <LogoMarquee
-          logos={HOME_PARTNER_LOGOS}
+          logos={logos}
           fadeFromClass="from-background"
           size="default"
           variant="plain"

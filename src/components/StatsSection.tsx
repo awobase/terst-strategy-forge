@@ -1,5 +1,6 @@
 import { useInView } from "@/hooks/useInView";
 import { useCountUp } from "@/hooks/useCountUp";
+import { cn } from "@/lib/utils";
 import { Briefcase, Clock, Landmark, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -12,6 +13,8 @@ type StatConfig = {
   icon: LucideIcon;
   /** Affichage fixe à la place du nombre (ex. territoires) */
   displayText?: string;
+  /** Classe optionnelle sur la valeur affichée */
+  valueClassName?: string;
   /** Plusieurs lignes (meilleure lisibilité sur mobile) */
   displayLines?: string[];
 };
@@ -29,6 +32,7 @@ const stats: StatConfig[] = [
     displayText: "+15",
     label: "années d'expérience",
     icon: Clock,
+    valueClassName: "text-white",
   },
   { target: 20, prefix: "+ ", suffix: "", label: "collectivités publiques accompagnées", icon: Landmark },
   { target: 10, prefix: "+ ", suffix: "", label: "Partners", icon: Users },
@@ -63,7 +67,12 @@ function StatCard({ stat, index, active }: { stat: StatConfig; index: number; ac
           ))}
         </p>
       ) : (
-        <p className="mb-2 font-heading text-4xl font-bold tabular-nums text-primary-foreground md:text-5xl">
+        <p
+          className={cn(
+            "mb-2 font-heading text-4xl font-bold tabular-nums text-primary-foreground md:text-5xl",
+            stat.valueClassName,
+          )}
+        >
           {main}
         </p>
       )}

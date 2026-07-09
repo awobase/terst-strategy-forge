@@ -1,12 +1,11 @@
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useState } from "react";
 import {
-  getReferencesForSector,
   SECTOR_CAROUSEL_STYLES,
-  SECTOR_CATEGORIES_WITH_REFERENCES,
   type SectorCategory,
 } from "@/config/sectorReferences";
 import type { SectorReference } from "@/config/sectorReferencesData";
+import { useSectorReferencesCms, type SectorWithReferences } from "@/hooks/useSectorReferencesCms";
 import { useInView } from "@/hooks/useInView";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { cn } from "@/lib/utils";
@@ -78,9 +77,9 @@ function SectorReferenceText({ reference }: { reference: SectorReference }) {
   );
 }
 
-function SectorReferencesPanel({ sector }: { sector: SectorCategory }) {
+function SectorReferencesPanel({ sector }: { sector: SectorWithReferences }) {
   const style = SECTOR_CAROUSEL_STYLES[sector.color];
-  const references = getReferencesForSector(sector.id);
+  const references = sector.references;
 
   return (
     <article
@@ -109,8 +108,9 @@ function SectorReferencesPanel({ sector }: { sector: SectorCategory }) {
 
 const SectorReferencesSection = () => {
   const block = useInView();
-  const sectors = SECTOR_CATEGORIES_WITH_REFERENCES;
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const { data } = useSectorReferencesCms();
+  const sectors = data?.sectors ?? [];
+  const [activeIndex, setActiveIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
   const total = sectors.length;
@@ -125,15 +125,13 @@ const SectorReferencesSection = () => {
     duration: prefersReducedMotion ? 0 : 26,
   });
 
-  const activeSector = activeIndex !== null ? sectors[activeIndex] ?? null : null;
+  const activeSector = sectors[activeIndex] ?? null;
 
   const scrollPrev = useCallback(() => {
-    setActiveIndex(null);
     emblaApi?.scrollPrev();
   }, [emblaApi]);
 
   const scrollNext = useCallback(() => {
-    setActiveIndex(null);
     emblaApi?.scrollNext();
   }, [emblaApi]);
 
@@ -146,10 +144,15 @@ const SectorReferencesSection = () => {
   );
 
   useEffect(() => {
-    if (paused || activeIndex !== null || total <= 1 || !emblaApi) return;
+    if (sectors.length === 0) return;
+    setActiveIndex((current) => (current >= sectors.length ? 0 : current ?? 0));
+  }, [sectors.length]);
+
+  useEffect(() => {
+    if (paused || total <= 1 || !emblaApi) return;
     const timer = window.setInterval(() => emblaApi.scrollNext(), autoplayMs);
     return () => window.clearInterval(timer);
-  }, [activeIndex, autoplayMs, emblaApi, paused, total]);
+  }, [autoplayMs, emblaApi, paused, total]);
 
   if (total === 0) return null;
 
@@ -201,7 +204,7 @@ const SectorReferencesSection = () => {
             <div className="min-w-0 flex-1 overflow-hidden" ref={emblaRef}>
               <div className="-ml-3 flex touch-pan-y sm:-ml-4 md:-ml-5">
                 {sectors.map((sector, index) => {
-                  const referenceCount = getReferencesForSector(sector.id).length;
+                  const referenceCount = sector.references.length;
 
                   return (
                     <div

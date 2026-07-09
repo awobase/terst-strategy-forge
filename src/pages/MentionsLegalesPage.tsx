@@ -23,7 +23,11 @@ const legalSections = [
   {
     title: "Hébergement",
     content: [
-      "Les informations relatives à l'hébergeur du site seront précisées dans la version définitive des mentions légales.",
+      "1&1 IONOS Internet SARL",
+      "7, place de la Gare",
+      "BP 70109",
+      "57200 Sarreguemines Cedex",
+      "SARL au capital de 100 000 EUR",
     ],
   },
   {

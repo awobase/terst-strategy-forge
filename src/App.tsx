@@ -9,6 +9,9 @@ import ContactPage from "./pages/contact/ContactPage.tsx";
 import QuiSommesNousPage from "./pages/QuiSommesNousPage.tsx";
 import OffresPage from "./pages/OffresPage.tsx";
 import MentionsLegalesPage from "./pages/MentionsLegalesPage.tsx";
+import AdminLoginPage from "./admin/AdminLoginPage.tsx";
+import AdminLayout, { RequireAuth } from "./admin/AdminLayout.tsx";
+import AdminSectorReferencesPage from "./admin/AdminSectorReferencesPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +37,13 @@ const App = () => (
           <Route path="/contact/prise-de-contact" element={<Navigate to="/contact" replace />} />
           <Route path="/contact/recrutement" element={<Navigate to="/contact?objet=stage-cv" replace />} />
           <Route path="/mentions-legales" element={<MentionsLegalesPage />} />
+          <Route path="/admin/login" element={<AdminLoginPage />} />
+          <Route path="/admin" element={<RequireAuth />}>
+            <Route element={<AdminLayout />}>
+              <Route index element={<Navigate to="/admin/sector-references" replace />} />
+              <Route path="sector-references" element={<AdminSectorReferencesPage />} />
+            </Route>
+          </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

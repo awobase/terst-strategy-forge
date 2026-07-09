@@ -80,7 +80,14 @@ const AboutSection = ({ variant = "default", seamless = false }: AboutSectionPro
                 : "-bottom-6 -right-6 rounded-xl border-secondary/20 bg-secondary p-5 text-secondary-foreground shadow-lg",
             )}
           >
-            <p className="font-heading text-3xl font-bold tracking-tight text-foreground">+15</p>
+            <p
+              className={cn(
+                "font-heading text-3xl font-bold tracking-tight",
+                isPresentation ? "text-foreground" : "text-white",
+              )}
+            >
+              +15
+            </p>
             <p className={cn("text-sm font-medium", isPresentation ? "text-muted-foreground" : "opacity-95")}>
               années d&apos;expérience
             </p>
