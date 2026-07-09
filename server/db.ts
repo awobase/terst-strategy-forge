@@ -25,7 +25,11 @@ function resolveDriver(): Driver {
   return "sqlite";
 }
 
-export const driver: Driver = resolveDriver();
+let activeDriver: Driver = resolveDriver();
+
+export function getDriver() {
+  return activeDriver;
+}
 
 let sqliteDb: DatabaseSync | null = null;
 let mysqlPool: mysql.Pool | null = null;
@@ -63,7 +67,7 @@ function getMysqlPool() {
 export type ExecuteResult = { insertId: number; affectedRows: number };
 
 export async function query<T extends RowDataPacket[]>(sql: string, params: unknown[] = []): Promise<T> {
-  if (driver === "sqlite") {
+  if (activeDriver === "sqlite") {
     return getSqlite().prepare(sql).all(...params) as T;
   }
   const [rows] = await getMysqlPool().query(sql, params);
@@ -71,7 +75,7 @@ export async function query<T extends RowDataPacket[]>(sql: string, params: unkn
 }
 
 export async function queryOne<T extends RowDataPacket>(sql: string, params: unknown[] = []): Promise<T | undefined> {
-  if (driver === "sqlite") {
+  if (activeDriver === "sqlite") {
     return getSqlite().prepare(sql).get(...params) as T | undefined;
   }
   const rows = await query<T[]>(sql, params);
@@ -79,7 +83,7 @@ export async function queryOne<T extends RowDataPacket>(sql: string, params: unk
 }
 
 export async function execute(sql: string, params: unknown[] = []): Promise<ExecuteResult> {
-  if (driver === "sqlite") {
+  if (activeDriver === "sqlite") {
     const result = getSqlite().prepare(sql).run(...params);
     return { insertId: Number(result.lastInsertRowid), affectedRows: result.changes };
   }
@@ -120,6 +124,36 @@ async function initSqliteSchema() {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       username TEXT NOT NULL UNIQUE,
       password_hash TEXT NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS team_members (
+      id TEXT PRIMARY KEY,
+      first_name TEXT NOT NULL,
+      last_name TEXT NOT NULL,
+      title TEXT NOT NULL,
+      expertise TEXT NOT NULL,
+      bio TEXT NOT NULL,
+      email TEXT,
+      linkedin TEXT,
+      instagram TEXT,
+      sort_order INTEGER NOT NULL DEFAULT 0,
+      active INTEGER NOT NULL DEFAULT 1
+    );
+
+    CREATE TABLE IF NOT EXISTS testimonials (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      first_name TEXT NOT NULL,
+      last_initial TEXT NOT NULL,
+      role TEXT NOT NULL,
+      sector TEXT NOT NULL,
+      text TEXT NOT NULL,
+      sort_order INTEGER NOT NULL DEFAULT 0,
+      active INTEGER NOT NULL DEFAULT 1
+    );
+
+    CREATE TABLE IF NOT EXISTS site_settings (
+      setting_key TEXT PRIMARY KEY,
+      setting_value TEXT NOT NULL
     );
   `);
 }
@@ -164,16 +198,63 @@ async function initMysqlSchema() {
       password_hash VARCHAR(255) NOT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
   `);
+
+  await execute(`
+    CREATE TABLE IF NOT EXISTS team_members (
+      id VARCHAR(50) PRIMARY KEY,
+      first_name VARCHAR(100) NOT NULL,
+      last_name VARCHAR(100) NOT NULL,
+      title VARCHAR(255) NOT NULL,
+      expertise TEXT NOT NULL,
+      bio TEXT NOT NULL,
+      email VARCHAR(255) NULL,
+      linkedin VARCHAR(500) NULL,
+      instagram VARCHAR(500) NULL,
+      sort_order INT NOT NULL DEFAULT 0,
+      active TINYINT(1) NOT NULL DEFAULT 1
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+  `);
+
+  await execute(`
+    CREATE TABLE IF NOT EXISTS testimonials (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      first_name VARCHAR(100) NOT NULL,
+      last_initial VARCHAR(10) NOT NULL,
+      role VARCHAR(255) NOT NULL,
+      sector VARCHAR(255) NOT NULL,
+      text TEXT NOT NULL,
+      sort_order INT NOT NULL DEFAULT 0,
+      active TINYINT(1) NOT NULL DEFAULT 1
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+  `);
+
+  await execute(`
+    CREATE TABLE IF NOT EXISTS site_settings (
+      setting_key VARCHAR(100) PRIMARY KEY,
+      setting_value TEXT NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+  `);
 }
 
 export async function initSchema() {
-  if (driver === "sqlite") await initSqliteSchema();
-  else await initMysqlSchema();
+  if (activeDriver === "mysql") {
+    try {
+      await getMysqlPool().query("SELECT 1");
+      await initMysqlSchema();
+      return;
+    } catch (err) {
+      if (process.env.NODE_ENV === "production") throw err;
+      console.warn("[db] MySQL inaccessible, bascule SQLite en local :", (err as Error).message);
+      activeDriver = "sqlite";
+      mysqlPool = null;
+    }
+  }
+  await initSqliteSchema();
 }
 
 export async function pingDb(): Promise<boolean> {
   try {
-    if (driver === "sqlite") {
+    if (activeDriver === "sqlite") {
       getSqlite().prepare("SELECT 1").get();
       return true;
     }

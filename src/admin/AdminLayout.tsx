@@ -8,7 +8,12 @@ export function RequireAuth() {
   return <Outlet />;
 }
 
-const nav = [{ to: "/admin/sector-references", label: "Références sectorielles" }];
+const nav = [
+  { to: "/admin/sector-references", label: "Références" },
+  { to: "/admin/team", label: "Équipe" },
+  { to: "/admin/testimonials", label: "Témoignages" },
+  { to: "/admin/site-settings", label: "Paramètres" },
+];
 
 export default function AdminLayout() {
   const location = useLocation();

@@ -3,12 +3,15 @@ import { ArrowRight, Users } from "lucide-react";
 import TeamFlipCard from "@/components/TeamFlipCard";
 import { BRAND_NAME } from "@/config/brand";
 import { ROUTES } from "@/config/navigation";
-import { TEAM_INTRO, TEAM_MEMBERS } from "@/config/team";
+import { useTeamCms } from "@/hooks/useTeamCms";
 import { useInView } from "@/hooks/useInView";
 import { cn } from "@/lib/utils";
 
 const TeamSection = () => {
   const block = useInView();
+  const { data: team } = useTeamCms();
+  const intro = team?.intro ?? "";
+  const members = team?.members ?? [];
 
   return (
     <section id="equipe" className="scroll-mt-28 border-b border-border/40 bg-background py-20 md:py-28">
@@ -23,7 +26,7 @@ const TeamSection = () => {
           <div className="mx-auto max-w-3xl text-center">
             <p className="eyebrow text-primary">Équipe</p>
             <h2 className="section-title mt-2">Des profils complémentaires au service de vos projets</h2>
-            <p className="section-lead mx-auto mt-4">{TEAM_INTRO}</p>
+            <p className="section-lead mx-auto mt-4">{intro}</p>
           </div>
 
           <h3 className="mx-auto mt-14 max-w-2xl text-center font-heading text-xl font-semibold text-foreground md:mt-16 md:text-2xl">
@@ -31,7 +34,7 @@ const TeamSection = () => {
           </h3>
 
           <div className="mx-auto mt-10 flex max-w-2xl flex-col items-center justify-center gap-12 sm:flex-row sm:items-stretch sm:gap-10 md:mt-12 md:max-w-3xl md:gap-16">
-            {TEAM_MEMBERS.map((member) => (
+            {members.map((member) => (
               <TeamFlipCard key={member.id} member={member} />
             ))}
           </div>

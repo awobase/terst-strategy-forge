@@ -3,8 +3,8 @@ import {
   formatTestimonialAuthor,
   formatTestimonialCaption,
   formatTestimonialText,
-  TESTIMONIALS,
 } from "@/config/testimonials";
+import { useTestimonialsCms } from "@/hooks/useTestimonialsCms";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 
@@ -12,11 +12,12 @@ const AUTOPLAY_MS = 3500;
 const AUTOPLAY_MS_REDUCED = 5500;
 
 const TestimonialsSection = () => {
+  const { data: testimonials = [] } = useTestimonialsCms();
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
   const [progressEpoch, setProgressEpoch] = useState(0);
   const prefersReducedMotion = usePrefersReducedMotion();
-  const total = TESTIMONIALS.length;
+  const total = testimonials.length;
 
   const next = () => setCurrent((c) => (c + 1) % total);
   const prev = () => setCurrent((c) => (c - 1 + total) % total);
@@ -40,7 +41,7 @@ const TestimonialsSection = () => {
 
   if (total === 0) return null;
 
-  const t = TESTIMONIALS[current];
+  const t = testimonials[current];
 
   return (
     <section

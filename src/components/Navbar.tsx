@@ -1,21 +1,13 @@
-import { useState, useEffect, useCallback, useRef, type ReactNode } from "react";
+import { useMemo, useState, useEffect, useCallback, useRef, type ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "@/assets/logo-cayribe-partners.png";
 import { Menu, X } from "lucide-react";
 import { BRAND_NAME } from "@/config/brand";
-import { SHOW_TESTIMONIALS } from "@/config/features";
 import { ROUTES } from "@/config/navigation";
+import { useSiteSettingsCms } from "@/hooks/useSiteSettingsCms";
 import NavHoverDropdown from "@/components/NavHoverDropdown";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-
-const offresItems = [
-	{ label: "Start & Rise", to: ROUTES.offres.standard },
-	{ label: "Études personnalisées", to: ROUTES.offres.etudesPersonnalisees },
-	{ label: "Recherche de financements", to: ROUTES.offres.rechercheFinancements },
-	{ label: "Formations", to: ROUTES.offres.formationCabinet },
-	...(SHOW_TESTIMONIALS ? [{ label: "Témoignages" as const, to: ROUTES.offres.temoignages }] : []),
-] as const;
 
 const quiSommesNousItems = [
 	{ label: "Présentation du cabinet", to: ROUTES.quiSommesNous.presentation },
@@ -35,6 +27,19 @@ const MobileSectionLabel = ({ children }: { children: ReactNode }) => (
 
 const Navbar = () => {
 	const location = useLocation();
+	const { data: settings } = useSiteSettingsCms();
+	const offresItems = useMemo(
+		() => [
+			{ label: "Start & Rise", to: ROUTES.offres.standard },
+			{ label: "Études personnalisées", to: ROUTES.offres.etudesPersonnalisees },
+			{ label: "Recherche de financements", to: ROUTES.offres.rechercheFinancements },
+			{ label: "Formations", to: ROUTES.offres.formationCabinet },
+			...(settings?.showTestimonials
+				? [{ label: "Témoignages" as const, to: ROUTES.offres.temoignages }]
+				: []),
+		],
+		[settings?.showTestimonials],
+	);
 	const isHome = location.pathname === "/";
 	const [scrolled, setScrolled] = useState(!isHome);
 	const [mobileOpen, setMobileOpen] = useState(false);

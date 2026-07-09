@@ -25,6 +25,41 @@ export type ApiSectorReference = {
   sortOrder: number;
 };
 
+export type ApiSiteSettings = {
+  contactEmail: string;
+  contactPhoneDisplay: string;
+  contactPhoneTel: string;
+  socialLinkedin: string;
+  socialInstagram: string;
+  showTestimonials: boolean;
+  teamIntro: string;
+};
+
+export type ApiTeamMember = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  title: string;
+  expertise: string;
+  bio: string;
+  email: string | null;
+  linkedin: string | null;
+  instagram: string | null;
+  sortOrder: number;
+  active?: number;
+};
+
+export type ApiTestimonial = {
+  id: number;
+  firstName: string;
+  lastInitial: string;
+  role: string;
+  sector: string;
+  text: string;
+  sortOrder: number;
+  active?: number;
+};
+
 const TOKEN_KEY = "cayrib_admin_token";
 
 export function getAdminToken() {
@@ -139,6 +174,92 @@ export async function deleteSectorReference(id: number) {
   });
 }
 
+export async function fetchSiteSettings() {
+  return request<ApiSiteSettings>("/api/site-settings");
+}
+
+export async function fetchAdminSiteSettings() {
+  return request<ApiSiteSettings>("/api/admin/site-settings", { headers: adminHeaders() });
+}
+
+export async function updateSiteSettings(data: Partial<ApiSiteSettings>) {
+  return request<ApiSiteSettings>("/api/admin/site-settings", {
+    method: "PUT",
+    headers: adminHeaders(true),
+    body: JSON.stringify(data),
+  });
+}
+
+export async function fetchTeam() {
+  return request<{ intro: string; members: ApiTeamMember[] }>("/api/team");
+}
+
+export async function fetchAdminTeam() {
+  return request<{ intro: string; members: ApiTeamMember[] }>("/api/admin/team", { headers: adminHeaders() });
+}
+
+export async function updateTeamIntro(intro: string) {
+  return request<{ ok: boolean }>("/api/admin/team-intro", {
+    method: "PUT",
+    headers: adminHeaders(true),
+    body: JSON.stringify({ intro }),
+  });
+}
+
+export async function createTeamMember(data: Omit<ApiTeamMember, "active">) {
+  return request<{ id: string }>("/api/admin/team-members", {
+    method: "POST",
+    headers: adminHeaders(true),
+    body: JSON.stringify(data),
+  });
+}
+
+export async function updateTeamMember(id: string, data: Partial<ApiTeamMember>) {
+  return request<{ ok: boolean }>(`/api/admin/team-members/${id}`, {
+    method: "PUT",
+    headers: adminHeaders(true),
+    body: JSON.stringify(data),
+  });
+}
+
+export async function deleteTeamMember(id: string) {
+  return request<{ ok: boolean }>(`/api/admin/team-members/${id}`, {
+    method: "DELETE",
+    headers: adminHeaders(),
+  });
+}
+
+export async function fetchTestimonials() {
+  return request<ApiTestimonial[]>("/api/testimonials");
+}
+
+export async function fetchAdminTestimonials() {
+  return request<ApiTestimonial[]>("/api/admin/testimonials", { headers: adminHeaders() });
+}
+
+export async function createTestimonial(data: Omit<ApiTestimonial, "id" | "active">) {
+  return request<{ id: number }>("/api/admin/testimonials", {
+    method: "POST",
+    headers: adminHeaders(true),
+    body: JSON.stringify(data),
+  });
+}
+
+export async function updateTestimonial(id: number, data: Partial<ApiTestimonial>) {
+  return request<{ ok: boolean }>(`/api/admin/testimonials/${id}`, {
+    method: "PUT",
+    headers: adminHeaders(true),
+    body: JSON.stringify(data),
+  });
+}
+
+export async function deleteTestimonial(id: number) {
+  return request<{ ok: boolean }>(`/api/admin/testimonials/${id}`, {
+    method: "DELETE",
+    headers: adminHeaders(),
+  });
+}
+
 export function resolveCmsImageUrl(imageUrl: string) {
   if (imageUrl.startsWith("http")) return imageUrl;
   return `${API_BASE}${imageUrl}`;
@@ -146,7 +267,7 @@ export function resolveCmsImageUrl(imageUrl: string) {
 
 export async function isApiAvailable() {
   try {
-    const res = await fetch(`${API_BASE}/api/health`, { signal: AbortSignal.timeout(2000) });
+    const res = await fetch(`${API_BASE}/api/health`, { signal: AbortSignal.timeout(800) });
     return res.ok;
   } catch {
     return false;

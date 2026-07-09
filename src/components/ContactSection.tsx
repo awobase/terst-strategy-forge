@@ -5,8 +5,9 @@ import { useInView } from "@/hooks/useInView";
 import { Send, Phone, Mail } from "lucide-react";
 import { toast } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
-import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_HREF } from "@/config/contact";
 import { CONTACT_OBJET_OPTIONS, resolveContactObjetParam, type ContactObjetValue } from "@/config/contactForm";
+import { submitContactForm } from "@/lib/contact-api";
+import { contactPhoneHref, useSiteSettingsCms } from "@/hooks/useSiteSettingsCms";
 
 type ContactSectionProps = {
   /** Sur les pages contact dédiées : masque le bloc titre / accroche (déjà dans le PageHero) */
@@ -36,8 +37,13 @@ const ContactSection = ({
   syncObjetFromSearchParams = true,
 }: ContactSectionProps) => {
   const { ref, inView } = useInView();
+  const { data: settings } = useSiteSettingsCms();
+  const contactEmail = settings?.contactEmail ?? "";
+  const contactPhoneDisplay = settings?.contactPhoneDisplay ?? "";
+  const contactPhoneHrefValue = contactPhoneHref(settings?.contactPhoneTel ?? "");
   const [searchParams] = useSearchParams();
   const [form, setForm] = useState(emptyForm);
+  const [sending, setSending] = useState(false);
 
   useEffect(() => {
     if (!syncObjetFromSearchParams) return;
@@ -47,7 +53,7 @@ const ContactSection = ({
     }
   }, [searchParams, syncObjetFromSearchParams]);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const nom = form.nom.trim();
     const email = form.email.trim();
@@ -71,12 +77,27 @@ const ContactSection = ({
       return;
     }
 
-    toast.success("Message bien reçu. Nous vous recontactons sous 2 jours ouvrés.");
-    const fromUrl = resolveContactObjetParam(searchParams.get("objet"));
-    setForm({
-      ...emptyForm,
-      ...(fromUrl ? { objet: fromUrl } : {}),
-    });
+    setSending(true);
+    try {
+      await submitContactForm({
+        nom,
+        email,
+        entreprise: form.entreprise.trim() || undefined,
+        telephone: form.telephone.trim() || undefined,
+        objet: form.objet,
+        message,
+      });
+      toast.success("Message bien reçu. Nous vous recontactons sous 2 jours ouvrés.");
+      const fromUrl = resolveContactObjetParam(searchParams.get("objet"));
+      setForm({
+        ...emptyForm,
+        ...(fromUrl ? { objet: fromUrl } : {}),
+      });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Impossible d'envoyer le message.");
+    } finally {
+      setSending(false);
+    }
   };
 
   const formColSpan = hideContactInfo ? "lg:col-span-3" : "lg:col-span-2";
@@ -110,8 +131,8 @@ const ContactSection = ({
           {!hideContactInfo ? (
             <div className="space-y-5 lg:space-y-6">
               {[
-                { icon: Mail, label: "E-mail", value: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}` },
-                { icon: Phone, label: "Téléphone", value: CONTACT_PHONE_DISPLAY, href: CONTACT_PHONE_HREF },
+                { icon: Mail, label: "E-mail", value: contactEmail, href: `mailto:${contactEmail}` },
+                { icon: Phone, label: "Téléphone", value: contactPhoneDisplay, href: contactPhoneHrefValue },
               ].map((item) => (
                 <div key={item.label} className="flex items-start gap-4">
                   <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-primary/10 bg-primary/10">
@@ -242,10 +263,11 @@ const ContactSection = ({
             </p>
             <button
               type="submit"
-              className="inline-flex items-center gap-2 rounded-lg bg-primary px-8 py-3.5 text-sm font-semibold text-primary-foreground shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:shadow-primary/25 hover:brightness-[1.05] active:translate-y-0 active:brightness-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              disabled={sending}
+              className="inline-flex items-center gap-2 rounded-lg bg-primary px-8 py-3.5 text-sm font-semibold text-primary-foreground shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:shadow-primary/25 hover:brightness-[1.05] active:translate-y-0 active:brightness-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-60"
             >
               <Send className="h-4 w-4" aria-hidden />
-              Envoyer le message
+              {sending ? "Envoi en cours…" : "Envoyer le message"}
             </button>
           </form>
         </div>

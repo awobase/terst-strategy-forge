@@ -4,9 +4,15 @@ import awobaseLogo from "@/assets/logo-awobase.png";
 import europeSengageLogo from "@/assets/logo-europe-sengage-guadeloupe.png";
 import { Linkedin, Instagram } from "lucide-react";
 import { BRAND_NAME } from "@/config/brand";
-import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_HREF, SOCIAL_LINKS } from "@/config/contact";
+import { contactPhoneHref, useSiteSettingsCms } from "@/hooks/useSiteSettingsCms";
 
 const Footer = () => {
+	const { data: settings } = useSiteSettingsCms();
+	const email = settings?.contactEmail ?? "";
+	const phoneDisplay = settings?.contactPhoneDisplay ?? "";
+	const phoneHref = contactPhoneHref(settings?.contactPhoneTel ?? "");
+	const linkedin = settings?.socialLinkedin ?? "";
+	const instagram = settings?.socialInstagram ?? "";
 	return (
 		<footer className="bg-[hsl(222,32%,11%)] pt-20 pb-10 relative">
 			<div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-secondary to-primary" />
@@ -37,18 +43,18 @@ const Footer = () => {
 						<ul className="space-y-3 text-[hsl(220,18%,65%)] text-sm">
 							<li>
 								<a
-									href={`mailto:${CONTACT_EMAIL}`}
+									href={`mailto:${email}`}
 									className="hover:text-secondary transition-colors"
 								>
-									{CONTACT_EMAIL}
+									{email}
 								</a>
 							</li>
 							<li>
 								<a
-									href={CONTACT_PHONE_HREF}
+									href={phoneHref}
 									className="hover:text-secondary transition-colors"
 								>
-									{CONTACT_PHONE_DISPLAY}
+									{phoneDisplay}
 								</a>
 							</li>
 						</ul>
@@ -60,7 +66,7 @@ const Footer = () => {
 						</h4>
 						<div className="flex gap-3">
 							<a
-								href={SOCIAL_LINKS.linkedin}
+								href={linkedin}
 								target="_blank"
 								rel="noopener noreferrer"
 								className="flex h-11 w-11 items-center justify-center rounded-lg bg-[hsl(220,18%,18%)] transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 hover:bg-secondary active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary"
@@ -69,7 +75,7 @@ const Footer = () => {
 								<Linkedin className="w-5 h-5 text-[hsl(220,18%,78%)]" />
 							</a>
 							<a
-								href={SOCIAL_LINKS.instagram}
+								href={instagram}
 								target="_blank"
 								rel="noopener noreferrer"
 								className="flex h-11 w-11 items-center justify-center rounded-lg bg-[hsl(220,18%,18%)] transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 hover:bg-secondary active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary"

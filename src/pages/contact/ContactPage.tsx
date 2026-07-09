@@ -3,23 +3,18 @@ import PageHero from "@/components/PageHero";
 import PageMeta from "@/components/PageMeta";
 import ContactSection from "@/components/ContactSection";
 import { crumbsContact } from "@/config/breadcrumbs";
-import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_HREF, SOCIAL_LINKS } from "@/config/contact";
+import { contactPhoneHref, useSiteSettingsCms } from "@/hooks/useSiteSettingsCms";
 import { Instagram, Linkedin, Mail, Phone } from "lucide-react";
 
-const CONTACT_SOCIAL_LINKS = [
-	{
-		label: "LinkedIn",
-		href: SOCIAL_LINKS.linkedin,
-		icon: Linkedin,
-	},
-	{
-		label: "Instagram",
-		href: SOCIAL_LINKS.instagram,
-		icon: Instagram,
-	},
-] as const;
-
 const ContactPage = () => {
+	const { data: settings } = useSiteSettingsCms();
+	const email = settings?.contactEmail ?? "";
+	const phoneDisplay = settings?.contactPhoneDisplay ?? "";
+	const phoneHref = contactPhoneHref(settings?.contactPhoneTel ?? "");
+	const contactSocialLinks = [
+		{ label: "LinkedIn", href: settings?.socialLinkedin ?? "", icon: Linkedin },
+		{ label: "Instagram", href: settings?.socialInstagram ?? "", icon: Instagram },
+	] as const;
 	return (
 		<SiteLayout>
 			<PageMeta
@@ -71,10 +66,10 @@ const ContactPage = () => {
 											E-mail
 										</p>
 										<a
-											href={`mailto:${CONTACT_EMAIL}`}
+											href={`mailto:${email}`}
 											className="mt-1 inline-block text-sm font-medium text-foreground underline-offset-4 transition-colors hover:text-primary hover:underline"
 										>
-											{CONTACT_EMAIL}
+											{email}
 										</a>
 									</div>
 								</li>
@@ -90,10 +85,10 @@ const ContactPage = () => {
 											Téléphone
 										</p>
 										<a
-											href={CONTACT_PHONE_HREF}
+											href={phoneHref}
 											className="mt-1 inline-block text-sm font-medium text-foreground underline-offset-4 transition-colors hover:text-primary hover:underline"
 										>
-											{CONTACT_PHONE_DISPLAY}
+											{phoneDisplay}
 										</a>
 									</div>
 								</li>
@@ -110,7 +105,7 @@ const ContactPage = () => {
 								l’écosystème entrepreneurial.
 							</p>
 							<ul className="mt-8 flex flex-col gap-4">
-								{CONTACT_SOCIAL_LINKS.map(({ label, href, icon: Icon }) => (
+								{contactSocialLinks.map(({ label, href, icon: Icon }) => (
 									<li key={label}>
 										<a
 											href={href}

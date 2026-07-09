@@ -5,7 +5,7 @@ import {
   type SectorCategory,
 } from "@/config/sectorReferences";
 import type { SectorReference } from "@/config/sectorReferencesData";
-import { useSectorReferencesCms, type SectorWithReferences } from "@/hooks/useSectorReferencesCms";
+import { useSectorReferencesCms, useStaticSectorReferences, type SectorWithReferences } from "@/hooks/useSectorReferencesCms";
 import { useInView } from "@/hooks/useInView";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { cn } from "@/lib/utils";
@@ -108,8 +108,9 @@ function SectorReferencesPanel({ sector }: { sector: SectorWithReferences }) {
 
 const SectorReferencesSection = () => {
   const block = useInView();
+  const staticSectors = useStaticSectorReferences();
   const { data } = useSectorReferencesCms();
-  const sectors = data?.sectors ?? [];
+  const sectors = data?.sectors?.length ? data.sectors : staticSectors;
   const [activeIndex, setActiveIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -144,15 +145,25 @@ const SectorReferencesSection = () => {
   );
 
   useEffect(() => {
-    if (sectors.length === 0) return;
-    setActiveIndex((current) => (current >= sectors.length ? 0 : current ?? 0));
-  }, [sectors.length]);
-
-  useEffect(() => {
     if (paused || total <= 1 || !emblaApi) return;
     const timer = window.setInterval(() => emblaApi.scrollNext(), autoplayMs);
     return () => window.clearInterval(timer);
   }, [autoplayMs, emblaApi, paused, total]);
+
+  useEffect(() => {
+    if (sectors.length === 0) return;
+    setActiveIndex((current) => (current >= sectors.length ? 0 : current));
+  }, [sectors.length]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    const onSelect = () => setActiveIndex(emblaApi.selectedScrollSnap());
+    emblaApi.on("select", onSelect);
+    emblaApi.reInit();
+    return () => {
+      emblaApi.off("select", onSelect);
+    };
+  }, [emblaApi, total]);
 
   if (total === 0) return null;
 

@@ -12,6 +12,9 @@ import MentionsLegalesPage from "./pages/MentionsLegalesPage.tsx";
 import AdminLoginPage from "./admin/AdminLoginPage.tsx";
 import AdminLayout, { RequireAuth } from "./admin/AdminLayout.tsx";
 import AdminSectorReferencesPage from "./admin/AdminSectorReferencesPage.tsx";
+import AdminTeamPage from "./admin/AdminTeamPage.tsx";
+import AdminTestimonialsPage from "./admin/AdminTestimonialsPage.tsx";
+import AdminSiteSettingsPage from "./admin/AdminSiteSettingsPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +45,9 @@ const App = () => (
             <Route element={<AdminLayout />}>
               <Route index element={<Navigate to="/admin/sector-references" replace />} />
               <Route path="sector-references" element={<AdminSectorReferencesPage />} />
+              <Route path="team" element={<AdminTeamPage />} />
+              <Route path="testimonials" element={<AdminTestimonialsPage />} />
+              <Route path="site-settings" element={<AdminSiteSettingsPage />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />

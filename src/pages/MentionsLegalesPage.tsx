@@ -2,61 +2,64 @@ import SiteLayout from "@/components/SiteLayout";
 import PageHero from "@/components/PageHero";
 import PageMeta from "@/components/PageMeta";
 import { BRAND_NAME } from "@/config/brand";
-import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY } from "@/config/contact";
 import { SITE_ORIGIN } from "@/config/site";
-
-const legalSections = [
-  {
-    title: "Éditeur du site",
-    content: [
-      `${BRAND_NAME}`,
-      "Cabinet indépendant de conseil en stratégie et performance.",
-      `Site internet : ${SITE_ORIGIN}`,
-      `E-mail : ${CONTACT_EMAIL}`,
-      `Téléphone : ${CONTACT_PHONE_DISPLAY}`,
-    ],
-  },
-  {
-    title: "Directeur de la publication",
-    content: [`${BRAND_NAME}, représenté par sa direction.`],
-  },
-  {
-    title: "Hébergement",
-    content: [
-      "1&1 IONOS Internet SARL",
-      "7, place de la Gare",
-      "BP 70109",
-      "57200 Sarreguemines Cedex",
-      "SARL au capital de 100 000 EUR",
-    ],
-  },
-  {
-    title: "Propriété intellectuelle",
-    content: [
-      `L'ensemble des contenus présents sur ce site, notamment les textes, visuels, logos, éléments graphiques et structure générale, est protégé par le droit de la propriété intellectuelle. Toute reproduction ou représentation, totale ou partielle, sans autorisation préalable de ${BRAND_NAME}, est interdite.`,
-    ],
-  },
-  {
-    title: "Données personnelles",
-    content: [
-      "Les informations transmises via les formulaires de contact sont utilisées uniquement pour répondre aux demandes adressées au cabinet. Conformément à la réglementation applicable, vous pouvez exercer vos droits d'accès, de rectification et de suppression en écrivant à l'adresse e-mail de contact du cabinet.",
-    ],
-  },
-  {
-    title: "Cookies",
-    content: [
-      "Le site peut utiliser des cookies strictement nécessaires à son fonctionnement et, le cas échéant, des outils de mesure d'audience. Vous pouvez configurer votre navigateur pour refuser ou supprimer les cookies.",
-    ],
-  },
-  {
-    title: "Responsabilité",
-    content: [
-      `${BRAND_NAME} s'efforce de fournir des informations exactes et mises à jour. Le cabinet ne saurait toutefois garantir l'exhaustivité des informations publiées ni être tenu responsable de l'utilisation qui en serait faite.`,
-    ],
-  },
-];
+import { useSiteSettingsCms } from "@/hooks/useSiteSettingsCms";
 
 const MentionsLegalesPage = () => {
+  const { data: settings } = useSiteSettingsCms();
+  const email = settings?.contactEmail ?? "";
+  const phoneDisplay = settings?.contactPhoneDisplay ?? "";
+
+  const legalSections = [
+    {
+      title: "Éditeur du site",
+      content: [
+        `${BRAND_NAME}`,
+        "Cabinet indépendant de conseil en stratégie et performance.",
+        `Site internet : ${SITE_ORIGIN}`,
+        `E-mail : ${email}`,
+        `Téléphone : ${phoneDisplay}`,
+      ],
+    },
+    {
+      title: "Directeur de la publication",
+      content: [`${BRAND_NAME}, représenté par sa direction.`],
+    },
+    {
+      title: "Hébergement",
+      content: [
+        "1&1 IONOS Internet SARL",
+        "7, place de la Gare",
+        "BP 70109",
+        "57200 Sarreguemines Cedex",
+        "SARL au capital de 100 000 EUR",
+      ],
+    },
+    {
+      title: "Propriété intellectuelle",
+      content: [
+        `L'ensemble des contenus présents sur ce site, notamment les textes, visuels, logos, éléments graphiques et structure générale, est protégé par le droit de la propriété intellectuelle. Toute reproduction ou représentation, totale ou partielle, sans autorisation préalable de ${BRAND_NAME}, est interdite.`,
+      ],
+    },
+    {
+      title: "Données personnelles",
+      content: [
+        "Les informations transmises via les formulaires de contact sont utilisées uniquement pour répondre aux demandes adressées au cabinet. Conformément à la réglementation applicable, vous pouvez exercer vos droits d'accès, de rectification et de suppression en écrivant à l'adresse e-mail de contact du cabinet.",
+      ],
+    },
+    {
+      title: "Cookies",
+      content: [
+        "Le site peut utiliser des cookies strictement nécessaires à son fonctionnement et, le cas échéant, des outils de mesure d'audience. Vous pouvez configurer votre navigateur pour refuser ou supprimer les cookies.",
+      ],
+    },
+    {
+      title: "Responsabilité",
+      content: [
+        `${BRAND_NAME} s'efforce de fournir des informations exactes et mises à jour. Le cabinet ne saurait toutefois garantir l'exhaustivité des informations publiées ni être tenu responsable de l'utilisation qui en serait faite.`,
+      ],
+    },
+  ];
   return (
     <SiteLayout>
       <PageMeta

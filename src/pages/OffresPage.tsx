@@ -5,8 +5,8 @@ import offresRechFinancements from "@/assets/offres-rech-financements.png";
 import SiteLayout from "@/components/SiteLayout";
 import PageMeta from "@/components/PageMeta";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import { SHOW_TESTIMONIALS } from "@/config/features";
 import { ROUTES } from "@/config/navigation";
+import { useSiteSettingsCms } from "@/hooks/useSiteSettingsCms";
 import { useInView } from "@/hooks/useInView";
 import { cn } from "@/lib/utils";
 import StandardOffersSection from "@/components/StandardOffersSection";
@@ -69,14 +69,6 @@ const quickLinks = [
   { href: "#recherche-financements", name: "Financements" },
   { href: "#formation-cabinet", name: "Formations" },
 ];
-
-const offresNavItems = [
-  { id: "offres-standard", label: "Start & Rise" },
-  { id: "etudes-personnalisees", label: "Études" },
-  { id: "recherche-financements", label: "Financements" },
-  { id: "formation-cabinet", label: "Formations" },
-  ...(SHOW_TESTIMONIALS ? [{ id: "temoignages" as const, label: "Témoignages" as const }] : []),
-] as const;
 
 function ServiceOfferChapter({
   id,
@@ -231,6 +223,16 @@ function ServiceOfferChapter({
 }
 
 const OffresPage = () => {
+  const { data: settings } = useSiteSettingsCms();
+  const showTestimonials = settings?.showTestimonials ?? true;
+  const offresNavItems = [
+    { id: "offres-standard", label: "Start & Rise" },
+    { id: "etudes-personnalisees", label: "Études" },
+    { id: "recherche-financements", label: "Financements" },
+    { id: "formation-cabinet", label: "Formations" },
+    ...(showTestimonials ? [{ id: "temoignages" as const, label: "Témoignages" as const }] : []),
+  ] as const;
+
   return (
     <SiteLayout>
       <PageMeta
@@ -375,7 +377,7 @@ const OffresPage = () => {
         photoBesideList
       />
 
-      {SHOW_TESTIMONIALS ? <TestimonialsSection /> : null}
+      {showTestimonials ? <TestimonialsSection /> : null}
     </SiteLayout>
   );
 };

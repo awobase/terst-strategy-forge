@@ -4,9 +4,12 @@ import cors from "cors";
 import multer from "multer";
 import path from "node:path";
 import fs from "node:fs";
-import { initSchema, uploadsDir, query, queryOne, execute, pingDb, driver } from "./db.js";
+import { initSchema, uploadsDir, query, queryOne, execute, pingDb, getDriver } from "./db.js";
 import { ensureDefaultAdmin, loginAdmin, requireAdmin } from "./auth.js";
-import { seedIfEmpty } from "./seed.js";
+import { seedIfEmpty, DEFAULT_SITE_SETTINGS } from "./seed.js";
+import { sendContactEmail, isMailConfigured } from "./mail.js";
+import { getSiteSettings, upsertSiteSettings } from "./site-settings.js";
+import { CONTACT_OBJET_OPTIONS, isContactObjetParam } from "../src/config/contactForm.ts";
 
 const app = express();
 const PORT = Number(process.env.PORT ?? 3001);
@@ -54,7 +57,7 @@ app.use("/uploads", express.static(path.join(process.cwd(), "data/uploads")));
 // ——— Public ———
 app.get("/api/health", async (_req, res) => {
   const dbOk = await pingDb();
-  res.json({ ok: dbOk, driver, db: dbOk ? "connected" : "error" });
+  res.json({ ok: dbOk, driver: getDriver(), db: dbOk ? "connected" : "error" });
 });
 
 app.get("/api/trust-partners", async (_req, res) => {
@@ -98,6 +101,94 @@ app.get("/api/sector-references", async (_req, res) => {
         }))
         .filter((cat) => cat.references.length > 0),
     );
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+app.post("/api/contact", async (req, res) => {
+  const { nom, email, entreprise, telephone, objet, message } = req.body ?? {};
+
+  const nomStr = String(nom ?? "").trim();
+  const emailStr = String(email ?? "").trim();
+  const messageStr = String(message ?? "").trim();
+  const objetStr = String(objet ?? "").trim();
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailStr);
+
+  if (nomStr.length < 2) {
+    res.status(400).json({ error: "Nom et prénom requis (2 caractères minimum)." });
+    return;
+  }
+  if (!emailOk) {
+    res.status(400).json({ error: "Adresse e-mail invalide." });
+    return;
+  }
+  if (!isContactObjetParam(objetStr)) {
+    res.status(400).json({ error: "Veuillez sélectionner une demande valide." });
+    return;
+  }
+  if (messageStr.length < 15) {
+    res.status(400).json({ error: "Message trop court (15 caractères minimum)." });
+    return;
+  }
+  if (!isMailConfigured()) {
+    console.error("[contact] SMTP ou RESEND_API_KEY non configuré");
+    res.status(503).json({ error: "Envoi temporairement indisponible. Contactez-nous par téléphone ou e-mail." });
+    return;
+  }
+
+  const objetLabel = CONTACT_OBJET_OPTIONS.find((opt) => opt.value === objetStr)?.label ?? objetStr;
+
+  try {
+    await sendContactEmail({
+      nom: nomStr,
+      email: emailStr,
+      entreprise: String(entreprise ?? "").trim() || undefined,
+      telephone: String(telephone ?? "").trim() || undefined,
+      objet: objetStr,
+      objetLabel,
+      message: messageStr,
+    });
+    res.json({ ok: true });
+  } catch (err) {
+    console.error("[contact]", err);
+    res.status(500).json({ error: "Impossible d'envoyer le message. Réessayez plus tard." });
+  }
+});
+
+app.get("/api/site-settings", async (_req, res) => {
+  try {
+    const settings = await getSiteSettings(DEFAULT_SITE_SETTINGS);
+    res.json(settings);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+app.get("/api/team", async (_req, res) => {
+  try {
+    const settings = await getSiteSettings(DEFAULT_SITE_SETTINGS);
+    const members = await query(
+      `SELECT id, first_name as firstName, last_name as lastName, title, expertise, bio,
+              email, linkedin, instagram, sort_order as sortOrder
+       FROM team_members WHERE active = 1 ORDER BY sort_order ASC, id ASC`,
+    );
+    res.json({ intro: settings.teamIntro, members });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+app.get("/api/testimonials", async (_req, res) => {
+  try {
+    const rows = await query(
+      `SELECT id, first_name as firstName, last_initial as lastInitial, role, sector, text, sort_order as sortOrder
+       FROM testimonials WHERE active = 1 ORDER BY sort_order ASC, id ASC`,
+    );
+    res.json(rows);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Erreur serveur" });
@@ -316,6 +407,240 @@ app.delete("/api/admin/sector-references/:id", requireAdmin, async (req, res) =>
   }
 });
 
+// ——— Admin: site settings ———
+app.get("/api/admin/site-settings", requireAdmin, async (_req, res) => {
+  try {
+    const settings = await getSiteSettings(DEFAULT_SITE_SETTINGS);
+    res.json(settings);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+app.put("/api/admin/site-settings", requireAdmin, async (req, res) => {
+  try {
+    const settings = await upsertSiteSettings(req.body ?? {}, DEFAULT_SITE_SETTINGS);
+    res.json(settings);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+// ——— Admin: team ———
+app.get("/api/admin/team", requireAdmin, async (_req, res) => {
+  try {
+    const settings = await getSiteSettings(DEFAULT_SITE_SETTINGS);
+    const members = await query(
+      `SELECT id, first_name as firstName, last_name as lastName, title, expertise, bio,
+              email, linkedin, instagram, sort_order as sortOrder, active
+       FROM team_members ORDER BY sort_order ASC, id ASC`,
+    );
+    res.json({ intro: settings.teamIntro, members });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+app.post("/api/admin/team-members", requireAdmin, async (req, res) => {
+  const { id, firstName, lastName, title, expertise, bio, email, linkedin, instagram, sortOrder } = req.body ?? {};
+  if (!id || !firstName || !lastName || !title || !expertise || !bio) {
+    res.status(400).json({ error: "id, prénom, nom, titre, expertise et bio requis" });
+    return;
+  }
+  try {
+    const slug = String(id).trim().toLowerCase().replace(/[^a-z0-9-]/g, "-");
+    await execute(
+      `INSERT INTO team_members (id, first_name, last_name, title, expertise, bio, email, linkedin, instagram, sort_order, active)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)`,
+      [
+        slug,
+        String(firstName).trim(),
+        String(lastName).trim(),
+        String(title).trim(),
+        String(expertise).trim(),
+        String(bio).trim(),
+        email ? String(email).trim() : null,
+        linkedin ? String(linkedin).trim() : null,
+        instagram ? String(instagram).trim() : null,
+        Number(sortOrder) || 0,
+      ],
+    );
+    res.status(201).json({ id: slug });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+app.put("/api/admin/team-members/:id", requireAdmin, async (req, res) => {
+  const memberId = req.params.id;
+  const { firstName, lastName, title, expertise, bio, email, linkedin, instagram, sortOrder, active } = req.body ?? {};
+  try {
+    const existing = await queryOne<{
+      first_name: string;
+      last_name: string;
+      title: string;
+      expertise: string;
+      bio: string;
+      email: string | null;
+      linkedin: string | null;
+      instagram: string | null;
+      sort_order: number;
+      active: number;
+    }>("SELECT * FROM team_members WHERE id = ?", [memberId]);
+    if (!existing) {
+      res.status(404).json({ error: "Introuvable" });
+      return;
+    }
+    await execute(
+      `UPDATE team_members SET first_name = ?, last_name = ?, title = ?, expertise = ?, bio = ?,
+       email = ?, linkedin = ?, instagram = ?, sort_order = ?, active = ? WHERE id = ?`,
+      [
+        firstName !== undefined ? String(firstName).trim() : existing.first_name,
+        lastName !== undefined ? String(lastName).trim() : existing.last_name,
+        title !== undefined ? String(title).trim() : existing.title,
+        expertise !== undefined ? String(expertise).trim() : existing.expertise,
+        bio !== undefined ? String(bio).trim() : existing.bio,
+        email !== undefined ? (email ? String(email).trim() : null) : existing.email,
+        linkedin !== undefined ? (linkedin ? String(linkedin).trim() : null) : existing.linkedin,
+        instagram !== undefined ? (instagram ? String(instagram).trim() : null) : existing.instagram,
+        sortOrder !== undefined ? Number(sortOrder) || 0 : existing.sort_order,
+        active !== undefined
+          ? active === false || active === "false" || active === 0 || active === "0"
+            ? 0
+            : 1
+          : existing.active,
+        memberId,
+      ],
+    );
+    res.json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+app.delete("/api/admin/team-members/:id", requireAdmin, async (req, res) => {
+  try {
+    await execute("DELETE FROM team_members WHERE id = ?", [req.params.id]);
+    res.json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+app.put("/api/admin/team-intro", requireAdmin, async (req, res) => {
+  const { intro } = req.body ?? {};
+  if (!intro || String(intro).trim().length < 10) {
+    res.status(400).json({ error: "Introduction requise (10 caractères minimum)" });
+    return;
+  }
+  try {
+    await upsertSiteSettings({ teamIntro: String(intro).trim() }, DEFAULT_SITE_SETTINGS);
+    res.json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+// ——— Admin: testimonials ———
+app.get("/api/admin/testimonials", requireAdmin, async (_req, res) => {
+  try {
+    const rows = await query(
+      `SELECT id, first_name as firstName, last_initial as lastInitial, role, sector, text,
+              sort_order as sortOrder, active
+       FROM testimonials ORDER BY sort_order ASC, id ASC`,
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+app.post("/api/admin/testimonials", requireAdmin, async (req, res) => {
+  const { firstName, lastInitial, role, sector, text, sortOrder } = req.body ?? {};
+  if (!firstName || !lastInitial || !role || !sector || !text) {
+    res.status(400).json({ error: "Tous les champs sont requis" });
+    return;
+  }
+  try {
+    const result = await execute(
+      `INSERT INTO testimonials (first_name, last_initial, role, sector, text, sort_order, active)
+       VALUES (?, ?, ?, ?, ?, ?, 1)`,
+      [
+        String(firstName).trim(),
+        String(lastInitial).trim(),
+        String(role).trim(),
+        String(sector).trim(),
+        String(text).trim(),
+        Number(sortOrder) || 0,
+      ],
+    );
+    res.status(201).json({ id: result.insertId });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+app.put("/api/admin/testimonials/:id", requireAdmin, async (req, res) => {
+  const { firstName, lastInitial, role, sector, text, sortOrder, active } = req.body ?? {};
+  const testimonialId = Number(req.params.id);
+  try {
+    const existing = await queryOne<{
+      first_name: string;
+      last_initial: string;
+      role: string;
+      sector: string;
+      text: string;
+      sort_order: number;
+      active: number;
+    }>("SELECT * FROM testimonials WHERE id = ?", [testimonialId]);
+    if (!existing) {
+      res.status(404).json({ error: "Introuvable" });
+      return;
+    }
+    await execute(
+      `UPDATE testimonials SET first_name = ?, last_initial = ?, role = ?, sector = ?, text = ?,
+       sort_order = ?, active = ? WHERE id = ?`,
+      [
+        firstName !== undefined ? String(firstName).trim() : existing.first_name,
+        lastInitial !== undefined ? String(lastInitial).trim() : existing.last_initial,
+        role !== undefined ? String(role).trim() : existing.role,
+        sector !== undefined ? String(sector).trim() : existing.sector,
+        text !== undefined ? String(text).trim() : existing.text,
+        sortOrder !== undefined ? Number(sortOrder) || 0 : existing.sort_order,
+        active !== undefined
+          ? active === false || active === "false" || active === 0 || active === "0"
+            ? 0
+            : 1
+          : existing.active,
+        testimonialId,
+      ],
+    );
+    res.json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+app.delete("/api/admin/testimonials/:id", requireAdmin, async (req, res) => {
+  try {
+    await execute("DELETE FROM testimonials WHERE id = ?", [Number(req.params.id)]);
+    res.json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
 // ——— Production: serve SPA ———
 const distPath = path.join(process.cwd(), "dist");
 if (fs.existsSync(distPath)) {
@@ -335,7 +660,7 @@ async function bootstrap() {
   await seedIfEmpty();
 
   app.listen(PORT, () => {
-    console.log(`[api] http://localhost:${PORT} (${driver})`);
+    console.log(`[api] http://localhost:${PORT} (${getDriver()})`);
   });
 }
 
