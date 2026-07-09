@@ -1,0 +1,14 @@
+# IONOS / Apache — routes React (/admin, /contact, etc.)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # /admin → /admin/ (dossier avec index.html)
+  RewriteRule ^admin$ admin/ [R=301,L]
+
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+  RewriteRule ^ index.html [L]
+</IfModule>

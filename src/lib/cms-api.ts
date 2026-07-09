@@ -49,6 +49,13 @@ export type ApiTeamMember = {
   active?: number;
 };
 
+export type ApiTestimonialSector = {
+  id: number;
+  label: string;
+  sortOrder: number;
+  active?: number;
+};
+
 export type ApiTestimonial = {
   id: number;
   firstName: string;
@@ -58,6 +65,13 @@ export type ApiTestimonial = {
   text: string;
   sortOrder: number;
   active?: number;
+};
+
+export type ApiSectorCategoryAdmin = {
+  id: string;
+  label: string;
+  color: string;
+  sortOrder: number;
 };
 
 const TOKEN_KEY = "cayrib_admin_token";
@@ -255,6 +269,60 @@ export async function updateTestimonial(id: number, data: Partial<ApiTestimonial
 
 export async function deleteTestimonial(id: number) {
   return request<{ ok: boolean }>(`/api/admin/testimonials/${id}`, {
+    method: "DELETE",
+    headers: adminHeaders(),
+  });
+}
+
+export async function fetchTestimonialSectors() {
+  return request<ApiTestimonialSector[]>("/api/testimonial-sectors");
+}
+
+export async function fetchAdminTestimonialSectors() {
+  return request<ApiTestimonialSector[]>("/api/admin/testimonial-sectors", { headers: adminHeaders() });
+}
+
+export async function createTestimonialSector(data: { label: string; sortOrder?: number }) {
+  return request<{ id: number }>("/api/admin/testimonial-sectors", {
+    method: "POST",
+    headers: adminHeaders(true),
+    body: JSON.stringify(data),
+  });
+}
+
+export async function updateTestimonialSector(id: number, data: Partial<ApiTestimonialSector>) {
+  return request<{ ok: boolean }>(`/api/admin/testimonial-sectors/${id}`, {
+    method: "PUT",
+    headers: adminHeaders(true),
+    body: JSON.stringify(data),
+  });
+}
+
+export async function deleteTestimonialSector(id: number) {
+  return request<{ ok: boolean }>(`/api/admin/testimonial-sectors/${id}`, {
+    method: "DELETE",
+    headers: adminHeaders(),
+  });
+}
+
+export async function createSectorCategory(data: { id: string; label: string; color: string; sortOrder?: number }) {
+  return request<{ ok: boolean }>("/api/admin/sectors", {
+    method: "POST",
+    headers: adminHeaders(true),
+    body: JSON.stringify(data),
+  });
+}
+
+export async function updateSectorCategory(id: string, data: { label: string; color: string; sortOrder?: number }) {
+  return request<{ ok: boolean }>(`/api/admin/sectors/${id}`, {
+    method: "PUT",
+    headers: adminHeaders(true),
+    body: JSON.stringify(data),
+  });
+}
+
+export async function deleteSectorCategory(id: string) {
+  return request<{ ok: boolean }>(`/api/admin/sectors/${id}`, {
     method: "DELETE",
     headers: adminHeaders(),
   });

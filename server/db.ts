@@ -155,6 +155,13 @@ async function initSqliteSchema() {
       setting_key TEXT PRIMARY KEY,
       setting_value TEXT NOT NULL
     );
+
+    CREATE TABLE IF NOT EXISTS testimonial_sectors (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      label TEXT NOT NULL UNIQUE,
+      sort_order INTEGER NOT NULL DEFAULT 0,
+      active INTEGER NOT NULL DEFAULT 1
+    );
   `);
 }
 
@@ -232,6 +239,15 @@ async function initMysqlSchema() {
     CREATE TABLE IF NOT EXISTS site_settings (
       setting_key VARCHAR(100) PRIMARY KEY,
       setting_value TEXT NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+  `);
+
+  await execute(`
+    CREATE TABLE IF NOT EXISTS testimonial_sectors (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      label VARCHAR(255) NOT NULL UNIQUE,
+      sort_order INT NOT NULL DEFAULT 0,
+      active TINYINT(1) NOT NULL DEFAULT 1
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
   `);
 }

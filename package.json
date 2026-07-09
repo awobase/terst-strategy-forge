@@ -7,7 +7,7 @@
     "dev": "concurrently -n web,api -c blue,green \"vite\" \"tsx watch server/index.ts\"",
     "dev:web": "vite",
     "dev:api": "tsx watch server/index.ts",
-    "build": "vite build",
+    "build": "vite build && node scripts/copy-spa-fallbacks.js",
     "start": "tsx server/index.ts",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",

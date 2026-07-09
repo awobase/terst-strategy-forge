@@ -88,6 +88,18 @@ async function seedTestimonialsIfEmpty() {
   console.log("[seed] Témoignages initialisés.");
 }
 
+async function seedTestimonialSectorsIfEmpty() {
+  const count = await queryOne<{ c: number }>("SELECT COUNT(*) as c FROM testimonial_sectors");
+  if (count && count.c > 0) return;
+
+  const labels = [...new Set(TESTIMONIALS.map((t) => t.sector))];
+  for (const [index, label] of labels.entries()) {
+    await execute("INSERT INTO testimonial_sectors (label, sort_order, active) VALUES (?, ?, 1)", [label, index]);
+  }
+
+  console.log("[seed] Secteurs témoignages initialisés.");
+}
+
 async function seedSiteSettingsIfEmpty() {
   const count = await queryOne<{ c: number }>("SELECT COUNT(*) as c FROM site_settings");
   if (count && count.c > 0) return;
@@ -100,5 +112,6 @@ export async function seedIfEmpty() {
   await seedSectorsIfEmpty();
   await seedTeamIfEmpty();
   await seedTestimonialsIfEmpty();
+  await seedTestimonialSectorsIfEmpty();
   await seedSiteSettingsIfEmpty();
 }

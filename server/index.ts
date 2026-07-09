@@ -195,6 +195,18 @@ app.get("/api/testimonials", async (_req, res) => {
   }
 });
 
+app.get("/api/testimonial-sectors", async (_req, res) => {
+  try {
+    const rows = await query(
+      `SELECT id, label, sort_order as sortOrder FROM testimonial_sectors WHERE active = 1 ORDER BY sort_order ASC, label ASC`,
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
 // ——— Auth ———
 app.post("/api/admin/login", async (req, res) => {
   const { username, password } = req.body ?? {};
@@ -634,6 +646,76 @@ app.put("/api/admin/testimonials/:id", requireAdmin, async (req, res) => {
 app.delete("/api/admin/testimonials/:id", requireAdmin, async (req, res) => {
   try {
     await execute("DELETE FROM testimonials WHERE id = ?", [Number(req.params.id)]);
+    res.json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+// ——— Admin: testimonial sectors ———
+app.get("/api/admin/testimonial-sectors", requireAdmin, async (_req, res) => {
+  try {
+    const rows = await query(
+      `SELECT id, label, sort_order as sortOrder, active FROM testimonial_sectors ORDER BY sort_order ASC, label ASC`,
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+app.post("/api/admin/testimonial-sectors", requireAdmin, async (req, res) => {
+  const { label, sortOrder } = req.body ?? {};
+  if (!label || String(label).trim().length < 2) {
+    res.status(400).json({ error: "Libellé requis (2 caractères minimum)." });
+    return;
+  }
+  try {
+    const result = await execute("INSERT INTO testimonial_sectors (label, sort_order, active) VALUES (?, ?, 1)", [
+      String(label).trim(),
+      Number(sortOrder) || 0,
+    ]);
+    res.status(201).json({ id: result.insertId });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur serveur (secteur peut-être déjà existant)." });
+  }
+});
+
+app.put("/api/admin/testimonial-sectors/:id", requireAdmin, async (req, res) => {
+  const { label, sortOrder, active } = req.body ?? {};
+  const sectorId = Number(req.params.id);
+  try {
+    const existing = await queryOne<{ label: string; sort_order: number; active: number }>(
+      "SELECT label, sort_order, active FROM testimonial_sectors WHERE id = ?",
+      [sectorId],
+    );
+    if (!existing) {
+      res.status(404).json({ error: "Introuvable" });
+      return;
+    }
+    await execute("UPDATE testimonial_sectors SET label = ?, sort_order = ?, active = ? WHERE id = ?", [
+      label !== undefined ? String(label).trim() : existing.label,
+      sortOrder !== undefined ? Number(sortOrder) || 0 : existing.sort_order,
+      active !== undefined
+        ? active === false || active === "false" || active === 0 || active === "0"
+          ? 0
+          : 1
+        : existing.active,
+      sectorId,
+    ]);
+    res.json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+app.delete("/api/admin/testimonial-sectors/:id", requireAdmin, async (req, res) => {
+  try {
+    await execute("DELETE FROM testimonial_sectors WHERE id = ?", [Number(req.params.id)]);
     res.json({ ok: true });
   } catch (err) {
     console.error(err);
